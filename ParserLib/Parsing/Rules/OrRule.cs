@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ParserLib.Parsing.Rules
@@ -9,6 +10,10 @@ namespace ParserLib.Parsing.Rules
             : base(Util.MergeArray(firstRule, secondRule, rules))
         {
         }
+
+        public OrRule(IEnumerable<Rule> rules)
+            : base(rules)
+        { }
 
         public override string Definition
         {

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using ParserLib.Parsing.Rules;
 
@@ -11,9 +13,12 @@ namespace ParserLib.Parsing
 
         public static Rule Node(string name, Rule rule) => new NodeRule(name, rule);
         public static Rule MatchString(string pattern) => new StringRule(pattern);
+        
         public static Rule Not(Rule rule) => new NotRule(rule);
         public static Rule Sequence(Rule firstRule, Rule secondRule, params Rule[] moreRules) => new SequenceRule(firstRule, secondRule, moreRules);
+        public static Rule Sequence(IEnumerable<Rule> rules) => new SequenceRule(rules);
         public static Rule Or(Rule firstRule, Rule secondRule, params Rule[] moreRules) => new OrRule(firstRule, secondRule, moreRules);
+        public static Rule Or(IEnumerable<Rule> rules) => new OrRule(rules);
         public static Rule Start() => _startRule;
         public static Rule End() => _endRule;
         public static Rule OneOrMore(Rule rule) => new OneOrMoreRule(rule);

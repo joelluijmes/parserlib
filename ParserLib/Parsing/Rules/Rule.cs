@@ -6,16 +6,14 @@ namespace ParserLib.Parsing.Rules
 {
     public abstract class Rule
     {
-        private readonly IList<Rule> _children;
-
         protected Rule()
         {
-            _children = new List<Rule>();
+            Children = new List<Rule>();
         }
 
-        protected Rule(IList<Rule> children)
+        protected Rule(IEnumerable<Rule> children)
         {
-            _children = children;
+            Children = children;
         }
 
         protected Rule(Rule firstChild)
@@ -25,8 +23,8 @@ namespace ParserLib.Parsing.Rules
 
         public string Name { get; set; }
 
-        public Rule FirstChild => _children.First();
-        public IEnumerable<Rule> Children => _children;
+        public Rule FirstChild => Children.First();
+        public IEnumerable<Rule> Children { get; }
         public abstract string Definition { get; }
 
         public static Rule operator +(Rule r1, Rule r2) => new SequenceRule(r1, r2);
