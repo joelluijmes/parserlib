@@ -12,8 +12,7 @@ namespace ParserLib.Parsing
         private static readonly Rule _startRule = new StartRule();
 
         public static Rule Node(string name, Rule rule) => new NodeRule(name, rule);
-        public static Rule MatchString(string pattern) => new StringRule(pattern);
-        
+        public static Rule MatchString(string pattern, bool ignoreCase = false) => new StringRule(pattern, ignoreCase);
         public static Rule Not(Rule rule) => new NotRule(rule);
         public static Rule Sequence(Rule firstRule, Rule secondRule, params Rule[] moreRules) => new SequenceRule(firstRule, secondRule, moreRules);
         public static Rule Sequence(IEnumerable<Rule> rules) => new SequenceRule(rules);

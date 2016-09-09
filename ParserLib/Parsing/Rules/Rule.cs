@@ -13,18 +13,19 @@ namespace ParserLib.Parsing.Rules
 
         protected Rule(IEnumerable<Rule> children)
         {
-            Children = children;
+            Children = new List<Rule>(children);
         }
 
         protected Rule(Rule firstChild)
-            : this(new[] {firstChild})
         {
+            Children = new List<Rule>();
+            Children.Add(firstChild);
         }
 
         public string Name { get; set; }
 
         public Rule FirstChild => Children.First();
-        public IEnumerable<Rule> Children { get; }
+        public IList<Rule> Children { get; }
         public abstract string Definition { get; }
 
         public static Rule operator +(Rule r1, Rule r2) => new SequenceRule(r1, r2);

@@ -105,6 +105,18 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("Test"));
             Assert.IsTrue(rule.Match("Test123"));
+            Assert.IsFalse(rule.Match("test123"));
+            Assert.IsFalse(rule.Match("Failing Test"));
+        }
+
+        [Test]
+        public void TestStringCaseInsensitiveRule()
+        {
+            var rule = new StringRule("Test", true);
+
+            Assert.IsTrue(rule.Match("Test"));
+            Assert.IsTrue(rule.Match("Test123"));
+            Assert.IsTrue(rule.Match("test123"));
             Assert.IsFalse(rule.Match("Failing Test"));
         }
 
