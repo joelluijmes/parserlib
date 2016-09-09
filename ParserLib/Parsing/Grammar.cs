@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Text.RegularExpressions;
 using ParserLib.Parsing.Rules;
 
@@ -22,7 +21,6 @@ namespace ParserLib.Parsing
         public static Rule Optional(Rule rule) => new OptionalRule(rule);
         public static Rule Regex(Regex regex) => new RegexRule(regex);
         public static Rule Regex(string pattern) => new RegexRule(pattern);
-
-        protected abstract IEnumerable<Rule> GetGrammarRules();
+        public static Rule Char(Predicate<char> predicate) => new CharRule(predicate);
     }
 }

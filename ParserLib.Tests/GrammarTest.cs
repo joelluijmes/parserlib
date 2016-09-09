@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using ParserLib.Parsing;
+using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Tests
 {
@@ -48,11 +49,11 @@ namespace ParserLib.Tests
         [Test]
         public void TestRegexRule()
         {
-            var wordRule = Grammar.Regex("\\d");
+            var rule = Grammar.Regex("\\d");
 
-            Assert.IsTrue(wordRule.Match("1"));
-            Assert.IsTrue(wordRule.Match("123"));
-            Assert.IsFalse(wordRule.Match("test"));
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsTrue(rule.Match("123"));
+            Assert.IsFalse(rule.Match("test"));
         }
 
         [Test]
@@ -93,6 +94,15 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
+        }
+
+        [Test]
+        public void TestChar()
+        {
+            var rule = Grammar.Char(char.IsDigit);
+
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsFalse(rule.Match("a"));
         }
     }
 }

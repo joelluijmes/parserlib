@@ -116,5 +116,14 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
         }
+
+        [Test]
+        public void TestChar()
+        {
+            var rule = new CharRule(char.IsDigit);
+
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsFalse(rule.Match("a"));
+        }
     }
 }

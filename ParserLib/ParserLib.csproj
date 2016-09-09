@@ -43,6 +43,7 @@
     <Compile Include="Parsing\Grammar.cs" />
     <Compile Include="Parsing\Node.cs" />
     <Compile Include="Parsing\ParserState.cs" />
+    <Compile Include="Parsing\Rules\CharRule.cs" />
     <Compile Include="Parsing\Rules\EndRule.cs" />
     <Compile Include="Parsing\Rules\OneOrMoreRule.cs" />
     <Compile Include="Parsing\Rules\OptionalRule.cs" />
