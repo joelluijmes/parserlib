@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserLib", "ParserLib\ParserLib.csproj", "{8C081559-7803-41AA-9BAA-ACE147E7A4CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserLib.Tests", "ParserLib.Tests\ParserLib.Tests.csproj", "{1B83B8C0-410E-47B4-8024-5650358B56F7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C081559-7803-41AA-9BAA-ACE147E7A4CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C081559-7803-41AA-9BAA-ACE147E7A4CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C081559-7803-41AA-9BAA-ACE147E7A4CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C081559-7803-41AA-9BAA-ACE147E7A4CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B83B8C0-410E-47B4-8024-5650358B56F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B83B8C0-410E-47B4-8024-5650358B56F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B83B8C0-410E-47B4-8024-5650358B56F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B83B8C0-410E-47B4-8024-5650358B56F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
