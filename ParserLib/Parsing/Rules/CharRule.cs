@@ -15,6 +15,9 @@ namespace ParserLib.Parsing.Rules
 
         protected internal override bool MatchImpl(ParserState state)
         {
+            if (state.Position >= state.Input.Length)
+                return false;
+
             var result = CharPredicate(state.Input[state.Position]);
             if (result)
                 ++state.Position;
