@@ -100,6 +100,23 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestRecursive()
+        {
+            var op = SharedGrammar.MatchAnyString("+ -");
+            var digit = new RegexRule("\\d+");
+
+            Rule expressionA = null;
+            var recursiveExpression = Grammar.Recursive(() => expressionA);
+
+            var expression = digit + recursiveExpression;
+            expressionA = (op + digit + recursiveExpression) | Grammar.End();
+
+            Assert.IsTrue(expression.Match("1"));
+            Assert.IsTrue(expression.Match("1+2"));
+            Assert.IsTrue(expression.Match("1+2+3"));
+        }
+
+        [Test]
         public void TestZeroOrMoreRule()
         {
             var rule = Grammar.ZeroOrMore(Grammar.MatchString("test"));

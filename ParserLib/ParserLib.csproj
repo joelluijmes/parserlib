@@ -48,6 +48,7 @@
     <Compile Include="Parsing\Rules\OneOrMoreRule.cs" />
     <Compile Include="Parsing\Rules\OptionalRule.cs" />
     <Compile Include="Parsing\Rules\OrRule.cs" />
+    <Compile Include="Parsing\Rules\RecursiveRule.cs" />
     <Compile Include="Parsing\Rules\RegexRule.cs" />
     <Compile Include="Parsing\Rules\Rule.cs" />
     <Compile Include="Parsing\Rules\SequenceRule.cs" />

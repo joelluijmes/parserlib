@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Tests
@@ -6,6 +7,15 @@ namespace ParserLib.Tests
     [TestFixture]
     public sealed class RuleTests
     {
+        [Test]
+        public void TestChar()
+        {
+            var rule = new CharRule(char.IsDigit);
+
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsFalse(rule.Match("a"));
+        }
+
         [Test]
         public void TestEndRule()
         {
@@ -55,7 +65,7 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("catfish"));
             Assert.IsTrue(rule.Match("dogfish"));
         }
-
+        
         [Test]
         public void TestRegexRule()
         {
@@ -99,17 +109,6 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestStringRule()
-        {
-            var rule = new StringRule("Test");
-
-            Assert.IsTrue(rule.Match("Test"));
-            Assert.IsTrue(rule.Match("Test123"));
-            Assert.IsFalse(rule.Match("test123"));
-            Assert.IsFalse(rule.Match("Failing Test"));
-        }
-
-        [Test]
         public void TestStringCaseInsensitiveRule()
         {
             var rule = new StringRule("Test", true);
@@ -121,21 +120,49 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestStringRule()
+        {
+            var rule = new StringRule("Test");
+
+            Assert.IsTrue(rule.Match("Test"));
+            Assert.IsTrue(rule.Match("Test123"));
+            Assert.IsFalse(rule.Match("test123"));
+            Assert.IsFalse(rule.Match("Failing Test"));
+        }
+
+        class truerule : Rule
+        {
+            public override string Definition => "true";
+            protected override bool MatchImpl(ParserState state)
+            {
+                return true;
+            }
+        }
+
+        [Test]
+        public void TestRecursive()
+        {
+            var op = SharedGrammar.MatchAnyString("+ -");
+            var digit = new RegexRule("\\d+");
+
+            Rule expressionA = null;
+            var recursiveExpression = new RecursiveRule(() => expressionA);
+
+            var expression = digit + recursiveExpression;
+            expressionA = (op + digit + recursiveExpression) | Grammar.End();
+
+            Assert.IsTrue(expression.Match("1"));
+            Assert.IsTrue(expression.Match("1+2"));
+            Assert.IsTrue(expression.Match("1+2+3"));
+        }
+
+        [Test]
         public void TestZeroOrMoreRule()
         {
             var rule = new ZeroOrMoreRule(new StringRule("test"));
 
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
-        }
-
-        [Test]
-        public void TestChar()
-        {
-            var rule = new CharRule(char.IsDigit);
-
-            Assert.IsTrue(rule.Match("1"));
-            Assert.IsFalse(rule.Match("a"));
         }
     }
 }
