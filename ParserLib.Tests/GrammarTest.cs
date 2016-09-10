@@ -8,6 +8,15 @@ namespace ParserLib.Tests
     public sealed class GrammarTests
     {
         [Test]
+        public void TestChar()
+        {
+            var rule = Grammar.Char(char.IsDigit);
+
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsFalse(rule.Match("a"));
+        }
+
+        [Test]
         public void TestEndRule()
         {
             var rule = Grammar.End();
@@ -47,6 +56,23 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestRecursive()
+        {
+            var op = SharedGrammar.MatchAnyString("+ -");
+            var digit = new RegexRule("\\d+");
+
+            Rule expressionA = null;
+            var recursiveExpression = Grammar.Recursive(() => expressionA);
+
+            var expression = digit + recursiveExpression;
+            expressionA = (op + digit + recursiveExpression) | Grammar.End();
+
+            Assert.IsTrue(expression.Match("1"));
+            Assert.IsTrue(expression.Match("1+2"));
+            Assert.IsTrue(expression.Match("1+2+3"));
+        }
+
+        [Test]
         public void TestRegexRule()
         {
             var rule = Grammar.Regex("\\d");
@@ -78,17 +104,6 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestStringRule()
-        {
-            var rule = Grammar.MatchString("Test");
-
-            Assert.IsTrue(rule.Match("Test"));
-            Assert.IsTrue(rule.Match("Test123"));
-            Assert.IsFalse(rule.Match("test123"));
-            Assert.IsFalse(rule.Match("Failing Test"));
-        }
-
-        [Test]
         public void TestStringCaseInsensitiveRule()
         {
             var rule = Grammar.MatchString("Test", true);
@@ -100,20 +115,14 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestRecursive()
+        public void TestStringRule()
         {
-            var op = SharedGrammar.MatchAnyString("+ -");
-            var digit = new RegexRule("\\d+");
+            var rule = Grammar.MatchString("Test");
 
-            Rule expressionA = null;
-            var recursiveExpression = Grammar.Recursive(() => expressionA);
-
-            var expression = digit + recursiveExpression;
-            expressionA = (op + digit + recursiveExpression) | Grammar.End();
-
-            Assert.IsTrue(expression.Match("1"));
-            Assert.IsTrue(expression.Match("1+2"));
-            Assert.IsTrue(expression.Match("1+2+3"));
+            Assert.IsTrue(rule.Match("Test"));
+            Assert.IsTrue(rule.Match("Test123"));
+            Assert.IsFalse(rule.Match("test123"));
+            Assert.IsFalse(rule.Match("Failing Test"));
         }
 
         [Test]
@@ -123,15 +132,6 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
-        }
-
-        [Test]
-        public void TestChar()
-        {
-            var rule = Grammar.Char(char.IsDigit);
-
-            Assert.IsTrue(rule.Match("1"));
-            Assert.IsFalse(rule.Match("a"));
         }
     }
 }

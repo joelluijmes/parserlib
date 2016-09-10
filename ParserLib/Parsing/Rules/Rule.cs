@@ -18,29 +18,27 @@ namespace ParserLib.Parsing.Rules
 
         protected Rule(Rule firstChild)
         {
-            Children = new List<Rule>();
-            Children.Add(firstChild);
+            Children = new List<Rule> {firstChild};
         }
 
+        protected Rule FirstChild => Children.First();
+        protected IList<Rule> Children { get; }
         public string Name { get; set; }
-
-        public Rule FirstChild => Children.First();
-        public IList<Rule> Children { get; }
         public abstract string Definition { get; }
 
         public static Rule operator +(Rule r1, Rule r2) => new SequenceRule(r1, r2);
         public static Rule operator |(Rule r1, Rule r2) => new OrRule(r1, r2);
         protected internal abstract bool MatchImpl(ParserState state);
 
-        public bool Match(string input) => MatchImpl(new ParserState(input, 0));
+        public bool Match(string input) => MatchImpl(new ParserState(input));
 
         public IEnumerable<Node> ParseTree(string input)
         {
-            var state = new ParserState(input, 0);
+            var state = new ParserState(input);
             if (!MatchImpl(state))
                 throw new NotImplementedException();
 
-            return state.Childs;
+            return state.Nodes;
         }
 
         public override string ToString() => Name ?? Definition;

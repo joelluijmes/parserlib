@@ -13,7 +13,8 @@ namespace ParserLib.Parsing.Rules
 
         public OrRule(IEnumerable<Rule> rules)
             : base(rules)
-        { }
+        {
+        }
 
         public override string Definition
         {
@@ -22,20 +23,16 @@ namespace ParserLib.Parsing.Rules
                 var stringBuilder = new StringBuilder();
                 stringBuilder.Append(FirstChild);
 
-                if (Children.Count() == 2 && Children.ElementAt(1) is SequenceRule)
-                {
-                    stringBuilder.Append($" | {Children.ElementAt(1).Definition}");
-                }
+                if ((Children.Count == 2) && Children[1] is SequenceRule)
+                    stringBuilder.Append($" | {Children[1].Definition}");
                 else
-                {
                     foreach (var child in Children.Skip(1))
                         stringBuilder.Append($" | {child}");
-                }
 
                 return stringBuilder.ToString();
             }
         }
-        
+
         protected internal override bool MatchImpl(ParserState state)
         {
             var oldState = state.Clone();

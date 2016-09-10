@@ -14,7 +14,7 @@
             if (!FirstChild.MatchImpl(state))
                 return true;
 
-            state = oldState;
+            state.Assign(oldState);
             return false;
         }
     }

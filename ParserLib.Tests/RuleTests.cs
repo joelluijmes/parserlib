@@ -65,7 +65,24 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("catfish"));
             Assert.IsTrue(rule.Match("dogfish"));
         }
-        
+
+        [Test]
+        public void TestRecursive()
+        {
+            var op = SharedGrammar.MatchAnyString("+ -");
+            var digit = new RegexRule("\\d+");
+
+            Rule expressionA = null;
+            var recursiveExpression = new RecursiveRule(() => expressionA);
+
+            var expression = digit + recursiveExpression;
+            expressionA = (op + digit + recursiveExpression) | Grammar.End();
+
+            Assert.IsTrue(expression.Match("1"));
+            Assert.IsTrue(expression.Match("1+2"));
+            Assert.IsTrue(expression.Match("1+2+3"));
+        }
+
         [Test]
         public void TestRegexRule()
         {
@@ -128,32 +145,6 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("Test123"));
             Assert.IsFalse(rule.Match("test123"));
             Assert.IsFalse(rule.Match("Failing Test"));
-        }
-
-        class truerule : Rule
-        {
-            public override string Definition => "true";
-            protected override bool MatchImpl(ParserState state)
-            {
-                return true;
-            }
-        }
-
-        [Test]
-        public void TestRecursive()
-        {
-            var op = SharedGrammar.MatchAnyString("+ -");
-            var digit = new RegexRule("\\d+");
-
-            Rule expressionA = null;
-            var recursiveExpression = new RecursiveRule(() => expressionA);
-
-            var expression = digit + recursiveExpression;
-            expressionA = (op + digit + recursiveExpression) | Grammar.End();
-
-            Assert.IsTrue(expression.Match("1"));
-            Assert.IsTrue(expression.Match("1+2"));
-            Assert.IsTrue(expression.Match("1+2+3"));
         }
 
         [Test]

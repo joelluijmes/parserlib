@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace ParserLib.Parsing.Rules
+﻿namespace ParserLib.Parsing.Rules
 {
     public sealed class OneOrMoreRule : Rule
     {
@@ -8,7 +6,7 @@ namespace ParserLib.Parsing.Rules
             : base(rule)
         {
         }
-        
+
         public override string Definition => $"{FirstChild.Definition}+";
 
         protected internal override bool MatchImpl(ParserState state)
@@ -16,7 +14,9 @@ namespace ParserLib.Parsing.Rules
             if (!FirstChild.MatchImpl(state))
                 return false;
 
-            while (FirstChild.MatchImpl(state)) ;
+            while (FirstChild.MatchImpl(state))
+            {
+            }
 
             return true;
         }

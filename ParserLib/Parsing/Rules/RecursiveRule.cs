@@ -13,6 +13,7 @@ namespace ParserLib.Parsing.Rules
         public Func<Rule> RuleFunc { get; }
 
         public override string Definition => RuleFunc().Definition;
+
         protected internal override bool MatchImpl(ParserState state)
         {
             if (!Children.Any())

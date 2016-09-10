@@ -21,7 +21,7 @@ namespace ParserLib.Parsing.Rules
         protected internal override bool MatchImpl(ParserState state)
         {
             var match = _regex.Match(state.Input, state.Position);
-            if (!match.Success || match.Index != state.Position)
+            if (!match.Success || (match.Index != state.Position))
                 return false;
 
             state.Position += match.Length;
