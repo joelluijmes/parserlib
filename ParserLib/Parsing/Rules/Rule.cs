@@ -28,7 +28,7 @@ namespace ParserLib.Parsing.Rules
         }
 
         protected Rule FirstChild => Children.First();
-        protected IList<Rule> Children { get; }
+        protected List<Rule> Children { get; }
         public string Name { get; set; }
         public abstract string Definition { get; }
 
@@ -51,5 +51,6 @@ namespace ParserLib.Parsing.Rules
         }
 
         public override string ToString() => Name ?? Definition;
+        public IEnumerable<Rule> GetChildren() => Children.AsReadOnly();
     }
 }

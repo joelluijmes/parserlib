@@ -9,7 +9,7 @@ namespace ParserLib.Parsing.Rules
         {
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
-           
+
             Name = name;
         }
 
@@ -28,7 +28,7 @@ namespace ParserLib.Parsing.Rules
             }
 
             node.End = state.Position;
-            node.Childs = state.Nodes;
+            node.Leafs = state.Nodes;
 
             oldChilds.Add(node);
             state.Nodes = oldChilds;
