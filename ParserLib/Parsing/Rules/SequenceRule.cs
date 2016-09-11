@@ -6,30 +6,18 @@ namespace ParserLib.Parsing.Rules
 {
     public sealed class SequenceRule : Rule
     {
-        public SequenceRule(Rule firstRule, Rule secondRule, params Rule[] rules) : base(Util.MergeArray(firstRule, secondRule, rules))
+        public SequenceRule(Rule firstRule, Rule secondRule, params Rule[] rules)
         {
+            var allRules = Util.MergeArray(firstRule, secondRule, rules);
+            Children.AddRange(allRules.SelectMany(FlattenRules));
         }
 
-        public SequenceRule(IEnumerable<Rule> rules) : base(rules)
+        public SequenceRule(IEnumerable<Rule> rules)
         {
+            Children.AddRange(rules.SelectMany(FlattenRules));
         }
 
-        public override string Definition
-        {
-            get
-            {
-                var stringBuilder = new StringBuilder();
-                stringBuilder.Append(FirstChild);
-
-                if ((Children.Count == 2) && Children[1] is SequenceRule)
-                    stringBuilder.Append($" + {Children[1].Definition}");
-                else
-                    foreach (var child in Children.Skip(1))
-                        stringBuilder.Append($" + {child}");
-
-                return stringBuilder.ToString();
-            }
-        }
+        public override string Definition => Children.Skip(1).Aggregate(FirstChild.ToString(), (a, b) => $"{a} + {b}");
 
         protected internal override bool MatchImpl(ParserState state)
         {
@@ -42,5 +30,7 @@ namespace ParserLib.Parsing.Rules
         }
 
         public override string ToString() => $"({base.ToString()})";
+
+        private static IEnumerable<Rule> FlattenRules(Rule r) => r is SequenceRule ? r.GetChildren() : new[] { r };
     }
 }
