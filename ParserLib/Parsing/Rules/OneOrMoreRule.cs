@@ -6,7 +6,7 @@
         {
         }
 
-        public override string Definition => $"{FirstChild.Definition}+";
+        public override string Definition => $"({FirstChild.Definition})+";
 
         protected internal override bool MatchImpl(ParserState state)
         {
