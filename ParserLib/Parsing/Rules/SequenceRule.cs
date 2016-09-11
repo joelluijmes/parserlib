@@ -22,10 +22,10 @@ namespace ParserLib.Parsing.Rules
                 stringBuilder.Append(FirstChild);
 
                 if ((Children.Count == 2) && Children[1] is SequenceRule)
-                    stringBuilder.Append($" {Children[1].Definition}");
+                    stringBuilder.Append($" + {Children[1].Definition}");
                 else
                     foreach (var child in Children.Skip(1))
-                        stringBuilder.Append($" {child}");
+                        stringBuilder.Append($" + {child}");
 
                 return stringBuilder.ToString();
             }
