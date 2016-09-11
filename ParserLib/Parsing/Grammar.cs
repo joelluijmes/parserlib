@@ -22,7 +22,7 @@ namespace ParserLib.Parsing
         public static Rule OneOrMore(Rule rule) => new OneOrMoreRule(rule);
         public static Rule ZeroOrMore(Rule rule) => new ZeroOrMoreRule(rule);
         public static Rule Optional(Rule rule) => new OptionalRule(rule);
-        public static Rule Recursive(Func<Rule> ruleFunc) => new RecursiveRule(ruleFunc);
+        public static Rule Func(Func<Rule> ruleFunc) => new FuncRule(ruleFunc);
         public static Rule Regex(Regex regex) => new RegexRule(regex);
         public static Rule Regex(string pattern) => new RegexRule(pattern);
         public static Rule Char(Predicate<char> predicate) => new CharRule(predicate);

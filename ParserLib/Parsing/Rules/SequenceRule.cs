@@ -6,13 +6,11 @@ namespace ParserLib.Parsing.Rules
 {
     public sealed class SequenceRule : Rule
     {
-        public SequenceRule(Rule firstRule, Rule secondRule, params Rule[] rules)
-            : base(Util.MergeArray(firstRule, secondRule, rules))
+        public SequenceRule(Rule firstRule, Rule secondRule, params Rule[] rules) : base(Util.MergeArray(firstRule, secondRule, rules))
         {
         }
 
-        public SequenceRule(IEnumerable<Rule> rules)
-            : base(rules)
+        public SequenceRule(IEnumerable<Rule> rules) : base(rules)
         {
         }
 

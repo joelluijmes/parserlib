@@ -62,7 +62,7 @@ namespace ParserLib.Tests
             var digit = new RegexRule("\\d+");
 
             Rule expressionA = null;
-            var recursiveExpression = Grammar.Recursive(() => expressionA);
+            var recursiveExpression = Grammar.Func(() => expressionA);
 
             var expression = digit + recursiveExpression;
             expressionA = (op + digit + recursiveExpression) | Grammar.End();

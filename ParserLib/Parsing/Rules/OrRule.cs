@@ -10,8 +10,7 @@ namespace ParserLib.Parsing.Rules
         {
         }
 
-        public OrRule(IEnumerable<Rule> rules)
-            : base(rules)
+        public OrRule(IEnumerable<Rule> rules) : base(rules)
         {
         }
 
