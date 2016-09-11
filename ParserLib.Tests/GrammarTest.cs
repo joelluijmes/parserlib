@@ -133,5 +133,21 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
         }
+
+        [Test]
+        public void TestBinaryRule()
+        {
+            var a = Grammar.MatchChar('a');
+            var b = Grammar.MatchChar('b');
+            var op = Grammar.MatchChar('+');
+
+            var ruleFixed = Grammar.Binary(a, op, b, true);
+            Assert.IsTrue(ruleFixed.Match("a+b"));
+            Assert.IsFalse(ruleFixed.Match("b+a"));
+
+            var ruleUnfixed = Grammar.Binary(a, op, b);
+            Assert.IsTrue(ruleUnfixed.Match("a+b"));
+            Assert.IsTrue(ruleUnfixed.Match("b+a"));
+        }
     }
 }
