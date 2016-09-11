@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ParserLib</id>
+    <version>1.0.0.0</version>
+    <authors>Joël Luijmes</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library for parsing strings to tokenize.</description>
+    <projectUrl>https://github.com/joelluijmes/parserlib</projectUrl>
+  </metadata>
+  <files>
+    <file src="bin\Release\ParserLib.dll" target="lib\ParserLib.dll" />
+  </files>
+</package>
