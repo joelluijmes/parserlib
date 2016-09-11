@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 
 namespace ParserLib.Parsing.Rules
 {
@@ -14,7 +15,9 @@ namespace ParserLib.Parsing.Rules
 
         public Predicate<char> CharPredicate { get; }
 
-        public override string Definition => "f(char)";
+        public override string Definition => CodeGenerator.IsValidLanguageIndependentIdentifier(CharPredicate.Method.Name)
+            ? CharPredicate.Method.Name
+            : Name ??  "f(char)";
 
         protected internal override bool MatchImpl(ParserState state)
         {

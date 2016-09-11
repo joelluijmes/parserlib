@@ -137,7 +137,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestBinaryRule()
         {
-            var a = Grammar.MatchChar('a');
+            var a = Grammar.Char(char.IsLetter);
             var b = Grammar.MatchChar('b');
             var op = Grammar.MatchChar('+');
 
