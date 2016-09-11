@@ -1,17 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ParserLib.Parsing
 {
     public sealed class Node
     {
-        public Node(string name, string input, int begin, int end = 0, IEnumerable<Node> children = null)
+        public Node(string name, string input, int begin)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+            if (begin < 0 || begin > input.Length)
+                throw new ArgumentOutOfRangeException(nameof(begin), "Begin cannot be negative nor higher than the input length");
+
             Name = name;
             Input = input;
             Begin = begin;
-            End = end;
-            Childs = new List<Node>(children ?? new Node[0]);
+            End = input.Length;
+            Childs = new List<Node>();
         }
 
         public int Begin { get; set; }

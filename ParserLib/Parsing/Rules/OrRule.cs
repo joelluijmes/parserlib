@@ -6,8 +6,7 @@ namespace ParserLib.Parsing.Rules
 {
     public sealed class OrRule : Rule
     {
-        public OrRule(Rule firstRule, Rule secondRule, params Rule[] rules)
-            : base(Util.MergeArray(firstRule, secondRule, rules))
+        public OrRule(Rule firstRule, Rule secondRule, params Rule[] rules) : base(Util.MergeArray(firstRule, secondRule, rules))
         {
         }
 

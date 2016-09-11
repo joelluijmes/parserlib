@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -9,6 +10,9 @@ namespace ParserLib.Parsing
     {
         public ParserState(string input)
         {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+
             Input = input;
             Position = 0;
             Nodes = new List<Node>();
@@ -26,6 +30,9 @@ namespace ParserLib.Parsing
 
         public void Assign(ParserState state)
         {
+            if (state == null)
+                throw new ArgumentNullException(nameof(state));
+
             Input = state.Input;
             Position = state.Position;
             Nodes = state.Nodes;

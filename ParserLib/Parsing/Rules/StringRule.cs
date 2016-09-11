@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace ParserLib.Parsing.Rules
 {
@@ -6,6 +7,9 @@ namespace ParserLib.Parsing.Rules
     {
         public StringRule(string pattern, bool ignoreCase = false)
         {
+            if (pattern == null)
+                throw new ArgumentNullException(nameof(pattern));
+
             Pattern = pattern;
             IgnoreCase = ignoreCase;
         }

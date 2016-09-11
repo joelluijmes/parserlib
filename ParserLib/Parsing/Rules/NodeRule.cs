@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ParserLib.Parsing.Rules
 {
@@ -6,6 +7,9 @@ namespace ParserLib.Parsing.Rules
     {
         public NodeRule(string name, Rule rule) : base(rule)
         {
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+           
             Name = name;
         }
 

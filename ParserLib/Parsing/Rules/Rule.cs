@@ -13,11 +13,17 @@ namespace ParserLib.Parsing.Rules
 
         protected Rule(IEnumerable<Rule> children)
         {
+            if (children == null)
+                throw new ArgumentNullException(nameof(children));
+
             Children = new List<Rule>(children);
         }
 
         protected Rule(Rule firstChild)
         {
+            if (firstChild == null)
+                throw new ArgumentNullException(nameof(firstChild));
+
             Children = new List<Rule> {firstChild};
         }
 
@@ -34,9 +40,12 @@ namespace ParserLib.Parsing.Rules
 
         public IEnumerable<Node> ParseTree(string input)
         {
+            if (input == null)
+                throw new ArgumentNullException(nameof(input));
+
             var state = new ParserState(input);
             if (!MatchImpl(state))
-                throw new NotImplementedException();
+                throw new ParserException($"'{this}' Failed to match '{state.Input}'");
 
             return state.Nodes;
         }

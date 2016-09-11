@@ -2,8 +2,7 @@
 {
     public sealed class OptionalRule : Rule
     {
-        public OptionalRule(Rule rule)
-            : base(rule)
+        public OptionalRule(Rule rule) : base(rule)
         {
         }
 

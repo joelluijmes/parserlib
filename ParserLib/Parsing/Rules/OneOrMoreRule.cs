@@ -2,8 +2,7 @@
 {
     public sealed class OneOrMoreRule : Rule
     {
-        public OneOrMoreRule(Rule rule)
-            : base(rule)
+        public OneOrMoreRule(Rule rule) : base(rule)
         {
         }
 

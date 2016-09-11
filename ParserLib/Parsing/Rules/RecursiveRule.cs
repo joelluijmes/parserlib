@@ -7,6 +7,9 @@ namespace ParserLib.Parsing.Rules
     {
         public RecursiveRule(Func<Rule> ruleFunc)
         {
+            if (ruleFunc == null)
+                throw new ArgumentNullException(nameof(ruleFunc));
+
             RuleFunc = ruleFunc;
         }
 

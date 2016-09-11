@@ -6,6 +6,9 @@ namespace ParserLib.Parsing.Rules
     {
         public CharRule(Predicate<char> c)
         {
+            if (c == null)
+                throw new ArgumentNullException(nameof(c));
+
             CharPredicate = c;
         }
 

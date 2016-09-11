@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace ParserLib.Parsing.Rules
 {
@@ -6,13 +7,15 @@ namespace ParserLib.Parsing.Rules
     {
         private readonly Regex _regex;
 
-        public RegexRule(string pattern)
-            : this(new Regex(pattern))
+        public RegexRule(string pattern) : this(new Regex(pattern))
         {
         }
 
         public RegexRule(Regex regex)
         {
+            if (regex == null)
+                throw new ArgumentNullException(nameof(regex));
+
             _regex = regex;
         }
 
