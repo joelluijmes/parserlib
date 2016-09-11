@@ -32,8 +32,13 @@ namespace ParserLib.Parsing.Rules
         public string Name { get; set; }
         public abstract string Definition { get; }
 
-        public static Rule operator +(Rule r1, Rule r2) => new SequenceRule(r1, r2);
-        public static Rule operator |(Rule r1, Rule r2) => new OrRule(r1, r2);
+        public Rule Optional => Grammar.Optional(this);
+        public Rule Not => Grammar.Not(this);
+        public Rule OneOrMore => Grammar.OneOrMore(this);
+        public Rule ZeroOrMore => Grammar.ZeroOrMore(this);
+
+        public static Rule operator +(Rule r1, Rule r2) => Grammar.Sequence(r1, r2);
+        public static Rule operator |(Rule r1, Rule r2) => Grammar.Or(r1, r2);
         protected internal abstract bool MatchImpl(ParserState state);
 
         public bool Match(string input) => MatchImpl(new ParserState(input));
