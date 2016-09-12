@@ -21,20 +21,14 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestStart()
-        {
-            Assert.AreEqual("^", Grammar.Start().Definition);
-        }
-
-        [Test]
         public void TestFunc()
-        {   // quite useless due FirstChild.Definition
+        { // quite useless due FirstChild.Definition
             Assert.AreEqual("$", Grammar.Func(Grammar.End).Definition);
         }
 
         [Test]
         public void TestNode()
-        {   // quite useless due FirstChild.Definition
+        { // quite useless due FirstChild.Definition
             Assert.AreEqual("$", Grammar.Func(Grammar.End).Definition);
         }
 
@@ -51,27 +45,9 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestZeroOrMore()
-        {
-            Assert.AreEqual("('a')*", Grammar.ZeroOrMore(Grammar.MatchChar('a')).Definition);
-        }
-
-        [Test]
         public void TestOptional()
         {
             Assert.AreEqual("('a')?", Grammar.Optional(Grammar.MatchChar('a')).Definition);
-        }
-
-        [Test]
-        public void TestRegex()
-        {
-            Assert.AreEqual("regex([\\s])", Grammar.Regex("[\\s]").Definition);
-        }
-
-        [Test]
-        public void TestString()
-        {
-            Assert.AreEqual("\"cat\"", Grammar.MatchString("cat").Definition);
         }
 
         [Test]
@@ -83,11 +59,35 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestRegex()
+        {
+            Assert.AreEqual("regex([\\s])", Grammar.Regex("[\\s]").Definition);
+        }
+
+        [Test]
         public void TestSequence()
         {
             Assert.AreEqual("'a' + 'b'", (Grammar.MatchChar('a') + Grammar.MatchChar('b')).Definition);
             Assert.AreEqual("'a' + 'b' + 'c'", (Grammar.MatchChar('a') + Grammar.MatchChar('b') + Grammar.MatchChar('c')).Definition);
             Assert.AreEqual("'a' + 'b' + 'c' + 'd'", (Grammar.MatchChar('a') + (Grammar.MatchChar('b') + Grammar.MatchChar('c')) + Grammar.MatchChar('d')).Definition);
+        }
+
+        [Test]
+        public void TestStart()
+        {
+            Assert.AreEqual("^", Grammar.Start().Definition);
+        }
+
+        [Test]
+        public void TestString()
+        {
+            Assert.AreEqual("\"cat\"", Grammar.MatchString("cat").Definition);
+        }
+
+        [Test]
+        public void TestZeroOrMore()
+        {
+            Assert.AreEqual("('a')*", Grammar.ZeroOrMore(Grammar.MatchChar('a')).Definition);
         }
     }
 }

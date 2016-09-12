@@ -58,8 +58,10 @@
     <Compile Include="Parsing\Rules\NotRule.cs" />
     <Compile Include="Parsing\Rules\StartRule.cs" />
     <Compile Include="Parsing\Rules\StringRule.cs" />
+    <Compile Include="Parsing\Rules\ValueRule.cs" />
     <Compile Include="Parsing\Rules\ZeroOrMoreRule.cs" />
     <Compile Include="Parsing\SharedGrammar.cs" />
+    <Compile Include="Parsing\ValueNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>

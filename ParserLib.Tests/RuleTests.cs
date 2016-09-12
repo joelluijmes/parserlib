@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
 
@@ -145,6 +146,17 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("Test123"));
             Assert.IsFalse(rule.Match("test123"));
             Assert.IsFalse(rule.Match("Failing Test"));
+        }
+
+        [Test]
+        public void TestValueRule()
+        {
+            var rule = new ValueRule<int>("number", int.Parse, SharedGrammar.Digits);
+
+            var node = rule.ParseTree("123").First();
+            var valueNode = node as ValueNode<int>;
+            Assert.IsTrue(valueNode != null);
+            Assert.IsTrue(valueNode.Value == 123);
         }
 
         [Test]

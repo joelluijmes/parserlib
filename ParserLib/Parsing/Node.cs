@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ParserLib.Parsing
 {
-    public sealed class Node
+    public class Node
     {
         public Node(string name, string input, int begin)
         {
