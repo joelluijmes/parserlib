@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.Diagnostics;
+using NUnit.Framework;
 using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
 
@@ -137,17 +139,22 @@ namespace ParserLib.Tests
         [Test]
         public void TestBinaryRule()
         {
-            var a = Grammar.Char(char.IsLetter);
-            var b = Grammar.MatchChar('b');
-            var op = Grammar.MatchChar('+');
+            var left = Grammar.Node("letter", Grammar.Char(char.IsLetter));
+            var right = Grammar.Node("digit", Grammar.Char(char.IsDigit));
+            var add = Grammar.Node("add", SharedGrammar.MatchAnyString("+ add"));
+            var sub = Grammar.Node("sub", SharedGrammar.MatchAnyString("- sub"));
+            var and = Grammar.Node("and", SharedGrammar.MatchAnyString("& and"));
+            var or = Grammar.Node("or", SharedGrammar.MatchAnyString("| or"));
+            var op = add | sub | and | or;
 
-            var ruleFixed = Grammar.Binary(a, op, b, true);
-            Assert.IsTrue(ruleFixed.Match("a+b"));
-            Assert.IsFalse(ruleFixed.Match("b+a"));
+            var ruleFixed = Grammar.Binary(left, op, right, true);
+            Assert.IsTrue(ruleFixed.Match("k+2"));
+            Assert.IsFalse(ruleFixed.Match("2+k"));
 
-            var ruleUnfixed = Grammar.Binary(a, op, b);
-            Assert.IsTrue(ruleUnfixed.Match("a+b"));
-            Assert.IsTrue(ruleUnfixed.Match("b+a"));
+            var ruleUnfixed = Grammar.Binary(left, op, right);
+            Assert.IsTrue(ruleUnfixed.Match("k+2"));
+            Assert.IsTrue(ruleUnfixed.Match("2+k"));
         }
+
     }
 }

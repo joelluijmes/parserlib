@@ -77,17 +77,17 @@ namespace ParserLib.Tests
         [Test]
         public void TestOr()
         {
-            Assert.AreEqual("('a' | 'b')", (Grammar.MatchChar('a') | Grammar.MatchChar('b')).Definition);
-            Assert.AreEqual("('a' | 'b' | 'c')", (Grammar.MatchChar('a') | Grammar.MatchChar('b') | Grammar.MatchChar('c')).Definition);
-            Assert.AreEqual("('a' | 'b' | 'c' | 'd')", (Grammar.MatchChar('a') | (Grammar.MatchChar('b') | Grammar.MatchChar('c')) | Grammar.MatchChar('d')).Definition);
+            Assert.AreEqual("'a' | 'b'", (Grammar.MatchChar('a') | Grammar.MatchChar('b')).Definition);
+            Assert.AreEqual("'a' | 'b' | 'c'", (Grammar.MatchChar('a') | Grammar.MatchChar('b') | Grammar.MatchChar('c')).Definition);
+            Assert.AreEqual("'a' | 'b' | 'c' | 'd'", (Grammar.MatchChar('a') | (Grammar.MatchChar('b') | Grammar.MatchChar('c')) | Grammar.MatchChar('d')).Definition);
         }
 
         [Test]
         public void TestSequence()
         {
-            Assert.AreEqual("('a' + 'b')", (Grammar.MatchChar('a') + Grammar.MatchChar('b')).Definition);
-            Assert.AreEqual("('a' + 'b' + 'c')", (Grammar.MatchChar('a') + Grammar.MatchChar('b') + Grammar.MatchChar('c')).Definition);
-            Assert.AreEqual("('a' + 'b' + 'c' + 'd')", (Grammar.MatchChar('a') + (Grammar.MatchChar('b') + Grammar.MatchChar('c')) + Grammar.MatchChar('d')).Definition);
+            Assert.AreEqual("'a' + 'b'", (Grammar.MatchChar('a') + Grammar.MatchChar('b')).Definition);
+            Assert.AreEqual("'a' + 'b' + 'c'", (Grammar.MatchChar('a') + Grammar.MatchChar('b') + Grammar.MatchChar('c')).Definition);
+            Assert.AreEqual("'a' + 'b' + 'c' + 'd'", (Grammar.MatchChar('a') + (Grammar.MatchChar('b') + Grammar.MatchChar('c')) + Grammar.MatchChar('d')).Definition);
         }
     }
 }

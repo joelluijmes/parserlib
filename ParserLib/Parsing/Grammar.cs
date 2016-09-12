@@ -26,7 +26,7 @@ namespace ParserLib.Parsing
         public static Rule Regex(Regex regex) => new RegexRule(regex);
         public static Rule Regex(string pattern) => new RegexRule(pattern);
         public static Rule Char(Predicate<char> predicate) => new CharRule(predicate);
-        public static Rule MatchChar(char c) => new CharRule(x => x == c) { Name = $"'{c}'" };
+        public static Rule MatchChar(char c) => new CharRule(x => x == c) {Name = $"'{c}'"};
 
         public static Rule Binary(Rule left, Rule op, Rule right, bool fixedOrder = false) => fixedOrder
             ? left + op + right

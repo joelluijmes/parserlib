@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ParserLib.Parsing.Rules
 {
@@ -31,6 +30,6 @@ namespace ParserLib.Parsing.Rules
 
         public override string ToString() => $"({base.ToString()})";
 
-        private static IEnumerable<Rule> FlattenRules(Rule r) => r is SequenceRule ? r.GetChildren() : new[] { r };
+        private static IEnumerable<Rule> FlattenRules(Rule r) => r is SequenceRule ? r.GetChildren() : new[] {r};
     }
 }

@@ -17,7 +17,7 @@ namespace ParserLib.Parsing.Rules
 
         public override string Definition => CodeGenerator.IsValidLanguageIndependentIdentifier(CharPredicate.Method.Name)
             ? CharPredicate.Method.Name
-            : Name ??  "f(char)";
+            : Name ?? "f(char)";
 
         protected internal override bool MatchImpl(ParserState state)
         {

@@ -35,7 +35,7 @@ namespace ParserLib.Parsing
 
             Input = state.Input;
             Position = state.Position;
-            Nodes = state.Nodes;
+            Nodes = state.Nodes.ToList();
         }
     }
 }
