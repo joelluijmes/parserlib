@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
+using ParserLib.Parsing.Value;
 
 namespace ParserLib.Tests
 {
@@ -35,6 +36,17 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("1"));
             Assert.IsFalse(rule.Match("a"));
+        }
+
+        [Test]
+        public void TestConstantValueRule()
+        {
+            var rule = Grammar.Value("number", int.Parse, SharedGrammar.Digits);
+
+            var node = rule.ParseTree("123").First();
+            var valueNode = node as ValueNode<int>;
+            Assert.IsTrue(valueNode != null);
+            Assert.IsTrue(valueNode.Value == 123);
         }
 
         [Test]
@@ -147,14 +159,14 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestValueRule()
+        public void TestValueFuncRule()
         {
-            var rule = Grammar.Value("number", int.Parse, SharedGrammar.Digits);
+            var rule = Grammar.Value("number", 1, SharedGrammar.Digits);
 
             var node = rule.ParseTree("123").First();
             var valueNode = node as ValueNode<int>;
             Assert.IsTrue(valueNode != null);
-            Assert.IsTrue(valueNode.Value == 123);
+            Assert.IsTrue(valueNode.Value == 1);
         }
 
         [Test]
