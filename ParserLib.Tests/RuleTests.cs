@@ -171,7 +171,7 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 123);
         }
-
+        
         [Test]
         public void TestZeroOrMoreRule()
         {
