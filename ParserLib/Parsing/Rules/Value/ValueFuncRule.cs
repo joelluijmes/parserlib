@@ -5,6 +5,11 @@ namespace ParserLib.Parsing.Rules.Value
 {
     public sealed class ValueFuncRule<T> : NodeRule
     {
+        public ValueFuncRule(string name, Func<T> valueFunc, Rule rule) : base(name, rule)
+        {
+            ValueFunc = s => valueFunc();
+        }
+
         public ValueFuncRule(string name, Func<string, T> valueFunc, Rule rule) : base(name, rule)
         {
             ValueFunc = valueFunc;
