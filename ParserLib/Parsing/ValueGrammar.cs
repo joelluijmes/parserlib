@@ -13,6 +13,7 @@ namespace ParserLib.Parsing
         public static Rule ConvertToValue<T>(string name, Func<Node, T> valueFunc, Rule rule) => new ConvertToValueRule<T>(name, valueFunc, rule);
         public static Rule AccumulateLeafs<T>(string name, Func<T, T, T> accumulator, Rule rule) => new EvaluateLeafsRule<T>(name, accumulator, rule);
         public static Rule FirstValue<T>(string name, Rule rule) => new FirstValueRule<T>(name, rule);
+        public static Rule Text(string name, Rule rule) => new ConvertToValueRule<string>(name, s => s, rule);
 
         public static Rule KeyValue<TValue>(KeyValuePair<string, TValue> keyValue) => ConstantValue(keyValue.Key, keyValue.Value, MatchString(keyValue.Key, true));
 
