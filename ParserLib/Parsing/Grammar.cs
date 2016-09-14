@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing.Rules;
-using ParserLib.Parsing.Rules.Value;
-using ParserLib.Parsing.Value;
 
 namespace ParserLib.Parsing
 {
@@ -30,9 +29,7 @@ namespace ParserLib.Parsing
         public static Rule Char(Predicate<char> predicate) => new CharRule(predicate);
         public static Rule MatchChar(char c) => new CharRule(x => x == c) {Name = $"'{c}'"};
         public static Rule Value<T>(string name, T value, Rule rule) => new ConstantValueRule<T>(name, value, rule);
-        public static Rule Value<T>(string name, Func<T> valueFunc, Rule rule) => new ValueFuncRule<T>(name, valueFunc, rule);
-        public static Rule Value<T>(string name, Func<string, T> valueFunc, Rule rule) => new ValueFuncRule<T>(name, valueFunc, rule);
-        public static Rule Value<T>(string name, Func<ValueNode<T>, T> valueFunc, Rule rule) => new ValueFuncRule<T>(name, valueFunc, rule);
+        public static Rule ConvertToValue<T>(string name, Func<string, T> valueFunc, Rule rule) => new ConvertToValueRule<T>(name, valueFunc, rule);
 
         public static Rule Binary(Rule left, Rule op, Rule right, bool fixedOrder = false) => fixedOrder
             ? left + op + right

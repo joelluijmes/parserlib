@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using NUnit.Framework;
+using ParserLib.Evaluation.Nodes;
+using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
-using ParserLib.Parsing.Rules.Value;
-using ParserLib.Parsing.Value;
 
 namespace ParserLib.Tests
 {
@@ -164,7 +164,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestValueFuncRule()
         {
-            var rule = new ValueFuncRule<int>("number", int.Parse, SharedGrammar.Digits);
+            var rule = new ConvertToValueRule<int>("number", int.Parse, SharedGrammar.Digits);
 
             var node = rule.ParseTree("123").First();
             var valueNode = node as ValueNode<int>;

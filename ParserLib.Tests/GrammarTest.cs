@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using NUnit.Framework;
+using ParserLib.Evaluation.Nodes;
 using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
-using ParserLib.Parsing.Value;
 
 namespace ParserLib.Tests
 {
@@ -41,7 +41,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestConstantValueRule()
         {
-            var rule = Grammar.Value("number", int.Parse, SharedGrammar.Digits);
+            var rule = Grammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
 
             var node = rule.ParseTree("123").First();
             var valueNode = node as ValueNode<int>;

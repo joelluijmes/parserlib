@@ -1,4 +1,6 @@
-﻿namespace ParserLib.Parsing.Value
+﻿using ParserLib.Parsing;
+
+namespace ParserLib.Evaluation.Nodes
 {
     public abstract class ValueNode<T> : Node
     {

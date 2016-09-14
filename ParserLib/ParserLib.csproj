@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Evaluation\Nodes\ConstantValueNode.cs" />
+    <Compile Include="Evaluation\Nodes\ConvertToValueNode.cs" />
+    <Compile Include="Evaluation\Nodes\ValueNode.cs" />
+    <Compile Include="Evaluation\Rules\ConstantValueRule.cs" />
+    <Compile Include="Evaluation\Rules\ConvertToValueRule.cs" />
+    <Compile Include="Evaluation\Rules\ValueRule.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="ParserException.cs" />
     <Compile Include="Parsing\Grammar.cs" />
@@ -58,13 +64,8 @@
     <Compile Include="Parsing\Rules\NotRule.cs" />
     <Compile Include="Parsing\Rules\StartRule.cs" />
     <Compile Include="Parsing\Rules\StringRule.cs" />
-    <Compile Include="Parsing\Rules\Value\ConstantValueRule.cs" />
-    <Compile Include="Parsing\Rules\Value\ValueFuncRule.cs" />
     <Compile Include="Parsing\Rules\ZeroOrMoreRule.cs" />
     <Compile Include="Parsing\SharedGrammar.cs" />
-    <Compile Include="Parsing\Value\ConstantValueNode.cs" />
-    <Compile Include="Parsing\Value\ValueFuncNode.cs" />
-    <Compile Include="Parsing\Value\ValueNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>

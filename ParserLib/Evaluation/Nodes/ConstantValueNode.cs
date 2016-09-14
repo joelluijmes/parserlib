@@ -1,4 +1,4 @@
-namespace ParserLib.Parsing.Value
+namespace ParserLib.Evaluation.Nodes
 {
     public class ConstantValueNode<T> : ValueNode<T>
     {
