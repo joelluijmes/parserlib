@@ -22,6 +22,18 @@ namespace ParserLib.Evaluation
             return current;
         }
 
+        public static Node FirstNodeByName(Node root, string name) =>
+            FirstLeafOrDefault(root, node => node.Name == name);
+
+        public static T ValueByName<T>(Node root, string name)
+        {
+            var valueNode = (ValueNode<T>)FirstLeafOrDefault(root, node => IsValueNode<T>(node) && (node.Name == name));
+            if (valueNode == null)
+                throw new EvaluatorException("Value node not found in tree");
+
+            return valueNode.Value;
+        }
+
         public static Node FirstValueNodeOrDefault(Node root) =>
             FirstLeafOrDefault(root, IsValueNode);
 
