@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Parsing
@@ -28,8 +27,6 @@ namespace ParserLib.Parsing
         public static Rule Regex(string pattern) => new RegexRule(pattern);
         public static Rule Char(Predicate<char> predicate) => new CharRule(predicate);
         public static Rule MatchChar(char c) => new CharRule(x => x == c) {Name = $"'{c}'"};
-        public static Rule Value<T>(string name, T value, Rule rule) => new ConstantValueRule<T>(name, value, rule);
-        public static Rule ConvertToValue<T>(string name, Func<string, T> valueFunc, Rule rule) => new ConvertToValueRule<T>(name, valueFunc, rule);
 
         public static Rule Binary(Rule left, Rule op, Rule right, bool fixedOrder = false) => fixedOrder
             ? left + op + right

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using NUnit.Framework;
-using ParserLib.Evaluation.Nodes;
+﻿using NUnit.Framework;
 using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
 
@@ -37,18 +35,7 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("1"));
             Assert.IsFalse(rule.Match("a"));
         }
-
-        [Test]
-        public void TestConstantValueRule()
-        {
-            var rule = Grammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
-
-            var node = rule.ParseTree("123").First();
-            var valueNode = node as ValueNode<int>;
-            Assert.IsTrue(valueNode != null);
-            Assert.IsTrue(valueNode.Value == 123);
-        }
-
+        
         [Test]
         public void TestEndRule()
         {
@@ -157,18 +144,7 @@ namespace ParserLib.Tests
             Assert.IsFalse(rule.Match("test123"));
             Assert.IsFalse(rule.Match("Failing Test"));
         }
-
-        [Test]
-        public void TestValueFuncRule()
-        {
-            var rule = Grammar.Value("number", 1, SharedGrammar.Digits);
-
-            var node = rule.ParseTree("123").First();
-            var valueNode = node as ValueNode<int>;
-            Assert.IsTrue(valueNode != null);
-            Assert.IsTrue(valueNode.Value == 1);
-        }
-
+        
         [Test]
         public void TestZeroOrMoreRule()
         {

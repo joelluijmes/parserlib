@@ -1,16 +1,38 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
+using ParserLib.Evaluation;
 using ParserLib.Evaluation.Nodes;
 using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing;
-using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Tests
 {
     [TestFixture]
-    public sealed class ValueTests
+    public sealed class EvaluationTests
     {
+        [Test]
+        public void TestValueFuncRule()
+        {
+            var rule = Evaluator.ConstantValue("number", 1, SharedGrammar.Digits);
+
+            var node = rule.ParseTree("123").First();
+            var valueNode = node as ValueNode<int>;
+            Assert.IsTrue(valueNode != null);
+            Assert.IsTrue(valueNode.Value == 1);
+        }
+
+        [Test]
+        public void TestConstantValueRule()
+        {
+            var rule = Evaluator.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
+
+            var node = rule.ParseTree("123").First();
+            var valueNode = node as ValueNode<int>;
+            Assert.IsTrue(valueNode != null);
+            Assert.IsTrue(valueNode.Value == 123);
+        }
+
         [Test]
         public void TestNestedValue()
         {
