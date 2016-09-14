@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Evaluation\Evaluator.cs" />
+    <Compile Include="Exceptions\EvaluatorException.cs" />
     <Compile Include="Parsing\ValueGrammar.cs" />
     <Compile Include="Evaluation\Nodes\ConstantValueNode.cs" />
     <Compile Include="Evaluation\Nodes\ConvertToValueNode.cs" />
@@ -49,7 +50,7 @@
     <Compile Include="Evaluation\Rules\ConvertToValueRule.cs" />
     <Compile Include="Evaluation\Rules\ValueRule.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="ParserException.cs" />
+    <Compile Include="Exceptions\ParserException.cs" />
     <Compile Include="Parsing\Grammar.cs" />
     <Compile Include="Parsing\Node.cs" />
     <Compile Include="Parsing\ParserState.cs" />
