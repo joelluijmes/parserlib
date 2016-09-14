@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Evaluation\Evaluator.cs" />
+    <Compile Include="Evaluation\Nodes\LazyValueNode.cs" />
+    <Compile Include="Evaluation\Rules\EvaluateLeafsRule.cs" />
     <Compile Include="Exceptions\EvaluatorException.cs" />
     <Compile Include="Parsing\ValueGrammar.cs" />
     <Compile Include="Evaluation\Nodes\ConstantValueNode.cs" />

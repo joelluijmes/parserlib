@@ -137,7 +137,7 @@ namespace ParserLib.Tests
             Func<string, int> getValueFromLetters = s =>
             {
                 var chars = s.ToCharArray();                // convert to seperate chars
-                var values = chars.Select(a => (int)a);    // convert char to ascii value
+                var values = chars.Select(a => (int)a);     // convert char to ascii value
                 return values.Aggregate((a, b) => a + b);   // add the values
             };
 
@@ -149,6 +149,19 @@ namespace ParserLib.Tests
 
             result = Evaluator.Process<int>(rule.ParseTree("abcd"), (a, b) => a + b);
             Assert.IsTrue(result == 'a' + 'b' + 'c' + 'd');
+        }
+
+        [Test]
+        public void TestEvaluateLeafsRule()
+        {
+            var number = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
+            var add = ValueGrammar.AccumulateLeafs<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
+            var subtract = ValueGrammar.AccumulateLeafs<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
+
+            Assert.IsTrue(Evaluator.FirstValue<int>(add.ParseTree("5+6")) == 11);
+            Assert.IsTrue(Evaluator.FirstValue<int>(add.ParseTree("15+6")) == 21);
+            Assert.IsTrue(Evaluator.FirstValue<int>(subtract.ParseTree("5-6")) == -1);
+            Assert.IsTrue(Evaluator.FirstValue<int>(subtract.ParseTree("15-6")) == 9);
         }
     }
 }
