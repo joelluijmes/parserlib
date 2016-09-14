@@ -35,7 +35,7 @@ namespace ParserLib.Tests
             Assert.IsTrue(rule.Match("1"));
             Assert.IsFalse(rule.Match("a"));
         }
-        
+
         [Test]
         public void TestEndRule()
         {
@@ -144,7 +144,7 @@ namespace ParserLib.Tests
             Assert.IsFalse(rule.Match("test123"));
             Assert.IsFalse(rule.Match("Failing Test"));
         }
-        
+
         [Test]
         public void TestZeroOrMoreRule()
         {

@@ -50,6 +50,7 @@
     <Compile Include="RuleTests.cs" />
     <Compile Include="SharedGrammarTests.cs" />
     <Compile Include="EvaluationTests.cs" />
+    <Compile Include="TestEnum.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

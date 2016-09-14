@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ParserLib.Evaluation;
 using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing.Rules;
 
@@ -13,6 +12,7 @@ namespace ParserLib.Parsing
         public static Rule ConvertToValue<T>(string name, Func<string, T> valueFunc, Rule rule) => new ConvertToValueRule<T>(name, valueFunc, rule);
         public static Rule ConvertToValue<T>(string name, Func<Node, T> valueFunc, Rule rule) => new ConvertToValueRule<T>(name, valueFunc, rule);
         public static Rule AccumulateLeafs<T>(string name, Func<T, T, T> accumulator, Rule rule) => new EvaluateLeafsRule<T>(name, accumulator, rule);
+        public static Rule FirstValue<T>(string name, Rule rule) => new FirstValueRule<T>(name, rule);
 
         public static Rule KeyValue<TValue>(KeyValuePair<string, TValue> keyValue) => ConstantValue(keyValue.Key, keyValue.Value, MatchString(keyValue.Key, true));
 
@@ -23,7 +23,7 @@ namespace ParserLib.Parsing
                 throw new ArgumentException("TEnum must be an enum");
 
             var rules = MapEnumToKeyValue<TEnum, TType>().Select(KeyValue);
-            return ConvertToValue(name, Evaluator.FirstValue<TType>, Or(rules));
+            return FirstValue<TType>(name, Or(rules));
         }
 
         private static IEnumerable<KeyValuePair<string, TType>> MapEnumToKeyValue<TEnum, TType>()

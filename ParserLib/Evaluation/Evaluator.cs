@@ -56,7 +56,7 @@ namespace ParserLib.Evaluation
 
         public static bool IsValueNode<T>(Node node) =>
             IsDerivedFrom(typeof(ValueNode<T>), node.GetType());
-        
+
         public static Node FirstLeafOrDefault(Node branch, Predicate<Node> predicate) =>
             WhereLeafs(branch, predicate).FirstOrDefault();
 

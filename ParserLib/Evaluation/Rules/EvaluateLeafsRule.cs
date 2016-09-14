@@ -7,14 +7,14 @@ namespace ParserLib.Evaluation.Rules
 {
     public sealed class EvaluateLeafsRule<T> : ValueRule<T>
     {
-        public Func<T, T, T> Accumulator { get; }
-
         public EvaluateLeafsRule(string name, Func<T, T, T> accumulator, Rule rule) : base(name, rule)
         {
             Accumulator = accumulator;
         }
 
-        protected override ValueNode<T> CreateValueNode(string name, string input, int begin) => new LazyValueNode<T>(name, input,begin, GetValue);
+        public Func<T, T, T> Accumulator { get; }
+
+        protected override ValueNode<T> CreateValueNode(string name, string input, int begin) => new LazyValueNode<T>(name, input, begin, GetValue);
 
         private T GetValue(ValueNode<T> valueNode)
         {
@@ -33,7 +33,7 @@ namespace ParserLib.Evaluation.Rules
                 first = false;
             }
 
-            if (first)  // no iteration happend
+            if (first) // no iteration happend
                 throw new NotImplementedException();
 
             return current;

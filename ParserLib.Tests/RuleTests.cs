@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using ParserLib.Evaluation.Nodes;
 using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing;
@@ -171,7 +170,7 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 123);
         }
-        
+
         [Test]
         public void TestZeroOrMoreRule()
         {
