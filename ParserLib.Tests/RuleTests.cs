@@ -24,7 +24,7 @@ namespace ParserLib.Tests
         {
             var rule = new ConstantValueRule<int>("constant", 1, SharedGrammar.Digits);
 
-            var node = rule.ParseTree("123").First();
+            var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 1);
@@ -166,7 +166,7 @@ namespace ParserLib.Tests
         {
             var rule = new ConvertToValueRule<int>("number", int.Parse, SharedGrammar.Digits);
 
-            var node = rule.ParseTree("123").First();
+            var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 123);

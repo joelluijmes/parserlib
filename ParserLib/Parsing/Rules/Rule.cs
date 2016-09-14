@@ -43,7 +43,7 @@ namespace ParserLib.Parsing.Rules
 
         public bool Match(string input) => MatchImpl(new ParserState(input));
 
-        public IEnumerable<Node> ParseTree(string input)
+        public Node ParseTree(string input)
         {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
@@ -51,8 +51,10 @@ namespace ParserLib.Parsing.Rules
             var state = new ParserState(input);
             if (!MatchImpl(state))
                 throw new ParserException($"'{this}' Failed to match '{state.Input}'");
-
-            return state.Nodes;
+            
+            return state.Nodes.Count == 1                                       // return the first Leaf if there is only one result 
+                ? state.Nodes.First()
+                : new Node(ToString(), input, 0) { Leafs = state.Nodes };       // otherwise wrap it in a new node :)
         }
 
         public override string ToString() => Name ?? Definition;

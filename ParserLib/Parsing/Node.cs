@@ -32,6 +32,7 @@ namespace ParserLib.Parsing
         public int Length => End > Begin ? End - Begin : 0;
         public string Text => Input.Substring(Begin, Length);
         public bool IsLeaf => !Leafs.Any();
+        public Node FirstLeaf => Leafs.First();
         public int ChildCount => Leafs.Count;
         public override string ToString() => $"{Name}: {Text}";
     }

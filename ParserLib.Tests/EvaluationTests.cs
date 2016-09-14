@@ -16,7 +16,7 @@ namespace ParserLib.Tests
         {
             var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
 
-            var node = rule.ParseTree("123").First();
+            var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 1);
@@ -27,7 +27,7 @@ namespace ParserLib.Tests
         {
             var rule = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
 
-            var node = rule.ParseTree("123").First();
+            var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 123);
@@ -57,15 +57,15 @@ namespace ParserLib.Tests
             };
             var rule = ValueGrammar.ConvertToValue("value", getValueFromLeafs, Grammar.OneOrMore(digits | letters));
 
-            var node = rule.ParseTree("1").First() as ValueNode<int>;
+            var node = rule.ParseTree("1") as ValueNode<int>;
             Assert.IsTrue(node != null);
             Assert.IsTrue(node.Value == 1);
 
-            node = rule.ParseTree("a").First() as ValueNode<int>;
+            node = rule.ParseTree("a") as ValueNode<int>;
             Assert.IsTrue(node != null);
             Assert.IsTrue(node.Value == 'a');
 
-            node = rule.ParseTree("1ab").First() as ValueNode<int>;
+            node = rule.ParseTree("1ab") as ValueNode<int>;
             Assert.IsTrue(node != null);
             Assert.IsTrue(node.Value == 1 + 'a' + 'b');
         }
