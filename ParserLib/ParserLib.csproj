@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Evaluation\Evaluator.cs" />
+    <Compile Include="Parsing\ValueGrammar.cs" />
     <Compile Include="Evaluation\Nodes\ConstantValueNode.cs" />
     <Compile Include="Evaluation\Nodes\ConvertToValueNode.cs" />
     <Compile Include="Evaluation\Nodes\ValueNode.cs" />

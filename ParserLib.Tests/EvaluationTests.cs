@@ -14,7 +14,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestValueFuncRule()
         {
-            var rule = Evaluator.ConstantValue("number", 1, SharedGrammar.Digits);
+            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
 
             var node = rule.ParseTree("123").First();
             var valueNode = node as ValueNode<int>;
@@ -25,7 +25,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestConstantValueRule()
         {
-            var rule = Evaluator.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
+            var rule = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
 
             var node = rule.ParseTree("123").First();
             var valueNode = node as ValueNode<int>;
@@ -36,7 +36,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestNestedValue()
         {
-            var digits = new ConvertToValueRule<int>("digits", int.Parse, SharedGrammar.Digits);
+            var digits = ValueGrammar.ConvertToValue("digits", int.Parse, SharedGrammar.Digits);
             Func<string, int> getValueFromLetters = s =>
             {
                 var chars = s.ToCharArray();                // convert to seperate chars
@@ -44,8 +44,18 @@ namespace ParserLib.Tests
                 return values.Aggregate((a, b) => a + b);   // add the values
             };
 
-            var letters = new ConvertToValueRule<int>("letters", getValueFromLetters, SharedGrammar.Letters);
-            var rule = new ConvertToValueRule<int>("value", n => n.Leafs.OfType<ValueNode<int>>().Select(v => v.Value).Aggregate((a, b) => a + b), Grammar.OneOrMore(digits | letters));
+            var letters = ValueGrammar.ConvertToValue("letters", getValueFromLetters, SharedGrammar.Letters);
+
+
+            Func<Node, int> getValueFromLeafs = n =>
+            {
+                var total = 0;
+                foreach (var leaf in n.Leafs.OfType<ValueNode<int>>())
+                    total += leaf.Value;
+
+                return total;
+            };
+            var rule = ValueGrammar.ConvertToValue("value", getValueFromLeafs, Grammar.OneOrMore(digits | letters));
 
             var node = rule.ParseTree("1").First() as ValueNode<int>;
             Assert.IsTrue(node != null);
