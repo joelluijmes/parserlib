@@ -5,9 +5,9 @@ using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Evaluation.Rules
 {
-    public sealed class EvaluateLeafsRule<T> : ValueRule<T>
+    public sealed class AccumulateRule<T> : ValueRule<T>
     {
-        public EvaluateLeafsRule(string name, Func<T, T, T> accumulator, Rule rule) : base(name, rule)
+        public AccumulateRule(string name, Func<T, T, T> accumulator, Rule rule) : base(name, rule)
         {
             Accumulator = accumulator;
         }
@@ -19,7 +19,8 @@ namespace ParserLib.Evaluation.Rules
         private T GetValue(ValueNode<T> valueNode)
         {
             // Get all ValueNode<T> in the leafs :)
-            var valueLeafs = valueNode.Leafs.SelectMany(leaf => NodeExtensions.WhereLeafs(leaf, NodeExtensions.IsValueNode<T>)).Cast<ValueNode<T>>();
+            // we can't use OfType because we want also the nested leafs
+            var valueLeafs = valueNode.Leafs.SelectMany(leaf => leaf.WhereLeafs(NodeExtensions.IsValueNode<T>)).Cast<ValueNode<T>>();
 
             var current = default(T);
             var first = true;
@@ -27,14 +28,14 @@ namespace ParserLib.Evaluation.Rules
             foreach (var leaf in valueLeafs)
             {
                 current = first
-                    ? leaf.Value
-                    : Accumulator(current, leaf.Value);
+                    ? leaf.Value // set current to the first value
+                    : Accumulator(current, leaf.Value); // accumulate the other values
 
                 first = false;
             }
 
             if (first) // no iteration happend
-                throw new NotImplementedException();
+                throw new EvaluatorException("The AccumulateRule did not yield any results");
 
             return current;
         }

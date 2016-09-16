@@ -43,7 +43,7 @@
     <Compile Include="Evaluation\NodeExtensions.cs" />
     <Compile Include="Evaluation\Nodes\LazyValueNode.cs" />
     <Compile Include="Evaluation\Rules\FirstValueRule.cs" />
-    <Compile Include="Evaluation\Rules\EvaluateLeafsRule.cs" />
+    <Compile Include="Evaluation\Rules\AccumulateRule.cs" />
     <Compile Include="Exceptions\EvaluatorException.cs" />
     <Compile Include="Parsing\ValueGrammar.cs" />
     <Compile Include="Evaluation\Nodes\ConstantValueNode.cs" />
