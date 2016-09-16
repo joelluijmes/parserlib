@@ -8,6 +8,39 @@ namespace ParserLib.Tests
     public sealed class GrammarTests
     {
         [Test]
+        public void TestAnyCaseInsensitiveString()
+        {
+            var rule = Grammar.MatchAnyString("dog cat fish", true);
+
+            Assert.IsTrue(rule.Match("dOgfish"));
+            Assert.IsTrue(rule.Match("caTfish"));
+            Assert.IsTrue(rule.Match("Fishfish"));
+            Assert.IsFalse(rule.Match("tacdog"));
+        }
+
+        [Test]
+        public void TestAnyChar()
+        {
+            var rule = Grammar.MatchAnyChar('a', 'b', 'c', 'd');
+
+            Assert.IsTrue(rule.Match("a"));
+            Assert.IsTrue(rule.Match("b"));
+            Assert.IsTrue(rule.Match("d"));
+            Assert.IsFalse(rule.Match("q"));
+        }
+
+        [Test]
+        public void TestAnyString()
+        {
+            var rule = Grammar.MatchAnyString("dog cat fish");
+
+            Assert.IsTrue(rule.Match("dogfish"));
+            Assert.IsTrue(rule.Match("catfish"));
+            Assert.IsTrue(rule.Match("fishfish"));
+            Assert.IsFalse(rule.Match("tacdog"));
+        }
+
+        [Test]
         public void TestBinaryRule()
         {
             var left = Grammar.Node("letter", Grammar.Char(char.IsLetter));
@@ -43,6 +76,26 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match(""));
             Assert.IsFalse(rule.Match("something"));
+        }
+
+        [Test]
+        public void TestMatchChar()
+        {
+            var rule = Grammar.MatchChar('a');
+
+            Assert.IsTrue(rule.Match("a"));
+            Assert.IsFalse(rule.Match("A"));
+            Assert.IsFalse(rule.Match("q"));
+        }
+
+        [Test]
+        public void TestMatchCharCaseInsensitive()
+        {
+            var rule = Grammar.MatchChar('a', true);
+
+            Assert.IsTrue(rule.Match("a"));
+            Assert.IsTrue(rule.Match("A"));
+            Assert.IsFalse(rule.Match("q"));
         }
 
         [Test]
@@ -152,59 +205,6 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
-        }
-
-        [Test]
-        public void TestAnyCaseInsensitiveString()
-        {
-            var rule = Grammar.MatchAnyString("dog cat fish", true);
-
-            Assert.IsTrue(rule.Match("dOgfish"));
-            Assert.IsTrue(rule.Match("caTfish"));
-            Assert.IsTrue(rule.Match("Fishfish"));
-            Assert.IsFalse(rule.Match("tacdog"));
-        }
-
-        [Test]
-        public void TestAnyString()
-        {
-            var rule = Grammar.MatchAnyString("dog cat fish");
-
-            Assert.IsTrue(rule.Match("dogfish"));
-            Assert.IsTrue(rule.Match("catfish"));
-            Assert.IsTrue(rule.Match("fishfish"));
-            Assert.IsFalse(rule.Match("tacdog"));
-        }
-
-        [Test]
-        public void TestAnyChar()
-        {
-            var rule = Grammar.MatchAnyChar('a', 'b', 'c', 'd');
-
-            Assert.IsTrue(rule.Match("a"));
-            Assert.IsTrue(rule.Match("b"));
-            Assert.IsTrue(rule.Match("d"));
-            Assert.IsFalse(rule.Match("q"));
-        }
-
-        [Test]
-        public void TestMatchChar()
-        {
-            var rule = Grammar.MatchChar('a');
-
-            Assert.IsTrue(rule.Match("a"));
-            Assert.IsFalse(rule.Match("A"));
-            Assert.IsFalse(rule.Match("q"));
-        }
-
-        [Test]
-        public void TestMatchCharCaseInsensitive()
-        {
-            var rule = Grammar.MatchChar('a', true);
-
-            Assert.IsTrue(rule.Match("a"));
-            Assert.IsTrue(rule.Match("A"));
-            Assert.IsFalse(rule.Match("q"));
         }
     }
 }

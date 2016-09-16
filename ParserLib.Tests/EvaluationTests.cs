@@ -11,6 +11,19 @@ namespace ParserLib.Tests
     public sealed class EvaluationTests
     {
         [Test]
+        public void TestAccumulate()
+        {
+            var number = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
+            var add = ValueGrammar.Accumulate<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
+            var subtract = ValueGrammar.Accumulate<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
+
+            Assert.IsTrue(add.ParseTree("5+6").FirstValue<int>() == 11);
+            Assert.IsTrue(add.ParseTree("15+6").FirstValue<int>() == 21);
+            Assert.IsTrue(subtract.ParseTree("5-6").FirstValue<int>() == -1);
+            Assert.IsTrue(subtract.ParseTree("15-6").FirstValue<int>() == 9);
+        }
+
+        [Test]
         public void TestConstantValueRule()
         {
             var rule = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
@@ -39,23 +52,30 @@ namespace ParserLib.Tests
         public void TestEnumValue()
         {
             var rule = ValueGrammar.MatchEnum<TestEnum, int>("TestEnum");
-            Assert.IsTrue(rule.ParseTree(TestEnum.A.ToString()).FirstValue<int>() == (int)TestEnum.A);
+            Assert.IsTrue(rule.ParseTree(TestEnum.A.ToString()).FirstValue<int>() == (int) TestEnum.A);
 
             rule = ValueGrammar.MatchEnum<TestEnum>("TestEnum");
             Assert.IsTrue(rule.ParseTree(TestEnum.B.ToString()).FirstValue<TestEnum>() == TestEnum.B);
         }
 
         [Test]
-        public void TestAccumulate()
+        public void TestFirstNodeByName()
         {
-            var number = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
-            var add = ValueGrammar.Accumulate<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
-            var subtract = ValueGrammar.Accumulate<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
+            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var parsed = rule.ParseTree("123");
 
-            Assert.IsTrue(add.ParseTree("5+6").FirstValue<int>() == 11);
-            Assert.IsTrue(add.ParseTree("15+6").FirstValue<int>() == 21);
-            Assert.IsTrue(subtract.ParseTree("5-6").FirstValue<int>() == -1);
-            Assert.IsTrue(subtract.ParseTree("15-6").FirstValue<int>() == 9);
+            Assert.IsTrue(parsed.FirstNodeByName("number") != null);
+            Assert.Throws<EvaluatorException>(() => parsed.FirstNodeByName("something"));
+        }
+
+        [Test]
+        public void TestFirstNodeOrDefaultByName()
+        {
+            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var parsed = rule.ParseTree("123");
+
+            Assert.IsTrue(parsed.FirstNodeByNameOrDefault("number") != null);
+            Assert.IsTrue(parsed.FirstNodeByNameOrDefault("something") == null);
         }
 
         [Test]
@@ -81,14 +101,36 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestFirstValueByName()
+        {
+            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var parsed = rule.ParseTree("123");
+
+            Assert.AreEqual(1, parsed.FirstValueByName<int>("number"));
+            Assert.Throws<EvaluatorException>(() => parsed.FirstValueByName<int>("something"));
+            Assert.Throws<EvaluatorException>(() => parsed.FirstValueByName<float>("number"));
+        }
+
+        [Test]
         public void TestFirstValueNode()
         {
             var node = new Node("", "", 0);
             var valueNode = new ConstantValueNode<int>("", "", 0, 0);
             node.Leafs.Add(valueNode);
-            
+
             Assert.IsTrue(node.FirstValueNodeOrDefault<int>() != null);
             Assert.IsTrue(node.FirstValueNodeOrDefault<float>() == null);
+        }
+
+        [Test]
+        public void TestFirstValueOrDefaultByName()
+        {
+            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var parsed = rule.ParseTree("123");
+
+            Assert.AreEqual(1, parsed.FirstValueByNameOrDefault<int>("number"));
+            Assert.IsTrue(parsed.FirstValueByNameOrDefault<int>("something") == default(int));
+            Assert.IsTrue(parsed.FirstValueByNameOrDefault<float?>("number") == default(float?));
         }
 
         [Test]
@@ -102,7 +144,7 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode.IsValueNode<int>());
             Assert.IsFalse(valueNode.IsValueNode<float>());
         }
-        
+
         [Test]
         public void TestProcess()
         {
@@ -125,17 +167,6 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestValueFuncRule()
-        {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
-
-            var node = rule.ParseTree("123");
-            var valueNode = node as ValueNode<int>;
-            Assert.IsTrue(valueNode != null);
-            Assert.IsTrue(valueNode.Value == 1);
-        }
-
-        [Test]
         public void TestTryGetValue()
         {
             var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
@@ -151,45 +182,14 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestFirstNodeByName()
+        public void TestValueFuncRule()
         {
             var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
-            var parsed = rule.ParseTree("123");
 
-            Assert.IsTrue(parsed.FirstNodeByName("number") != null);
-            Assert.Throws<EvaluatorException>(() => parsed.FirstNodeByName("something"));
-        }
-
-        [Test]
-        public void TestFirstNodeOrDefaultByName()
-        {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
-            var parsed = rule.ParseTree("123");
-
-            Assert.IsTrue(parsed.FirstNodeByNameOrDefault("number") != null);
-            Assert.IsTrue(parsed.FirstNodeByNameOrDefault("something") == null);
-        }
-
-        [Test]
-        public void TestFirstValueByName()
-        {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
-            var parsed = rule.ParseTree("123");
-
-            Assert.AreEqual(1, parsed.FirstValueByName<int>("number"));
-            Assert.Throws<EvaluatorException>(() => parsed.FirstValueByName<int>("something"));
-            Assert.Throws<EvaluatorException>(() => parsed.FirstValueByName<float>("number"));
-        }
-
-        [Test]
-        public void TestFirstValueOrDefaultByName()
-        {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
-            var parsed = rule.ParseTree("123");
-
-            Assert.AreEqual(1, parsed.FirstValueByNameOrDefault<int>("number"));
-            Assert.IsTrue(parsed.FirstValueByNameOrDefault<int>("something") == default(int));
-            Assert.IsTrue(parsed.FirstValueByNameOrDefault<float?>("number") == default(float?));
+            var node = rule.ParseTree("123");
+            var valueNode = node as ValueNode<int>;
+            Assert.IsTrue(valueNode != null);
+            Assert.IsTrue(valueNode.Value == 1);
         }
     }
 }

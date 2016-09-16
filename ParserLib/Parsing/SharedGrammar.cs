@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using ParserLib.Parsing.Rules;
+﻿using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Parsing
 {
@@ -18,7 +16,5 @@ namespace ParserLib.Parsing
         public static Rule Integer = Optional(PlusOrMinus) + Digits + Not(MatchChar('.')) + Optional(Exponential);
         public static Rule Float = Optional(PlusOrMinus) + Digits + MatchChar('.') + Digits + Optional(Exponential);
         public static Rule Hexadecimal = Optional(MatchString("0x")) + (Digit | Regex("[a-fA-F]"));
-
-
     }
 }

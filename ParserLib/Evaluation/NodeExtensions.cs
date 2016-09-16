@@ -54,7 +54,7 @@ namespace ParserLib.Evaluation
 
         public static T FirstValueByName<T>(this Node root, string name)
         {
-            var valueNode = (ValueNode<T>)root.WhereLeafs(node => IsValueNode<T>(node) && (node.Name == name)).FirstOrDefault();
+            var valueNode = (ValueNode<T>) root.WhereLeafs(node => IsValueNode<T>(node) && (node.Name == name)).FirstOrDefault();
             if (valueNode == null)
                 throw new EvaluatorException($"ValueNode with name '{name}' not found");
 

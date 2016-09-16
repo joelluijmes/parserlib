@@ -10,10 +10,10 @@ namespace ParserLib
         private static readonly IDictionary<object, bool> _recursiveProcessed = new Dictionary<object, bool>();
 
         public static T[] MergeArray<T>(T first, params T[] others) =>
-            new[] { first }.Concat(others).ToArray();
+            new[] {first}.Concat(others).ToArray();
 
         public static T[] MergeArray<T>(T first, T second, params T[] others) =>
-            new[] { first, second }.Concat(others).ToArray();
+            new[] {first, second}.Concat(others).ToArray();
 
         public static string PrettyFormat<T>(T obj, Func<T, IEnumerable<T>> childNodesFunc) where T : class
         {
