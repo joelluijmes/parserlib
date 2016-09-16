@@ -46,11 +46,11 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestEvaluateLeafsRule()
+        public void TestAccumulate()
         {
             var number = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
-            var add = ValueGrammar.AccumulateLeafs<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
-            var subtract = ValueGrammar.AccumulateLeafs<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
+            var add = ValueGrammar.Accumulate<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
+            var subtract = ValueGrammar.Accumulate<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
 
             Assert.IsTrue(add.ParseTree("5+6").FirstValue<int>() == 11);
             Assert.IsTrue(add.ParseTree("15+6").FirstValue<int>() == 21);
