@@ -103,44 +103,7 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode.IsValueNode<int>());
             Assert.IsFalse(valueNode.IsValueNode<float>());
         }
-
-        [Test]
-        public void TestNestedValue()
-        {
-            var digits = ValueGrammar.ConvertToValue("digits", int.Parse, SharedGrammar.Digits);
-            Func<string, int> getValueFromLetters = s =>
-            {
-                var chars = s.ToCharArray(); // convert to seperate chars
-                var values = chars.Select(a => (int) a); // convert char to ascii value
-                return values.Aggregate((a, b) => a + b); // add the values
-            };
-
-            var letters = ValueGrammar.ConvertToValue("letters", getValueFromLetters, SharedGrammar.Letters);
-
-
-            Func<Node, int> getValueFromLeafs = n =>
-            {
-                var total = 0;
-                foreach (var leaf in n.Leafs.OfType<ValueNode<int>>())
-                    total += leaf.Value;
-
-                return total;
-            };
-            var rule = ValueGrammar.ConvertToValue("value", getValueFromLeafs, Grammar.OneOrMore(digits | letters));
-
-            var node = rule.ParseTree("1") as ValueNode<int>;
-            Assert.IsTrue(node != null);
-            Assert.IsTrue(node.Value == 1);
-
-            node = rule.ParseTree("a") as ValueNode<int>;
-            Assert.IsTrue(node != null);
-            Assert.IsTrue(node.Value == 'a');
-
-            node = rule.ParseTree("1ab") as ValueNode<int>;
-            Assert.IsTrue(node != null);
-            Assert.IsTrue(node.Value == 1 + 'a' + 'b');
-        }
-
+        
         [Test]
         public void TestProcess()
         {
