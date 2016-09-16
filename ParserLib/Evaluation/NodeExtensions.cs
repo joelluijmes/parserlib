@@ -6,12 +6,12 @@ using ParserLib.Parsing;
 
 namespace ParserLib.Evaluation
 {
-    public static class Evaluator
+    public static class NodeExtensions
     {
-        public static T Process<T>(Node root, Func<T, T, T> accumulator) =>
+        public static T Process<T>(this Node root, Func<T, T, T> accumulator) =>
             ProcessImpl(root, accumulator, default(T));
 
-        private static T ProcessImpl<T>(Node node, Func<T, T, T> accumulator, T current)
+        private static T ProcessImpl<T>(this Node node, Func<T, T, T> accumulator, T current)
         {
             if (IsValueNode<T>(node))
                 return accumulator(current, ((ValueNode<T>) node).Value);
@@ -22,10 +22,10 @@ namespace ParserLib.Evaluation
             return current;
         }
 
-        public static Node FirstNodeByName(Node root, string name) =>
+        public static Node FirstNodeByName(this Node root, string name) =>
             FirstLeafOrDefault(root, node => node.Name == name);
 
-        public static T ValueByName<T>(Node root, string name)
+        public static T ValueByName<T>(this Node root, string name)
         {
             var valueNode = (ValueNode<T>)FirstLeafOrDefault(root, node => IsValueNode<T>(node) && (node.Name == name));
             if (valueNode == null)
@@ -34,19 +34,19 @@ namespace ParserLib.Evaluation
             return valueNode.Value;
         }
 
-        public static Node FirstValueNodeOrDefault(Node root) =>
+        public static Node FirstValueNodeOrDefault(this Node root) =>
             FirstLeafOrDefault(root, IsValueNode);
 
-        public static ValueNode<T> FirstValueNodeOrDefault<T>(Node root) =>
+        public static ValueNode<T> FirstValueNodeOrDefault<T>(this Node root) =>
             (ValueNode<T>) FirstLeafOrDefault(root, IsValueNode<T>);
 
-        public static bool ContainsValueNode(Node root) =>
+        public static bool ContainsValueNode(this Node root) =>
             FirstValueNodeOrDefault(root) != null;
 
-        public static bool ContainsValueNode<T>(Node root) =>
+        public static bool ContainsValueNode<T>(this Node root) =>
             FirstValueNodeOrDefault<T>(root) != null;
 
-        public static T FirstValue<T>(Node root)
+        public static T FirstValue<T>(this Node root)
         {
             var valueNode = FirstValueNodeOrDefault<T>(root);
             if (valueNode == null)
@@ -55,7 +55,7 @@ namespace ParserLib.Evaluation
             return valueNode.Value;
         }
 
-        public static T FirstValueOrDefault<T>(Node root)
+        public static T FirstValueOrDefault<T>(this Node root)
         {
             var valueNode = FirstValueNodeOrDefault<T>(root);
             return valueNode == null
@@ -63,16 +63,16 @@ namespace ParserLib.Evaluation
                 : valueNode.Value;
         }
 
-        public static bool IsValueNode(Node node) =>
+        public static bool IsValueNode(this Node node) =>
             IsDerivedFrom(typeof(ValueNode<>), node.GetType());
 
-        public static bool IsValueNode<T>(Node node) =>
+        public static bool IsValueNode<T>(this Node node) =>
             IsDerivedFrom(typeof(ValueNode<T>), node.GetType());
 
-        public static Node FirstLeafOrDefault(Node branch, Predicate<Node> predicate) =>
+        public static Node FirstLeafOrDefault(this Node branch, Predicate<Node> predicate) =>
             WhereLeafs(branch, predicate).FirstOrDefault();
 
-        public static IEnumerable<Node> WhereLeafs(Node branch, Predicate<Node> predicate)
+        public static IEnumerable<Node> WhereLeafs(this Node branch, Predicate<Node> predicate)
         {
             if (predicate(branch))
                 yield return branch;

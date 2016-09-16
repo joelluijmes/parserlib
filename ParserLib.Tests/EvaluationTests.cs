@@ -25,14 +25,14 @@ namespace ParserLib.Tests
         public void TestContainsValueNode()
         {
             var node = new Node("", "", 0);
-            Assert.IsFalse(Evaluator.ContainsValueNode(node));
+            Assert.IsFalse(node.ContainsValueNode());
 
             var valueNode = new ConstantValueNode<int>("", "", 0, 0);
             node.Leafs.Add(valueNode);
 
-            Assert.IsTrue(Evaluator.ContainsValueNode(node));
-            Assert.IsTrue(Evaluator.ContainsValueNode<int>(node));
-            Assert.IsFalse(Evaluator.ContainsValueNode<float>(node));
+            Assert.IsTrue(node.ContainsValueNode());
+            Assert.IsTrue(node.ContainsValueNode<int>());
+            Assert.IsFalse(node.ContainsValueNode<float>());
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace ParserLib.Tests
         {
             var rule = ValueGrammar.MatchEnum<TestEnum, int>("TestEnum");
 
-            Assert.IsTrue(Evaluator.FirstValue<int>(rule.ParseTree("A")) == 1);
+            Assert.IsTrue(rule.ParseTree("A").FirstValue<int>() == 1);
         }
 
         [Test]
@@ -50,10 +50,10 @@ namespace ParserLib.Tests
             var add = ValueGrammar.AccumulateLeafs<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
             var subtract = ValueGrammar.AccumulateLeafs<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
 
-            Assert.IsTrue(Evaluator.FirstValue<int>(add.ParseTree("5+6")) == 11);
-            Assert.IsTrue(Evaluator.FirstValue<int>(add.ParseTree("15+6")) == 21);
-            Assert.IsTrue(Evaluator.FirstValue<int>(subtract.ParseTree("5-6")) == -1);
-            Assert.IsTrue(Evaluator.FirstValue<int>(subtract.ParseTree("15-6")) == 9);
+            Assert.IsTrue(add.ParseTree("5+6").FirstValue<int>() == 11);
+            Assert.IsTrue(add.ParseTree("15+6").FirstValue<int>() == 21);
+            Assert.IsTrue(subtract.ParseTree("5-6").FirstValue<int>() == -1);
+            Assert.IsTrue(subtract.ParseTree("15-6").FirstValue<int>() == 9);
         }
 
         [Test]
@@ -63,8 +63,8 @@ namespace ParserLib.Tests
             var valueNode = new ConstantValueNode<int>("", "", 0, 100);
             node.Leafs.Add(valueNode);
 
-            Assert.IsTrue(Evaluator.FirstValueOrDefault<int>(node) == 100);
-            Assert.IsTrue(Evaluator.FirstValueOrDefault<string>(node) == default(string));
+            Assert.IsTrue(node.FirstValueOrDefault<int>() == 100);
+            Assert.IsTrue(node.FirstValueOrDefault<string>() == default(string));
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace ParserLib.Tests
             var valueNode = new ConstantValueNode<int>("", "", 0, 100);
             node.Leafs.Add(valueNode);
 
-            Assert.IsTrue(Evaluator.FirstValue<int>(node) == 100);
-            Assert.Throws<EvaluatorException>(() => Evaluator.FirstValue<string>(node));
+            Assert.IsTrue(node.FirstValue<int>() == 100);
+            Assert.Throws<EvaluatorException>(() => node.FirstValue<string>());
         }
 
         [Test]
@@ -85,21 +85,21 @@ namespace ParserLib.Tests
             var valueNode = new ConstantValueNode<int>("", "", 0, 0);
             node.Leafs.Add(valueNode);
 
-            Assert.IsTrue(Evaluator.FirstValueNodeOrDefault(node) != null);
-            Assert.IsTrue(Evaluator.FirstValueNodeOrDefault<int>(node) != null);
-            Assert.IsTrue(Evaluator.FirstValueNodeOrDefault<float>(node) == null);
+            Assert.IsTrue(node.FirstValueNodeOrDefault() != null);
+            Assert.IsTrue(node.FirstValueNodeOrDefault<int>() != null);
+            Assert.IsTrue(node.FirstValueNodeOrDefault<float>() == null);
         }
 
         [Test]
         public void TestIsValueNode()
         {
             var node = new Node("", "", 0);
-            Assert.IsFalse(Evaluator.IsValueNode(node));
+            Assert.IsFalse(node.IsValueNode());
 
             var valueNode = new ConstantValueNode<int>("", "", 0, 0);
-            Assert.IsTrue(Evaluator.IsValueNode(valueNode));
-            Assert.IsTrue(Evaluator.IsValueNode<int>(valueNode));
-            Assert.IsFalse(Evaluator.IsValueNode<float>(valueNode));
+            Assert.IsTrue(valueNode.IsValueNode());
+            Assert.IsTrue(valueNode.IsValueNode<int>());
+            Assert.IsFalse(valueNode.IsValueNode<float>());
         }
 
         [Test]
@@ -153,10 +153,10 @@ namespace ParserLib.Tests
             var letters = ValueGrammar.ConvertToValue("letters", getValueFromLetters, SharedGrammar.Letters);
             var rule = Grammar.OneOrMore(digits | letters);
 
-            var result = Evaluator.Process<int>(rule.ParseTree("1"), (a, b) => a + b);
+            var result = rule.ParseTree("1").Process<int>((a, b) => a + b);
             Assert.IsTrue(result == 1);
 
-            result = Evaluator.Process<int>(rule.ParseTree("abcd"), (a, b) => a + b);
+            result = rule.ParseTree("abcd").Process<int>((a, b) => a + b);
             Assert.IsTrue(result == 'a' + 'b' + 'c' + 'd');
         }
 

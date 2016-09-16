@@ -15,8 +15,8 @@ namespace ParserLib
 
         public static IEnumerable<string> PrettyFormat(this IEnumerable<Node> nodes) => nodes.Select(PrettyFormat);
 
-        public static T Value<T>(this Node node) => Evaluator.FirstValue<T>(node);
+        public static T Value<T>(this Node node) => NodeExtensions.FirstValue<T>(node);
 
-        public static Node FindByName(this Node node, string name) => Evaluator.FirstNodeByName(node, name);
+        public static Node FindByName(this Node node, string name) => NodeExtensions.FirstNodeByName(node, name);
     }
 }
