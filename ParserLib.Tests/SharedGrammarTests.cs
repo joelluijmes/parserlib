@@ -7,28 +7,6 @@ namespace ParserLib.Tests
     public sealed class SharedGrammarTests
     {
         [Test]
-        public void TestAnyCaseInsensitiveString()
-        {
-            var rule = SharedGrammar.MatchAnyString("dog cat fish", true);
-
-            Assert.IsTrue(rule.Match("dOgfish"));
-            Assert.IsTrue(rule.Match("caTfish"));
-            Assert.IsTrue(rule.Match("Fishfish"));
-            Assert.IsFalse(rule.Match("tacdog"));
-        }
-
-        [Test]
-        public void TestAnyString()
-        {
-            var rule = SharedGrammar.MatchAnyString("dog cat fish");
-
-            Assert.IsTrue(rule.Match("dogfish"));
-            Assert.IsTrue(rule.Match("catfish"));
-            Assert.IsTrue(rule.Match("fishfish"));
-            Assert.IsFalse(rule.Match("tacdog"));
-        }
-
-        [Test]
         public void TestDigit()
         {
             var rule = SharedGrammar.Digit;

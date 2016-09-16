@@ -37,7 +37,10 @@ namespace ParserLib.Evaluation
 
         public static T FirstValue<T>(this Node root)
         {
-            var valueNode = root.FirstValueNode<T>();
+            var valueNode = root.FirstValueNodeOrDefault<T>();
+            if (valueNode == null)
+                throw new EvaluatorException("ValueNode not found");
+
             return valueNode.Value;
         }
 

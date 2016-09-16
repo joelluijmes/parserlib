@@ -82,7 +82,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestRecursive()
         {
-            var op = SharedGrammar.MatchAnyString("+ -");
+            var op = Grammar.MatchAnyString("+ -");
             var digit = new RegexRule("\\d+");
 
             Rule expressionA = null;

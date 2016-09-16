@@ -12,10 +12,10 @@ namespace ParserLib.Tests
         {
             var left = Grammar.Node("letter", Grammar.Char(char.IsLetter));
             var right = Grammar.Node("digit", Grammar.Char(char.IsDigit));
-            var add = Grammar.Node("add", SharedGrammar.MatchAnyString("+ add"));
-            var sub = Grammar.Node("sub", SharedGrammar.MatchAnyString("- sub"));
-            var and = Grammar.Node("and", SharedGrammar.MatchAnyString("& and"));
-            var or = Grammar.Node("or", SharedGrammar.MatchAnyString("| or"));
+            var add = Grammar.Node("add", Grammar.MatchAnyString("+ add"));
+            var sub = Grammar.Node("sub", Grammar.MatchAnyString("- sub"));
+            var and = Grammar.Node("and", Grammar.MatchAnyString("& and"));
+            var or = Grammar.Node("or", Grammar.MatchAnyString("| or"));
             var op = add | sub | and | or;
 
             var ruleFixed = Grammar.Binary(left, op, right, true);
@@ -78,7 +78,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestRecursive()
         {
-            var op = SharedGrammar.MatchAnyString("+ -");
+            var op = Grammar.MatchAnyString("+ -");
             var digit = new RegexRule("\\d+");
 
             Rule expressionA = null;
@@ -152,6 +152,59 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
+        }
+
+        [Test]
+        public void TestAnyCaseInsensitiveString()
+        {
+            var rule = Grammar.MatchAnyString("dog cat fish", true);
+
+            Assert.IsTrue(rule.Match("dOgfish"));
+            Assert.IsTrue(rule.Match("caTfish"));
+            Assert.IsTrue(rule.Match("Fishfish"));
+            Assert.IsFalse(rule.Match("tacdog"));
+        }
+
+        [Test]
+        public void TestAnyString()
+        {
+            var rule = Grammar.MatchAnyString("dog cat fish");
+
+            Assert.IsTrue(rule.Match("dogfish"));
+            Assert.IsTrue(rule.Match("catfish"));
+            Assert.IsTrue(rule.Match("fishfish"));
+            Assert.IsFalse(rule.Match("tacdog"));
+        }
+
+        [Test]
+        public void TestAnyChar()
+        {
+            var rule = Grammar.MatchAnyChar('a', 'b', 'c', 'd');
+
+            Assert.IsTrue(rule.Match("a"));
+            Assert.IsTrue(rule.Match("b"));
+            Assert.IsTrue(rule.Match("d"));
+            Assert.IsFalse(rule.Match("q"));
+        }
+
+        [Test]
+        public void TestMatchChar()
+        {
+            var rule = Grammar.MatchChar('a');
+
+            Assert.IsTrue(rule.Match("a"));
+            Assert.IsFalse(rule.Match("A"));
+            Assert.IsFalse(rule.Match("q"));
+        }
+
+        [Test]
+        public void TestMatchCharCaseInsensitive()
+        {
+            var rule = Grammar.MatchChar('a', true);
+
+            Assert.IsTrue(rule.Match("a"));
+            Assert.IsTrue(rule.Match("A"));
+            Assert.IsFalse(rule.Match("q"));
         }
     }
 }
