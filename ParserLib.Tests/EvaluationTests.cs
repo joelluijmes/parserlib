@@ -39,8 +39,10 @@ namespace ParserLib.Tests
         public void TestEnumValue()
         {
             var rule = ValueGrammar.MatchEnum<TestEnum, int>("TestEnum");
+            Assert.IsTrue(rule.ParseTree(TestEnum.A.ToString()).FirstValue<int>() == (int)TestEnum.A);
 
-            Assert.IsTrue(rule.ParseTree("A").FirstValue<int>() == 1);
+            rule = ValueGrammar.MatchEnum<TestEnum>("TestEnum");
+            Assert.IsTrue(rule.ParseTree(TestEnum.B.ToString()).FirstValue<TestEnum>() == TestEnum.B);
         }
 
         [Test]

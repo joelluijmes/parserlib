@@ -17,6 +17,8 @@ namespace ParserLib.Parsing
 
         public static Rule KeyValue<TValue>(KeyValuePair<string, TValue> keyValue) => ConstantValue(keyValue.Key, keyValue.Value, MatchString(keyValue.Key, true));
 
+        public static Rule MatchEnum<TEnum>(string name) => MatchEnum<TEnum, TEnum>(name);
+
         public static Rule MatchEnum<TEnum, TType>(string name)
         {
             var type = typeof(TEnum);
@@ -30,8 +32,7 @@ namespace ParserLib.Parsing
         private static IEnumerable<KeyValuePair<string, TType>> MapEnumToKeyValue<TEnum, TType>()
         {
             var names = Enum.GetNames(typeof(TEnum));
-            Func<string, TType> getValueFunc = s =>
-                    (TType) Enum.Parse(typeof(TEnum), s);
+            Func<string, TType> getValueFunc = s => (TType) Enum.Parse(typeof(TEnum), s);
 
             return names.Select(n => new KeyValuePair<string, TType>(n, getValueFunc(n)));
         }
