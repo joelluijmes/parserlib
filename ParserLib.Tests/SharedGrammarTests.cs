@@ -89,11 +89,11 @@ namespace ParserLib.Tests
         {
             var rule = SharedGrammar.Hexadecimal;
 
-            Assert.IsTrue(rule.Match("0xAB"));
-            Assert.IsTrue(rule.Match("0x1B"));
-            Assert.IsTrue(rule.Match("0xa2"));
-            Assert.IsTrue(rule.Match("2F"));
-            Assert.IsFalse(rule.Match("GE"));
+            Assert.IsTrue(rule.Match("A"));
+            Assert.IsTrue(rule.Match("b"));
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsTrue(rule.Match("0"));
+            Assert.IsFalse(rule.Match("g"));
         }
 
         [Test]
