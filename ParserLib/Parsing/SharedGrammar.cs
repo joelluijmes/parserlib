@@ -15,6 +15,10 @@ namespace ParserLib.Parsing
         public static Rule Exponential = E + Digits;
         public static Rule Integer = Optional(PlusOrMinus) + Digits + Not(MatchChar('.')) + Optional(Exponential);
         public static Rule Float = Optional(PlusOrMinus) + Digits + MatchChar('.') + Digits + Optional(Exponential);
-        public static Rule Hexadecimal = Optional(MatchString("0x")) + (Digit | Regex("[a-fA-F]"));
+        public static Rule Hexadecimal = Digit | Regex("[a-fA-F]");
+
+        public static Rule MatchAnyString(string input, bool ignoreCase = false) => MatchAnyString(input.Split(' '), ignoreCase);
+        public static Rule MatchAnyString(string[] inputs, bool ignoreCase = false) => Or(inputs.Select(s => MatchString(s, ignoreCase)));
+        public static Rule MatchEnum<TEnum>() => MatchAnyString(Enum.GetNames(typeof(TEnum)));
     }
 }
