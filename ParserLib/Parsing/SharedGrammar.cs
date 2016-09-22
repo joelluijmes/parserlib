@@ -1,22 +1,21 @@
-﻿using System;
-using System.Linq;
-using ParserLib.Parsing.Rules;
+﻿using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Parsing
 {
     public sealed class SharedGrammar : Grammar
     {
-        public static Rule Whitespace = Regex("\\s+");
-        public static Rule Word = Regex("\\w+");
-        public static Rule Digit = Char(char.IsDigit);
-        public static Rule Digits = OneOrMore(Digit);
-        public static Rule Letter = Char(char.IsLetter);
-        public static Rule Letters = OneOrMore(Letter);
-        public static Rule PlusOrMinus = MatchChar('+') | MatchChar('-');
-        public static Rule E = (MatchChar('e') | MatchChar('E')) + Optional(PlusOrMinus);
-        public static Rule Exponential = E + Digits;
-        public static Rule Integer = Optional(PlusOrMinus) + Digits + Not(MatchChar('.')) + Optional(Exponential);
-        public static Rule Float = Optional(PlusOrMinus) + Digits + MatchChar('.') + Digits + Optional(Exponential);
-        public static Rule Hexadecimal = Digit | Regex("[a-fA-F]");
+        public static readonly Rule Whitespace = Regex("\\s+");
+        public static readonly Rule Word = Regex("\\w+");
+        public static readonly Rule Digit = Char(char.IsDigit);
+        public static readonly Rule Digits = OneOrMore(Digit);
+        public static readonly Rule Letter = Char(char.IsLetter);
+        public static readonly Rule Letters = OneOrMore(Letter);
+        public static readonly Rule Label = (Letter | MatchChar('_')) + ZeroOrMore(Digit | Letter | MatchChar('_'));
+        public static readonly Rule PlusOrMinus = MatchChar('+') | MatchChar('-');
+        public static readonly Rule E = (MatchChar('e') | MatchChar('E')) + Optional(PlusOrMinus);
+        public static readonly Rule Exponential = E + Digits;
+        public static readonly Rule Integer = Optional(PlusOrMinus) + Digits + Not(MatchChar('.')) + Optional(Exponential);
+        public static readonly Rule Float = Optional(PlusOrMinus) + Digits + MatchChar('.') + Digits + Optional(Exponential);
+        public static readonly Rule Hexadecimal = Digit | Regex("[a-fA-F]");
     }
 }

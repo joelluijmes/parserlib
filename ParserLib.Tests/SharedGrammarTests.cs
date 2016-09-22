@@ -88,6 +88,18 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestLabel()
+        {
+            var rule = SharedGrammar.Label;
+
+            Assert.IsTrue(rule.Match("test"));
+            Assert.IsTrue(rule.Match("_test"));
+            Assert.IsTrue(rule.Match("_2test"));
+            Assert.IsFalse(rule.Match("2abd"));
+            Assert.IsFalse(rule.Match("-sdf1"));
+        }
+
+        [Test]
         public void TestLetter()
         {
             var rule = SharedGrammar.Letter;
