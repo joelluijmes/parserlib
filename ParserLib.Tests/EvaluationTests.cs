@@ -13,9 +13,9 @@ namespace ParserLib.Tests
         [Test]
         public void TestAccumulate()
         {
-            var number = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
-            var add = ValueGrammar.Accumulate<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
-            var subtract = ValueGrammar.Accumulate<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
+            var number = Grammar.ConvertToValue("number", int.Parse, Grammar.Digits);
+            var add = Grammar.Accumulate<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
+            var subtract = Grammar.Accumulate<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
 
             Assert.IsTrue(add.ParseTree("5+6").FirstValue<int>() == 11);
             Assert.IsTrue(add.ParseTree("15+6").FirstValue<int>() == 21);
@@ -26,7 +26,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestConstantValueRule()
         {
-            var rule = ValueGrammar.ConvertToValue("number", int.Parse, SharedGrammar.Digits);
+            var rule = Grammar.ConvertToValue("number", int.Parse, Grammar.Digits);
 
             var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;
@@ -51,17 +51,17 @@ namespace ParserLib.Tests
         [Test]
         public void TestEnumValue()
         {
-            var rule = ValueGrammar.MatchEnum<TestEnum, int>("TestEnum");
+            var rule = Grammar.MatchEnum<TestEnum, int>("TestEnum");
             Assert.IsTrue(rule.ParseTree(TestEnum.A.ToString()).FirstValue<int>() == (int) TestEnum.A);
 
-            rule = ValueGrammar.MatchEnum<TestEnum>("TestEnum");
+            rule = Grammar.MatchEnum<TestEnum>("TestEnum");
             Assert.IsTrue(rule.ParseTree(TestEnum.B.ToString()).FirstValue<TestEnum>() == TestEnum.B);
         }
 
         [Test]
         public void TestFirstNodeByName()
         {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
             var parsed = rule.ParseTree("123");
 
             Assert.IsTrue(parsed.FirstNodeByName("number") != null);
@@ -71,7 +71,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestFirstNodeOrDefaultByName()
         {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
             var parsed = rule.ParseTree("123");
 
             Assert.IsTrue(parsed.FirstNodeByNameOrDefault("number") != null);
@@ -103,7 +103,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestFirstValueByName()
         {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
             var parsed = rule.ParseTree("123");
 
             Assert.AreEqual(1, parsed.FirstValueByName<int>("number"));
@@ -125,7 +125,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestFirstValueOrDefaultByName()
         {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
             var parsed = rule.ParseTree("123");
 
             Assert.AreEqual(1, parsed.FirstValueByNameOrDefault<int>("number"));
@@ -148,7 +148,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestProcess()
         {
-            var digits = ValueGrammar.ConvertToValue("digits", int.Parse, SharedGrammar.Digits);
+            var digits = Grammar.ConvertToValue("digits", int.Parse, Grammar.Digits);
             Func<string, int> getValueFromLetters = s =>
             {
                 var chars = s.ToCharArray(); // convert to seperate chars
@@ -156,7 +156,7 @@ namespace ParserLib.Tests
                 return values.Aggregate((a, b) => a + b); // add the values
             };
 
-            var letters = ValueGrammar.ConvertToValue("letters", getValueFromLetters, SharedGrammar.Letters);
+            var letters = Grammar.ConvertToValue("letters", getValueFromLetters, Grammar.Letters);
             var rule = Grammar.OneOrMore(digits | letters);
 
             var result = rule.ParseTree("1").Process<int>((a, b) => a + b);
@@ -169,7 +169,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestTryGetValue()
         {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
             var parsed = rule.ParseTree("123");
 
             int output;
@@ -184,7 +184,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestValueFuncRule()
         {
-            var rule = ValueGrammar.ConstantValue("number", 1, SharedGrammar.Digits);
+            var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
 
             var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;

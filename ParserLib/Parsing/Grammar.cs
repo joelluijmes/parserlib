@@ -6,7 +6,7 @@ using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Parsing
 {
-    public abstract class Grammar
+    public abstract partial class Grammar
     {
         private static readonly Rule _endRule = new EndRule();
         private static readonly Rule _startRule = new StartRule();

@@ -9,7 +9,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestDigit()
         {
-            var rule = SharedGrammar.Digit;
+            var rule = Grammar.Digit;
 
             Assert.IsTrue(rule.Match("1"));
             Assert.IsFalse(rule.Match("a"));
@@ -19,7 +19,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestDigits()
         {
-            var rule = SharedGrammar.Digits;
+            var rule = Grammar.Digits;
 
             Assert.IsTrue(rule.Match("123"));
             Assert.IsFalse(rule.Match("a1"));
@@ -29,7 +29,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestE()
         {
-            var rule = SharedGrammar.E;
+            var rule = Grammar.E;
 
             Assert.IsTrue(rule.Match("e+1"));
             Assert.IsTrue(rule.Match("E+1"));
@@ -39,7 +39,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestExponential()
         {
-            var rule = SharedGrammar.Exponential;
+            var rule = Grammar.Exponential;
 
             Assert.IsTrue(rule.Match("e+10"));
             Assert.IsFalse(rule.Match("e^1"));
@@ -52,7 +52,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestFloat()
         {
-            var rule = SharedGrammar.Float;
+            var rule = Grammar.Float;
 
             Assert.IsFalse(rule.Match("10"));
             Assert.IsFalse(rule.Match("-10"));
@@ -65,7 +65,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestHexadecimal()
         {
-            var rule = SharedGrammar.Hexadecimal;
+            var rule = Grammar.Hexadecimal;
 
             Assert.IsTrue(rule.Match("A"));
             Assert.IsTrue(rule.Match("b"));
@@ -77,7 +77,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestInteger()
         {
-            var rule = SharedGrammar.Integer;
+            var rule = Grammar.Integer;
 
             Assert.IsTrue(rule.Match("10"));
             Assert.IsTrue(rule.Match("-10"));
@@ -90,7 +90,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestLabel()
         {
-            var rule = SharedGrammar.Label;
+            var rule = Grammar.Label;
 
             Assert.IsTrue(rule.Match("test"));
             Assert.IsTrue(rule.Match("_test"));
@@ -102,7 +102,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestLetter()
         {
-            var rule = SharedGrammar.Letter;
+            var rule = Grammar.Letter;
 
             Assert.IsFalse(rule.Match("1"));
             Assert.IsTrue(rule.Match("a"));
@@ -112,7 +112,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestLetters()
         {
-            var rule = SharedGrammar.Letters;
+            var rule = Grammar.Letters;
 
             Assert.IsFalse(rule.Match("123"));
             Assert.IsTrue(rule.Match("aa"));
@@ -123,7 +123,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestWhitespace()
         {
-            var rule = SharedGrammar.Whitespace;
+            var rule = Grammar.Whitespace;
 
             Assert.IsTrue(rule.Match(" "));
             Assert.IsTrue(rule.Match("\r"));
@@ -134,7 +134,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestWord()
         {
-            var rule = SharedGrammar.Word;
+            var rule = Grammar.Word;
 
             Assert.IsTrue(rule.Match("word"));
             Assert.IsFalse(rule.Match("\t"));

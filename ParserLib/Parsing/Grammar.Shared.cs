@@ -2,7 +2,7 @@
 
 namespace ParserLib.Parsing
 {
-    public sealed class SharedGrammar : Grammar
+    public abstract partial class Grammar
     {
         public static readonly Rule Whitespace = Regex("\\s+");
         public static readonly Rule Word = Regex("\\w+");

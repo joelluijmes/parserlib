@@ -21,7 +21,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestConstantValueRule()
         {
-            var rule = new ConstantValueRule<int>("constant", 1, SharedGrammar.Digits);
+            var rule = new ConstantValueRule<int>("constant", 1, Grammar.Digits);
 
             var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;
@@ -163,7 +163,7 @@ namespace ParserLib.Tests
         [Test]
         public void TestValueFuncRule()
         {
-            var rule = new ConvertToValueRule<int>("number", int.Parse, SharedGrammar.Digits);
+            var rule = new ConvertToValueRule<int>("number", int.Parse, Grammar.Digits);
 
             var node = rule.ParseTree("123");
             var valueNode = node as ValueNode<int>;
