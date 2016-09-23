@@ -49,13 +49,10 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestEnumValue()
+        public void TestEnum()
         {
-            var rule = Grammar.MatchEnum<TestEnum, int>("TestEnum");
-            Assert.IsTrue(rule.ParseTree(TestEnum.A.ToString()).FirstValue<int>() == (int) TestEnum.A);
-
-            rule = Grammar.MatchEnum<TestEnum>("TestEnum");
-            Assert.IsTrue(rule.ParseTree(TestEnum.B.ToString()).FirstValue<TestEnum>() == TestEnum.B);
+            var rule = Grammar.EnumValue<TestEnum, int>(Tests.TestEnum.A);
+            Assert.IsTrue(rule.ParseTree(Tests.TestEnum.A.ToString()).FirstValue<int>() == (int) Tests.TestEnum.A);
         }
 
         [Test]
@@ -143,6 +140,16 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode.IsValueNode());
             Assert.IsTrue(valueNode.IsValueNode<int>());
             Assert.IsFalse(valueNode.IsValueNode<float>());
+        }
+
+        [Test]
+        public void TestMatchEnum()
+        {
+            var rule = Grammar.MatchEnum<TestEnum, int>("TestEnum");
+            Assert.IsTrue(rule.ParseTree(Tests.TestEnum.A.ToString()).FirstValue<int>() == (int) Tests.TestEnum.A);
+
+            rule = Grammar.MatchEnum<TestEnum>("TestEnum");
+            Assert.IsTrue(rule.ParseTree(Tests.TestEnum.B.ToString()).FirstValue<TestEnum>() == Tests.TestEnum.B);
         }
 
         [Test]
