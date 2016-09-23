@@ -1,4 +1,5 @@
-﻿using ParserLib.Parsing.Rules;
+﻿using System;
+using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Parsing
 {
@@ -16,6 +17,7 @@ namespace ParserLib.Parsing
         public static readonly Rule Exponential = E + Digits;
         public static readonly Rule Integer = Optional(PlusOrMinus) + Digits + Not(MatchChar('.')) + Optional(Exponential);
         public static readonly Rule Float = Optional(PlusOrMinus) + Digits + MatchChar('.') + Digits + Optional(Exponential);
-        public static readonly Rule Hexadecimal = Digit | Regex("[a-fA-F]");
+        public static readonly Rule Hex = Digit | Regex("[a-fA-F]");
+        public static readonly Rule HexNumber = MatchString("0x", true) + OneOrMore(Hex);
     }
 }

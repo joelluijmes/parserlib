@@ -63,15 +63,28 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestHexadecimal()
+        public void TestHex()
         {
-            var rule = Grammar.Hexadecimal;
+            var rule = Grammar.Hex;
 
             Assert.IsTrue(rule.Match("A"));
             Assert.IsTrue(rule.Match("b"));
             Assert.IsTrue(rule.Match("1"));
             Assert.IsTrue(rule.Match("0"));
             Assert.IsFalse(rule.Match("g"));
+        }
+
+        [Test]
+        public void TestHexNumber()
+        {
+            var rule = Grammar.HexNumber;
+
+            Assert.IsFalse(rule.Match("Ah"));
+            Assert.IsTrue(rule.Match("0xb"));
+            Assert.IsTrue(rule.Match("0x10AB"));
+            Assert.IsTrue(rule.Match("0xDEADBEEF"));
+            Assert.IsFalse(rule.Match("g"));
+            Assert.IsFalse(rule.Match("DEADBEEF"));
         }
 
         [Test]

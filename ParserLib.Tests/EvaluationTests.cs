@@ -189,6 +189,17 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestNumber()
+        {
+            var rule = Grammar.Number("immediate");
+
+            Assert.AreEqual(10, rule.ParseTree("10").FirstValue<int>());
+            Assert.AreEqual(10, rule.ParseTree("0x0A").FirstValue<int>());
+            Assert.AreEqual(0xABC, rule.ParseTree("0xABC").FirstValue<int>());
+            Assert.IsFalse(rule.Match("abc"));
+        }
+
+        [Test]
         public void TestValueFuncRule()
         {
             var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);

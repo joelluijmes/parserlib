@@ -14,6 +14,7 @@ namespace ParserLib.Parsing
         public static Rule Accumulate<T>(string name, Func<T, T, T> accumulator, Rule rule) => new AccumulateRule<T>(name, accumulator, rule);
         public static Rule FirstValue<T>(string name, Rule rule) => new FirstValueRule<T>(name, rule);
         public static Rule Text(string name, Rule rule) => new ConvertToValueRule<string>(name, s => s, rule);
+        public static Rule Number(string name) => FirstValue<int>(name, ConvertToValue("hex", s => Convert.ToInt32(s, 16), HexNumber) | ConvertToValue("dec", int.Parse, Integer));
 
         public static Rule KeyValue<TValue>(KeyValuePair<string, TValue> keyValue) => ConstantValue(keyValue.Key, keyValue.Value, MatchString(keyValue.Key, true));
 
