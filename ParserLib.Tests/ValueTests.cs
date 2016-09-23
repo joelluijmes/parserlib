@@ -8,7 +8,7 @@ using ParserLib.Parsing;
 namespace ParserLib.Tests
 {
     [TestFixture]
-    public sealed class EvaluationTests
+    public sealed class ValueTests
     {
         [Test]
         public void TestAccumulate()
