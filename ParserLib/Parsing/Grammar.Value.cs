@@ -15,8 +15,8 @@ namespace ParserLib.Parsing
         public static Rule FirstValue<T>(string name, Rule rule) => new FirstValueRule<T>(name, rule);
         public static Rule Text(string name, Rule rule) => new ConvertToValueRule<string>(name, s => s, rule);
         public static Rule Int8(string name) => FirstValue<byte>(name, ConvertToValue("hex", s => Convert.ToByte(s, 16), HexNumber) | ConvertToValue("dec", byte.Parse, Integer));
-        public static Rule Int16(string name) => FirstValue<long>(name, ConvertToValue("hex", s => Convert.ToInt16(s, 16), HexNumber) | ConvertToValue("dec", short.Parse, Integer));
-        public static Rule Int32(string name) => FirstValue<long>(name, ConvertToValue("hex", s => Convert.ToInt32(s, 16), HexNumber) | ConvertToValue("dec", int.Parse, Integer));
+        public static Rule Int16(string name) => FirstValue<short>(name, ConvertToValue("hex", s => Convert.ToInt16(s, 16), HexNumber) | ConvertToValue("dec", short.Parse, Integer));
+        public static Rule Int32(string name) => FirstValue<int>(name, ConvertToValue("hex", s => Convert.ToInt32(s, 16), HexNumber) | ConvertToValue("dec", int.Parse, Integer));
         public static Rule Int64(string name) => FirstValue<long>(name, ConvertToValue("hex", s => Convert.ToInt64(s, 16), HexNumber) | ConvertToValue("dec", long.Parse, Integer));
 
         public static Rule KeyValue<TValue>(KeyValuePair<string, TValue> keyValue) => ConstantValue(keyValue.Key, keyValue.Value, MatchString(keyValue.Key, true));
