@@ -21,7 +21,7 @@ namespace ParserLib.Parsing
 
         public static Rule KeyValue<TValue>(KeyValuePair<string, TValue> keyValue) => ConstantValue(keyValue.Key, keyValue.Value, MatchString(keyValue.Key, true));
 
-        public static Rule EnumValue<TEnum, TType>(TEnum type) => ConstantValue(type.ToString(), (TType) (object) type, MatchString(type.ToString(), true));
+        public static Rule EnumValue<TEnum, TType>(TEnum type) => ConstantValue(typeof(TEnum).Name, (TType) (object) type, MatchString(type.ToString(), true));
 
         public static Rule MatchEnum<TEnum>(string name) => MatchEnum<TEnum, TEnum>(name);
 
