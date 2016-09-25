@@ -10,7 +10,7 @@ namespace ParserLib.Evaluation.Rules
         {
         }
 
-        protected override ValueNode<T> CreateValueNode(string name, string input, int begin) => new LazyValueNode<T>(name, input, begin, GetValue);
+        protected override ValueNode<T> CreateValueNode(string name, string input, int begin, Rule matchedRule) => new LazyValueNode<T>(name, input, begin, GetValue, matchedRule);
 
         private T GetValue(ValueNode<T> valueNode)
         {

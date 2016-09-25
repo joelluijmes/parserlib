@@ -12,6 +12,6 @@ namespace ParserLib.Evaluation.Rules
 
         public T Value { get; }
 
-        protected override ValueNode<T> CreateValueNode(string name, string input, int begin) => new ConstantValueNode<T>(name, input, begin, Value);
+        protected override ValueNode<T> CreateValueNode(string name, string input, int begin, Rule matchedRule) => new ConstantValueNode<T>(name, input, begin, Value, matchedRule);
     }
 }

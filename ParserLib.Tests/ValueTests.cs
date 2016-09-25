@@ -37,10 +37,10 @@ namespace ParserLib.Tests
         [Test]
         public void TestContainsValueNode()
         {
-            var node = new Node("", "", 0);
+            var node = new Node("", "", null);
             Assert.IsFalse(node.ContainsValueNode());
 
-            var valueNode = new ConstantValueNode<int>("", "", 0, 0);
+            var valueNode = new ConstantValueNode<int>("", "", 0, 0, null);
             node.ChildLeafs.Add(valueNode);
 
             Assert.IsTrue(node.ContainsValueNode());
@@ -78,8 +78,8 @@ namespace ParserLib.Tests
         [Test]
         public void TestFirstOrDefaultValue()
         {
-            var node = new Node("", "", 0);
-            var valueNode = new ConstantValueNode<int>("", "", 0, 100);
+            var node = new Node("", "", null);
+            var valueNode = new ConstantValueNode<int>("", "", 0, 100, null);
             node.ChildLeafs.Add(valueNode);
 
             Assert.IsTrue(node.FirstValueOrDefault<int>() == 100);
@@ -89,8 +89,8 @@ namespace ParserLib.Tests
         [Test]
         public void TestFirstValue()
         {
-            var node = new Node("", "", 0);
-            var valueNode = new ConstantValueNode<int>("", "", 0, 100);
+            var node = new Node("", "", null);
+            var valueNode = new ConstantValueNode<int>("", "", 0, 100, null);
             node.ChildLeafs.Add(valueNode);
 
             Assert.IsTrue(node.FirstValue<int>() == 100);
@@ -111,8 +111,8 @@ namespace ParserLib.Tests
         [Test]
         public void TestFirstValueNode()
         {
-            var node = new Node("", "", 0);
-            var valueNode = new ConstantValueNode<int>("", "", 0, 0);
+            var node = new Node("", "", null);
+            var valueNode = new ConstantValueNode<int>("", "", 0, 0, null);
             node.ChildLeafs.Add(valueNode);
 
             Assert.IsTrue(node.FirstValueNodeOrDefault<int>() != null);
@@ -133,10 +133,10 @@ namespace ParserLib.Tests
         [Test]
         public void TestIsValueNode()
         {
-            var node = new Node("", "", 0);
+            var node = new Node("", "", null);
             Assert.IsFalse(node.IsValueNode());
 
-            var valueNode = new ConstantValueNode<int>("", "", 0, 0);
+            var valueNode = new ConstantValueNode<int>("", "", 0, 0, null);
             Assert.IsTrue(valueNode.IsValueNode());
             Assert.IsTrue(valueNode.IsValueNode<int>());
             Assert.IsFalse(valueNode.IsValueNode<float>());

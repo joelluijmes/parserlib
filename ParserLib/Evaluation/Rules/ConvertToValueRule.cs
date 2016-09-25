@@ -19,6 +19,6 @@ namespace ParserLib.Evaluation.Rules
 
         public Func<Node, T> Converter { get; }
 
-        protected override ValueNode<T> CreateValueNode(string name, string input, int begin) => new ConvertToValueNode<T>(name, input, begin, Converter);
+        protected override ValueNode<T> CreateValueNode(string name, string input, int begin, Rule matchedRule) => new ConvertToValueNode<T>(name, input, begin, Converter, matchedRule);
     }
 }

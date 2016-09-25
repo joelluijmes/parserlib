@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Parsing
 {
     public class Node
     {
-        public Node(string name, string input, int begin)
+        public Node(string name, string input, Rule matchedRule) : this(name, input, input.Length, matchedRule)
+        { 
+        }
+
+        public Node(string name, string input, int begin, Rule matchedRule)
         {
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
@@ -19,6 +24,7 @@ namespace ParserLib.Parsing
             Name = name;
             Input = input;
             Begin = begin;
+            MatchedRule = matchedRule;
             End = input.Length;
             ChildLeafs = new List<Node>();
         }
@@ -33,6 +39,7 @@ namespace ParserLib.Parsing
         public IList<Node> Leafs => new ReadOnlyCollection<Node>(ChildLeafs);
         public string Text => Input.Substring(Begin, Length);
         public bool IsLeaf => !ChildLeafs.Any();
+        public Rule MatchedRule { get; }
         public override string ToString() => $"{Name}: {Text}";
     }
 }

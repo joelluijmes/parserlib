@@ -52,9 +52,10 @@ namespace ParserLib.Parsing.Rules
             if (!MatchImpl(state))
                 throw new ParserException($"'{this}' Failed to match '{state.Input}'");
 
-            return state.Nodes.Count == 1 // return the first Leaf if there is only one result 
-                ? state.Nodes.First()
-                : new Node(ToString(), input, 0) {ChildLeafs = state.Nodes}; // otherwise wrap it in a new node :)
+            if (state.Nodes.Count == 1)
+                return state.Nodes.First();
+
+            return new Node(ToString(), input, this) {ChildLeafs = state.Nodes};
         }
 
         public override string ToString() => Name ?? Definition;

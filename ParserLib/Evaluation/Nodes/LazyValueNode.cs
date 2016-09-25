@@ -1,4 +1,5 @@
 ﻿using System;
+using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Evaluation.Nodes
 {
@@ -8,7 +9,7 @@ namespace ParserLib.Evaluation.Nodes
         private T _value;
         private bool _valueSet;
 
-        public LazyValueNode(string name, string input, int begin, Func<ValueNode<T>, T> valueFunc) : base(name, input, begin)
+        public LazyValueNode(string name, string input, int begin, Func<ValueNode<T>, T> valueFunc, Rule matchedRule) : base(name, input, begin, matchedRule)
         {
             _valueFunc = valueFunc;
         }
