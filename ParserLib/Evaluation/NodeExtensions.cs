@@ -17,7 +17,7 @@ namespace ParserLib.Evaluation
             if (node.TryGetValue(out value))
                 return accumulator(current, value);
 
-            foreach (var leaf in node.Leafs)
+            foreach (var leaf in node.ChildLeafs)
                 current = accumulator(current, ProcessImpl(leaf, accumulator, current));
 
             return current;
@@ -102,7 +102,7 @@ namespace ParserLib.Evaluation
             if (predicate(branch))
                 yield return branch;
 
-            foreach (var leaf in branch.Leafs)
+            foreach (var leaf in branch.ChildLeafs)
                 foreach (var subLeaf in leaf.WhereLeafs(predicate))
                     yield return subLeaf;
         }

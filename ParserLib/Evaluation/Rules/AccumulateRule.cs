@@ -20,7 +20,7 @@ namespace ParserLib.Evaluation.Rules
         {
             // Get all ValueNode<T> in the leafs :)
             // we can't use OfType because we want also the nested leafs
-            var valueLeafs = valueNode.Leafs.SelectMany(leaf => leaf.WhereLeafs(NodeExtensions.IsValueNode<T>)).Cast<ValueNode<T>>();
+            var valueLeafs = valueNode.ChildLeafs.SelectMany(leaf => leaf.WhereLeafs(NodeExtensions.IsValueNode<T>)).Cast<ValueNode<T>>();
 
             var current = default(T);
             var first = true;

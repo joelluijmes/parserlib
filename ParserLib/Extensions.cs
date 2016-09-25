@@ -9,7 +9,7 @@ namespace ParserLib
     {
         public static string PrettyFormat(this Rule rule) => Util.PrettyFormat(rule, r => r.GetChildren());
 
-        public static string PrettyFormat(this Node node) => Util.PrettyFormat(node, n => n.Leafs);
+        public static string PrettyFormat(this Node node) => Util.PrettyFormat(node, n => n.ChildLeafs);
 
         public static IEnumerable<string> PrettyFormat(this IEnumerable<Node> nodes) => nodes.Select(PrettyFormat);
     }

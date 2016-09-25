@@ -54,7 +54,7 @@ namespace ParserLib.Parsing.Rules
 
             return state.Nodes.Count == 1 // return the first Leaf if there is only one result 
                 ? state.Nodes.First()
-                : new Node(ToString(), input, 0) {Leafs = state.Nodes}; // otherwise wrap it in a new node :)
+                : new Node(ToString(), input, 0) {ChildLeafs = state.Nodes}; // otherwise wrap it in a new node :)
         }
 
         public override string ToString() => Name ?? Definition;

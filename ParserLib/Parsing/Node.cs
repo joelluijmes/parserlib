@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ParserLib.Parsing
@@ -19,21 +20,19 @@ namespace ParserLib.Parsing
             Input = input;
             Begin = begin;
             End = input.Length;
-            Leafs = new List<Node>();
+            ChildLeafs = new List<Node>();
         }
 
-        public int Begin { get; set; }
-        public IList<Node> Leafs { get; set; }
-        public int End { get; set; }
-        public string Input { get; set; }
+        internal int Begin { get; set; }
+        internal int End { get; set; }
+        internal string Input { get; set; }
+        internal int Length => End > Begin ? End - Begin : 0;
+        internal IList<Node> ChildLeafs { get; set; }
 
         public string Name { get; }
-
-        public int Length => End > Begin ? End - Begin : 0;
+        public IList<Node> Leafs => new ReadOnlyCollection<Node>(ChildLeafs);
         public string Text => Input.Substring(Begin, Length);
-        public bool IsLeaf => !Leafs.Any();
-        public Node FirstLeaf => Leafs.First();
-        public int ChildCount => Leafs.Count;
+        public bool IsLeaf => !ChildLeafs.Any();
         public override string ToString() => $"{Name}: {Text}";
     }
 }

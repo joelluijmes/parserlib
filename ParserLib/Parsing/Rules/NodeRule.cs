@@ -28,7 +28,7 @@ namespace ParserLib.Parsing.Rules
             }
 
             node.End = state.Position;
-            node.Leafs = state.Nodes;
+            node.ChildLeafs = state.Nodes;
 
             oldChilds.Add(node);
             state.Nodes = oldChilds;
