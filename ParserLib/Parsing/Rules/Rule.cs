@@ -6,6 +6,11 @@ namespace ParserLib.Parsing.Rules
 {
     public abstract class Rule
     {
+        private Rule _not;
+        private Rule _oneOrMore;
+        private Rule _optional;
+        private Rule _zeroOrMore;
+
         protected Rule()
         {
             Children = new List<Rule>();
@@ -32,10 +37,10 @@ namespace ParserLib.Parsing.Rules
         public string Name { get; set; }
         public abstract string Definition { get; }
 
-        public Rule Optional => Grammar.Optional(this);
-        public Rule Not => Grammar.Not(this);
-        public Rule OneOrMore => Grammar.OneOrMore(this);
-        public Rule ZeroOrMore => Grammar.ZeroOrMore(this);
+        public Rule Optional => _optional ?? (_optional = Grammar.Optional(this));
+        public Rule Not => _not ?? (_not = Grammar.Not(this));
+        public Rule OneOrMore => _oneOrMore ?? (_oneOrMore = Grammar.OneOrMore(this));
+        public Rule ZeroOrMore => _zeroOrMore ?? (_zeroOrMore = Grammar.ZeroOrMore(this));
 
         public static Rule operator +(Rule r1, Rule r2) => Grammar.Sequence(r1, r2);
         public static Rule operator |(Rule r1, Rule r2) => Grammar.Or(r1, r2);
@@ -74,7 +79,7 @@ namespace ParserLib.Parsing.Rules
                 return true;
 
             var other = obj as Rule;
-            return other != null && Equals(other);
+            return (other != null) && Equals(other);
         }
 
         public override int GetHashCode()
