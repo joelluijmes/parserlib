@@ -60,5 +60,29 @@ namespace ParserLib.Parsing.Rules
 
         public override string ToString() => Name ?? Definition;
         public IEnumerable<Rule> GetChildren() => Children.AsReadOnly();
+
+        protected bool Equals(Rule other)
+        {
+            return Equals(Children, other.Children) && string.Equals(Name, other.Name) && string.Equals(Definition, other.Definition);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+
+            var other = obj as Rule;
+            return other != null && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Children?.GetHashCode() ?? 0)*397) ^ ((Name?.GetHashCode() ?? 0)*23) ^ (Definition?.GetHashCode() ?? 0);
+            }
+        }
     }
 }
