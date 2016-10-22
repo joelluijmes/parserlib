@@ -63,7 +63,7 @@ namespace ParserLib.Parsing.Rules
 
         protected bool Equals(Rule other)
         {
-            return Equals(Children, other.Children) && string.Equals(Name, other.Name) && string.Equals(Definition, other.Definition);
+            return Children.SequenceEqual(other.Children) && string.Equals(Name, other.Name) && string.Equals(Definition, other.Definition);
         }
 
         public override bool Equals(object obj)
