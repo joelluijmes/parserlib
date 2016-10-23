@@ -8,14 +8,16 @@ namespace ParserLib.Parsing
 {
     public class Node
     {
+        public Node(string input, Rule matchedRule) : this(null, input, input.Length, matchedRule)
+        {
+        }
+
         public Node(string name, string input, Rule matchedRule) : this(name, input, input.Length, matchedRule)
         { 
         }
 
         public Node(string name, string input, int begin, Rule matchedRule)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
             if ((begin < 0) || (begin > input.Length))
@@ -40,6 +42,6 @@ namespace ParserLib.Parsing
         public string Text => Input.Substring(Begin, Length);
         public bool IsLeaf => !ChildLeafs.Any();
         public Rule MatchedRule { get; }
-        public override string ToString() => $"{Name}: {Text}";
+        public override string ToString() => $"{Name ?? "anon"}: {Text}";
     }
 }

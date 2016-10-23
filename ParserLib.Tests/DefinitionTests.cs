@@ -25,13 +25,7 @@ namespace ParserLib.Tests
         { // quite useless due FirstChild.Definition
             Assert.AreEqual("$", Grammar.Func(Grammar.End).Definition);
         }
-
-        [Test]
-        public void TestNode()
-        { // quite useless due FirstChild.Definition
-            Assert.AreEqual("$", Grammar.Func(Grammar.End).Definition);
-        }
-
+        
         [Test]
         public void TestNot()
         {

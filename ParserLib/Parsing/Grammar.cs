@@ -11,6 +11,7 @@ namespace ParserLib.Parsing
         private static readonly Rule _endRule = new EndRule();
         private static readonly Rule _startRule = new StartRule();
 
+        public static Rule Node(Rule rule) => new NodeRule(rule);
         public static Rule Node(string name, Rule rule) => new NodeRule(name, rule);
         public static Rule Not(Rule rule) => new NotRule(rule);
         public static Rule Sequence(Rule firstRule, Rule secondRule, params Rule[] moreRules) => new SequenceRule(firstRule, secondRule, moreRules);

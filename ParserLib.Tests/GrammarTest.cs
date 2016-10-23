@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
 
@@ -205,6 +206,17 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
+        }
+
+        [Test]
+        public void TestNode()
+        {
+            var rule = Grammar.Node(Grammar.Digit);
+
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsTrue(rule.Match("2"));
+            Assert.IsFalse(rule.Match("x"));
+            Assert.Throws<ArgumentNullException>(() => Grammar.Node(null));
         }
     }
 }

@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace ParserLib.Parsing.Rules
 {
     public class NodeRule : Rule
     {
+        public NodeRule(Rule rule) : base(rule)
+        {
+        }
+
         public NodeRule(string name, Rule rule) : base(rule)
         {
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
             Name = name;
         }
 

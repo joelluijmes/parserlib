@@ -6,6 +6,10 @@ namespace ParserLib.Evaluation.Rules
 {
     public sealed class FirstValueRule<T> : ValueRule<T>
     {
+        public FirstValueRule(Rule rule) : base(rule)
+        {
+        }
+
         public FirstValueRule(string name, Rule rule) : base(name, rule)
         {
         }

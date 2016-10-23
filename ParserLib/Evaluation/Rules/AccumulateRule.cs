@@ -7,6 +7,11 @@ namespace ParserLib.Evaluation.Rules
 {
     public sealed class AccumulateRule<T> : ValueRule<T>
     {
+        public AccumulateRule(Func<T, T, T> accumulator, Rule rule) : base(rule)
+        {
+            Accumulator = accumulator;
+        }
+
         public AccumulateRule(string name, Func<T, T, T> accumulator, Rule rule) : base(name, rule)
         {
             Accumulator = accumulator;

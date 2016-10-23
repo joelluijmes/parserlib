@@ -6,6 +6,10 @@ namespace ParserLib.Evaluation.Rules
 {
     public abstract class ValueRule<T> : NodeRule
     {
+        protected ValueRule(Rule rule) : base(rule)
+        {
+        }
+
         protected ValueRule(string name, Rule rule) : base(name, rule)
         {
         }

@@ -145,10 +145,10 @@ namespace ParserLib.Tests
         [Test]
         public void TestMatchEnum()
         {
-            var rule = Grammar.MatchEnum<TestEnum, int>("TestEnum");
+            var rule = Grammar.EnumValue<TestEnum, int>("TestEnum");
             Assert.IsTrue(rule.ParseTree(Tests.TestEnum.A.ToString()).FirstValue<int>() == (int) Tests.TestEnum.A);
 
-            rule = Grammar.MatchEnum<TestEnum>("TestEnum");
+            rule = Grammar.EnumValue<TestEnum, TestEnum>("TestEnum");
             Assert.IsTrue(rule.ParseTree(Tests.TestEnum.B.ToString()).FirstValue<TestEnum>() == Tests.TestEnum.B);
         }
 

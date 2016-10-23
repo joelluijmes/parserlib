@@ -5,6 +5,11 @@ namespace ParserLib.Evaluation.Rules
 {
     public sealed class ConstantValueRule<T> : ValueRule<T>
     {
+        public ConstantValueRule(T value, Rule rule) : base(rule)
+        {
+            Value = value;
+        }
+
         public ConstantValueRule(string name, T value, Rule rule) : base(name, rule)
         {
             Value = value;
