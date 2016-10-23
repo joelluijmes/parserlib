@@ -148,8 +148,8 @@ namespace ParserLib.Tests
             var rule = Grammar.EnumValue<TestEnum, int>("TestEnum");
             Assert.IsTrue(rule.ParseTree(Tests.TestEnum.A.ToString()).FirstValue<int>() == (int) Tests.TestEnum.A);
 
-            rule = Grammar.EnumValue<TestEnum, TestEnum>("TestEnum");
-            Assert.IsTrue(rule.ParseTree(Tests.TestEnum.B.ToString()).FirstValue<TestEnum>() == Tests.TestEnum.B);
+            var ruleb = Grammar.EnumValue<TestEnum, TestEnum>("TestEnum");
+            Assert.IsTrue(ruleb.ParseTree(Tests.TestEnum.B.ToString()).FirstValue<TestEnum>() == Tests.TestEnum.B);
         }
 
         [Test]
