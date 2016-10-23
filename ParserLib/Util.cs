@@ -15,6 +15,17 @@ namespace ParserLib
         public static T[] MergeArray<T>(T first, T second, params T[] others) =>
             new[] {first, second}.Concat(others).ToArray();
 
+        internal static bool IsDerivedFrom(Type type, Type target)
+        {
+            if (target == null)
+                return false;
+
+            if ((type == target) || (target.IsGenericType && (type == target.GetGenericTypeDefinition())))
+                return true;
+
+            return IsDerivedFrom(type, target.BaseType);
+        }
+
         public static string PrettyFormat<T>(T obj, Func<T, IEnumerable<T>> childNodesFunc) where T : class
         {
             lock (_recursiveProcessed)

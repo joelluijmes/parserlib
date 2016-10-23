@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Evaluation\RuleExtensions.cs" />
     <Compile Include="Evaluation\NodeExtensions.cs" />
     <Compile Include="Evaluation\Nodes\LazyValueNode.cs" />
     <Compile Include="Evaluation\Rules\FirstValueRule.cs" />

@@ -92,10 +92,10 @@ namespace ParserLib.Evaluation
             root.FirstValueNodeOrDefault<T>() != null;
 
         public static bool IsValueNode(this Node node) =>
-            IsDerivedFrom(typeof(ValueNode<>), node.GetType());
+            Util.IsDerivedFrom(typeof(ValueNode<>), node.GetType());
 
         public static bool IsValueNode<T>(this Node node) =>
-            IsDerivedFrom(typeof(ValueNode<T>), node.GetType());
+            Util.IsDerivedFrom(typeof(ValueNode<T>), node.GetType());
 
         public static IEnumerable<Node> WhereLeafs(this Node branch, Predicate<Node> predicate)
         {
@@ -105,17 +105,6 @@ namespace ParserLib.Evaluation
             foreach (var leaf in branch.ChildLeafs)
                 foreach (var subLeaf in leaf.WhereLeafs(predicate))
                     yield return subLeaf;
-        }
-
-        private static bool IsDerivedFrom(Type type, Type target)
-        {
-            if (target == null)
-                return false;
-
-            if ((type == target) || (target.IsGenericType && (type == target.GetGenericTypeDefinition())))
-                return true;
-
-            return IsDerivedFrom(type, target.BaseType);
         }
     }
 }
