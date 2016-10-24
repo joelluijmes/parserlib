@@ -32,7 +32,7 @@ namespace ParserLib.Parsing
 		public static Rule MatchString(string pattern, bool ignoreCase = false) => new StringRule(pattern, ignoreCase);
 		public static Rule MatchAnyString(string input, bool ignoreCase = false) => MatchAnyString(input.Split(' '), ignoreCase);
 		public static Rule MatchAnyString(string[] inputs, bool ignoreCase = false) => Or(inputs.Select(s => MatchString(s, ignoreCase)));
-		public static Rule MatchWhile(Rule rule) => OneOrMore(rule + MatchAnyChar());
+		public static Rule MatchWhile(Rule rule) => OneOrMore(End().Not + rule);
 		public static Rule MatchEnum<TEnum>() => MatchAnyString(Enum.GetNames(typeof(TEnum)));
 
 		public static Rule MatchChar(char c, bool ignoreCase = false)
