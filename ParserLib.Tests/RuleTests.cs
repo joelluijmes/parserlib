@@ -33,10 +33,10 @@ namespace ParserLib.Tests
         [Test]
         public void TestEndRule()
         {
-            var rule = new EndRule();
+            var rule = new StringRule("test") + new EndRule();
 
-            Assert.IsTrue(rule.Match(""));
-            Assert.IsFalse(rule.Match("something"));
+            Assert.IsTrue(rule.Match("test"));
+            Assert.IsFalse(rule.Match("tes"));
         }
 
         [Test]

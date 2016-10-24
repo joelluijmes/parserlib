@@ -32,7 +32,6 @@ namespace ParserLib.Tests
 			rule = Grammar.MatchAnyChar();
 			Assert.IsTrue(rule.Match("a"));
 			Assert.IsTrue(rule.Match("x"));
-			Assert.Throws<ParserException>(() => rule.Match(""));
 		}
 
 		[Test]
@@ -78,9 +77,9 @@ namespace ParserLib.Tests
 		[Test]
 		public void TestEndRule()
 		{
-			var rule = Grammar.End();
+			var rule = Grammar.MatchString("str") + Grammar.End();
 
-			Assert.IsTrue(rule.Match(""));
+			Assert.IsTrue(rule.Match("str"));
 			Assert.IsFalse(rule.Match("something"));
 		}
 

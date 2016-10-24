@@ -21,7 +21,9 @@ namespace ParserLib.Parsing.Rules
 
         protected internal override bool MatchImpl(ParserState state)
         {
-            if (state.Position >= state.Input.Length)
+	        if (state.Position == state.Input.Length)
+		        return false;	// end of input
+			if (state.Position > state.Input.Length)
 	            throw new ParserException(new InvalidOperationException("Position is longer than input string (end of string has been reached)"));
 
             var result = CharPredicate(state.Input[state.Position]);
