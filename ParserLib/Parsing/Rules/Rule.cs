@@ -46,9 +46,17 @@ namespace ParserLib.Parsing.Rules
         public static Rule operator |(Rule r1, Rule r2) => Grammar.Or(r1, r2);
         protected internal abstract bool MatchImpl(ParserState state);
 
-        public bool Match(string input) => MatchImpl(new ParserState(input));
+        public bool Match(string input)
+	    {
+		    if (input == null)
+			    throw new ArgumentNullException(nameof(input));
+			if (input == string.Empty)
+				throw new ArgumentException("Input should have content", nameof(input));
 
-        public Node ParseTree(string input)
+		    return MatchImpl(new ParserState(input));
+	    }
+
+	    public Node ParseTree(string input)
         {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
