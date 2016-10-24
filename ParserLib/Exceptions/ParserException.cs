@@ -4,11 +4,15 @@ namespace ParserLib
 {
     public sealed class ParserException : Exception
     {
-        public ParserException()
-        {
-        }
+		public ParserException()
+		{
+		}
 
-        public ParserException(string message) : base(message)
+		public ParserException(Exception innerException) : base(innerException.Message, innerException)
+		{
+		}
+
+		public ParserException(string message) : base(message)
         {
         }
 

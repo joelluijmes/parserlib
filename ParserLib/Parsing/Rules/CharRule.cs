@@ -22,7 +22,7 @@ namespace ParserLib.Parsing.Rules
         protected internal override bool MatchImpl(ParserState state)
         {
             if (state.Position >= state.Input.Length)
-                return false;
+	            throw new ParserException(new InvalidOperationException("Position is longer than input string (end of string has been reached)"));
 
             var result = CharPredicate(state.Input[state.Position]);
             if (result)
