@@ -14,57 +14,69 @@ namespace ParserLib.Evaluation
             => rule.ParseTree(input).Process(accumulator);
 
         public static bool TryGetValue<T>(this Rule rule, string input, out T value)
-            => rule.ParseTree(input).TryGetValue(out value);
+	    {
+		    if (rule.Match(input))
+				return rule.ParseTree(input).TryGetValue(out value);
 
-        public static bool TryGetValue<T>(this ValueRule<T> rule, string input, out T value)
-            => rule.ParseTree(input).TryGetValue(out value);
+		    value = default(T);
+		    return false;
+	    }
 
-        public static T FirstValue<T>(this Rule rule, string input)
+	    public static bool TryGetValue<T>(this ValueRule<T> rule, string input, out T value)
+	    {
+			if (rule.Match(input))
+				return rule.ParseTree(input).TryGetValue(out value);
+
+			value = default(T);
+			return false;
+		}
+
+	    public static T FirstValue<T>(this Rule rule, string input)
             => rule.ParseTree(input).FirstValue<T>();
 
         public static T FirstValue<T>(this ValueRule<T> rule, string input)
             => rule.ParseTree(input).FirstValue<T>();
 
-        public static T FirstValueOrDefault<T>(this Rule rule, string input)
-            => rule.ParseTree(input).FirstValueOrDefault<T>();
+        public static T FirstValueOrDefault<T>(this Rule rule, string input) 
+			=> rule.Match(input) ? rule.ParseTree(input).FirstValueOrDefault<T>() : default(T);
 
-        public static T FirstValueOrDefault<T>(this ValueRule<T> rule, string input)
-            => rule.ParseTree(input).FirstValueOrDefault<T>();
+	    public static T FirstValueOrDefault<T>(this ValueRule<T> rule, string input)
+            => rule.Match(input) ? rule.ParseTree(input).FirstValueOrDefault<T>() : default(T);
 
-        public static T FirstValueByName<T>(this Rule rule, string input, string name)
+		public static T FirstValueByName<T>(this Rule rule, string input, string name)
             => rule.ParseTree(input).FirstValueByName<T>(name);
 
         public static T FirstValueByName<T>(this ValueRule<T> rule, string input, string name)
             => rule.ParseTree(input).FirstValueByName<T>(name);
 
         public static T FirstValueByNameOrDefault<T>(this Rule rule, string input, string name)
-            => rule.ParseTree(input).FirstValueByNameOrDefault<T>(name);
+            => rule.Match(input) ? rule.ParseTree(input).FirstValueByNameOrDefault<T>(name) : default(T);
 
-        public static T FirstValueByNameOrDefault<T>(this ValueRule<T> rule, string input, string name)
-            => rule.ParseTree(input).FirstValueByNameOrDefault<T>(name);
+		public static T FirstValueByNameOrDefault<T>(this ValueRule<T> rule, string input, string name)
+			=> rule.Match(input) ? rule.ParseTree(input).FirstValueByNameOrDefault<T>(name) : default(T);
 
-        public static ValueNode<T> FirstValueNode<T>(this Rule rule, string input)
+		public static ValueNode<T> FirstValueNode<T>(this Rule rule, string input)
             => rule.ParseTree(input).FirstValueNode<T>();
 
         public static ValueNode<T> FirstValueNode<T>(this ValueRule<T> rule, string input)
             => rule.ParseTree(input).FirstValueNode<T>();
 
         public static ValueNode<T> FirstValueNodeOrDefault<T>(this Rule rule, string input)
-            => rule.ParseTree(input).FirstValueNodeOrDefault<T>();
+			=> rule.Match(input) ? rule.ParseTree(input).FirstValueNodeOrDefault<T>() : default(ValueNode<T>);
 
-        public static ValueNode<T> FirstValueNodeOrDefault<T>(this ValueRule<T> rule, string input)
-            => rule.ParseTree(input).FirstValueNodeOrDefault<T>();
+		public static ValueNode<T> FirstValueNodeOrDefault<T>(this ValueRule<T> rule, string input)
+			=> rule.Match(input) ? rule.ParseTree(input).FirstValueNodeOrDefault<T>() : default(ValueNode<T>);
 
-        public static bool ContainsValueNode(this Rule rule, string input)
-            => rule.ParseTree(input).ContainsValueNode();
+		public static bool ContainsValueNode(this Rule rule, string input)
+			=> rule.Match(input) && rule.ParseTree(input).ContainsValueNode();
 
         public static bool ContainsValueNode<T>(this Rule rule, string input)
-            => rule.ParseTree(input).ContainsValueNode<T>();
+			=> rule.Match(input) && rule.ParseTree(input).ContainsValueNode<T>();
 
-        public static bool ContainsValueNode<T>(this ValueRule<T> rule, string input)
-            => rule.ParseTree(input).ContainsValueNode<T>();
+		public static bool ContainsValueNode<T>(this ValueRule<T> rule, string input)
+			=> rule.Match(input) && rule.ParseTree(input).ContainsValueNode<T>();
 
-        public static bool IsValueRule(this Rule rule, string input)
+		public static bool IsValueRule(this Rule rule, string input)
             => Util.IsDerivedFrom(typeof(ValueRule<>), rule.GetType());
 
         public static bool IsValueRule<T>(this Rule rule, string input)
