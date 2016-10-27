@@ -17,22 +17,36 @@ namespace ParserLib.Parsing.Rules
 
         protected internal override bool MatchImpl(ParserState state)
         {
-            var node = CreateNode(Name, state.Input, state.Position, this);
+	        Node node;
+			if (state.TryGetCache(this, out node))
+	        {
+		        if (node == null)
+			        return false;
+
+		        state.Position = node.End;
+				state.Nodes.Add(node);
+		        return true;
+	        }
+
+            node = CreateNode(Name, state.Input, state.Position, this);
             var oldChilds = state.Nodes;
             state.Nodes = new List<Node>();
 
-            if (!FirstChild.MatchImpl(state))
+	        var oldPosition = state.Position;
+            if (FirstChild.MatchImpl(state))
             {
-                state.Nodes = oldChilds;
-                return false;
-            }
+				node.End = state.Position;
+				node.ChildLeafs = state.Nodes;
 
-            node.End = state.Position;
-            node.ChildLeafs = state.Nodes;
+				oldChilds.Add(node);
+				state.Nodes = oldChilds;
+				state.StoreCache(this, oldPosition, node);
+				return true;
+			}
 
-            oldChilds.Add(node);
-            state.Nodes = oldChilds;
-            return true;
+			state.Nodes = oldChilds;
+			state.StoreCache(this, oldPosition, null);
+			return false;
         }
 
         protected virtual Node CreateNode(string name, string input, int begin, Rule matchedRule) => new Node(name, input, begin, matchedRule);
