@@ -58,7 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ParserLib\ParserLib.csproj">
-      <Project>{8C081559-7803-41AA-9BAA-ACE147E7A4CC}</Project>
+      <Project>{8c081559-7803-41aa-9baa-ace147e7a4cc}</Project>
       <Name>ParserLib</Name>
     </ProjectReference>
   </ItemGroup>
