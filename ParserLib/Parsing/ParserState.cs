@@ -6,12 +6,20 @@ using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Parsing
 {
+    /// <summary>
+    /// Model for holding state of parsing. This class cannot be inherited.
+    /// </summary>
     [DebuggerStepThrough]
     public sealed class ParserState
     {
-		private readonly Dictionary<int, Dictionary<Rule, Node>> _cache = new Dictionary<int, Dictionary<Rule, Node>>();
+        private Dictionary<int, Dictionary<Rule, Node>> _cache = new Dictionary<int, Dictionary<Rule, Node>>();
 
-		public ParserState(string input)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParserState"/> class.
+        /// </summary>
+        /// <param name="input">The input which is parsed.</param>
+        /// <exception cref="System.ArgumentNullException">input</exception>
+        public ParserState(string input)
         {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
@@ -21,16 +29,40 @@ namespace ParserLib.Parsing
             Nodes = new List<Node>();
         }
 
+        /// <summary>
+        /// Gets the input.
+        /// </summary>
+        /// <value>The input.</value>
         public string Input { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the current position of parsing.
+        /// </summary>
+        /// <value>The position.</value>
         public int Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nodes.
+        /// </summary>
+        /// <value>The nodes.</value>
         public IList<Node> Nodes { get; set; }
 
+        /// <summary>
+        /// Clones this instance.
+        /// </summary>
+        /// <returns>ParserState.</returns>
         public ParserState Clone() => new ParserState(Input)
         {
             Position = Position,
-            Nodes = Nodes.ToList()
+            Nodes = Nodes.ToList(),
+            _cache = _cache
         };
 
+        /// <summary>
+        /// Assigns the specified state.
+        /// </summary>
+        /// <param name="state">The state.</param>
+        /// <exception cref="System.ArgumentNullException">state</exception>
         public void Assign(ParserState state)
         {
             if (state == null)
@@ -41,7 +73,13 @@ namespace ParserLib.Parsing
             Nodes = state.Nodes.ToList();
         }
 
-		public void StoreCache(Rule rule, int pos, Node node)
+        /// <summary>
+        /// Caches the rule with position and found node.
+        /// </summary>
+        /// <param name="rule">The rule.</param>
+        /// <param name="pos">The position.</param>
+        /// <param name="node">The node.</param>
+        public void StoreCache(Rule rule, int pos, Node node)
 		{
 			if (!_cache.ContainsKey(pos))
 				_cache.Add(pos, new Dictionary<Rule, Node>());
@@ -51,7 +89,13 @@ namespace ParserLib.Parsing
 				tmp.Add(rule, node);
 		}
 
-		public bool TryGetCache(NodeRule rule, out Node node)
+        /// <summary>
+        /// Tries to get result from cache.
+        /// </summary>
+        /// <param name="rule">The rule.</param>
+        /// <param name="node">The node.</param>
+        /// <returns><c>true</c> if the rule was cached, <c>false</c> otherwise.</returns>
+        public bool TryGetCache(NodeRule rule, out Node node)
 		{
 			node = null;
 			if (!_cache.ContainsKey(Position))

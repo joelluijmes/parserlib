@@ -56,7 +56,7 @@ namespace ParserLib.Tests
 			var or = Grammar.Node("or", Grammar.MatchAnyString("| or"));
 			var op = add | sub | and | or;
 
-			var ruleFixed = Grammar.Binary(left, op, right, true);
+			var ruleFixed = Grammar.Binary(left, op, right, false);
 			Assert.IsTrue(ruleFixed.Match("k+2"));
 			Assert.IsFalse(ruleFixed.Match("2+k"));
 

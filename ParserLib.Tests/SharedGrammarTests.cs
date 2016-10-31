@@ -79,7 +79,7 @@ namespace ParserLib.Tests
         {
             var rule = Grammar.HexNumber;
 
-            Assert.IsFalse(rule.Match("Ah"));
+            Assert.IsTrue(rule.Match("Ah"));
             Assert.IsTrue(rule.Match("0xb"));
             Assert.IsTrue(rule.Match("0x10AB"));
             Assert.IsTrue(rule.Match("0xDEADBEEF"));

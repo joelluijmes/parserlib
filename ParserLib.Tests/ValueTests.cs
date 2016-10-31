@@ -3,6 +3,7 @@ using System.Linq;
 using NUnit.Framework;
 using ParserLib.Evaluation;
 using ParserLib.Evaluation.Nodes;
+using ParserLib.Exceptions;
 using ParserLib.Parsing;
 
 namespace ParserLib.Tests
@@ -193,8 +194,9 @@ namespace ParserLib.Tests
         {
             var rule = Grammar.Int32("immediate");
 
-            Assert.AreEqual(10, rule.ParseTree("10").FirstValue<int>());
-            Assert.AreEqual(10, rule.ParseTree("0x0A").FirstValue<int>());
+			Assert.AreEqual(10, rule.ParseTree("10").FirstValue<int>());
+			Assert.AreEqual(16, rule.ParseTree("0x10").FirstValue<int>());
+			Assert.AreEqual(10, rule.ParseTree("0x0A").FirstValue<int>());
             Assert.AreEqual(0xABC, rule.ParseTree("0xABC").FirstValue<int>());
             Assert.IsFalse(rule.Match("abc"));
         }
