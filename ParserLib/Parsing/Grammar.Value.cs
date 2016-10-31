@@ -108,46 +108,46 @@ namespace ParserLib.Parsing
         /// Converts the matched string (in hex or decimal) to a byte.
         /// </summary>
         /// <returns>ValueRule&lt;System.Byte&gt;.</returns>
-        public static ValueRule<byte> Int8() => FirstValue<byte>(ConvertToValue("hex", s => Convert.ToByte(s, 16), HexNumber) | ConvertToValue("dec", byte.Parse, Integer));
+        public static ValueRule<byte> Int8() => FirstValue<byte>(ConvertToValue("hex", HexConverterByte, HexNumber) | ConvertToValue("dec", byte.Parse, Integer));
         /// <summary>
         /// Converts the matched string (in hex or decimal) to a byte.
         /// </summary>
         /// <param name="name">The name given to the rule and node.</param>
         /// <returns>ValueRule&lt;System.Byte&gt;.</returns>
-        public static ValueRule<byte> Int8(string name) => FirstValue<byte>(name, ConvertToValue("hex", s => Convert.ToByte(s, 16), HexNumber) | ConvertToValue("dec", byte.Parse, Integer));
+        public static ValueRule<byte> Int8(string name) => FirstValue<byte>(name, ConvertToValue("hex", HexConverterByte, HexNumber) | ConvertToValue("dec", byte.Parse, Integer));
         /// <summary>
         /// Converts the matched string (in hex or decimal) to a short.
         /// </summary>
         /// <returns>ValueRule&lt;System.Int16&gt;.</returns>
-        public static ValueRule<short> Int16() => FirstValue<short>(ConvertToValue("hex", s => Convert.ToInt16(s, 16), HexNumber) | ConvertToValue("dec", short.Parse, Integer));
+        public static ValueRule<short> Int16() => FirstValue<short>(ConvertToValue("hex", HexConverterShort, HexNumber) | ConvertToValue("dec", short.Parse, Integer));
         /// <summary>
         /// Converts the matched string (in hex or decimal) to a short.
         /// </summary>
         /// <param name="name">The name given to the rule and node.</param>
         /// <returns>ValueRule&lt;System.Int16&gt;.</returns>
-        public static ValueRule<short> Int16(string name) => FirstValue<short>(name, ConvertToValue("hex", s => Convert.ToInt16(s, 16), HexNumber) | ConvertToValue("dec", short.Parse, Integer));
+        public static ValueRule<short> Int16(string name) => FirstValue<short>(name, ConvertToValue("hex", HexConverterShort, HexNumber) | ConvertToValue("dec", short.Parse, Integer));
         /// <summary>
         /// Converts the matched string (in hex or decimal) to a int.
         /// </summary>
         /// <returns>ValueRule&lt;System.Int32&gt;.</returns>
-        public static ValueRule<int> Int32() => FirstValue<int>(ConvertToValue("hex", s => Convert.ToInt32(s, 16), HexNumber) | ConvertToValue("dec", int.Parse, Integer));
+        public static ValueRule<int> Int32() => FirstValue<int>(ConvertToValue("hex", HexConverterInt, HexNumber) | ConvertToValue("dec", int.Parse, Integer));
         /// <summary>
         /// Converts the matched string (in hex or decimal) to a int.
         /// </summary>
         /// <param name="name">The name given to the rule and node.</param>
         /// <returns>ValueRule&lt;System.Int32&gt;.</returns>
-        public static ValueRule<int> Int32(string name) => FirstValue<int>(name, ConvertToValue("hex", s => Convert.ToInt32(s, 16), HexNumber) | ConvertToValue("dec", int.Parse, Integer));
+        public static ValueRule<int> Int32(string name) => FirstValue<int>(name, ConvertToValue("hex", HexConverterInt, HexNumber) | ConvertToValue("dec", int.Parse, Integer));
         /// <summary>
         /// Converts the matched string (in hex or decimal) to a long.
         /// </summary>
         /// <returns>ValueRule&lt;System.Int64&gt;.</returns>
-        public static ValueRule<long> Int64() => FirstValue<long>(ConvertToValue("hex", s => Convert.ToInt64(s, 16), HexNumber) | ConvertToValue("dec", long.Parse, Integer));
+        public static ValueRule<long> Int64() => FirstValue<long>(ConvertToValue("hex", HexConverterLong, HexNumber) | ConvertToValue("dec", long.Parse, Integer));
         /// <summary>
         /// Converts the matched string (in hex or decimal) to a long.
         /// </summary>
         /// <param name="name">The name given to the rule and node.</param>
         /// <returns>ValueRule&lt;System.Int64&gt;.</returns>
-        public static ValueRule<long> Int64(string name) => FirstValue<long>(name, ConvertToValue("hex", s => Convert.ToInt64(s, 16), HexNumber) | ConvertToValue("dec", long.Parse, Integer));
+        public static ValueRule<long> Int64(string name) => FirstValue<long>(name, ConvertToValue("hex", HexConverterLong, HexNumber) | ConvertToValue("dec", long.Parse, Integer));
         /// <summary>
         /// Convert a specific key to value. Useful for enums for example.
         /// </summary>
@@ -199,5 +199,29 @@ namespace ParserLib.Parsing
 
             return names.Select(n => new KeyValuePair<string, TType>(n, getValueFunc(n)));
         }
-    }
+
+		private static byte HexConverterByte(string matched)
+		{
+			matched = matched.Trim('h');
+			return Convert.ToByte(matched, 16);
+		}
+
+		private static short HexConverterShort(string matched)
+		{
+			matched = matched.Trim('h');
+			return Convert.ToInt16(matched, 16);
+		}
+
+		private static int HexConverterInt(string matched)
+		{
+			matched = matched.Trim('h');
+			return Convert.ToInt32(matched, 16);
+		}
+
+		private static long HexConverterLong(string matched)
+		{
+			matched = matched.Trim('h');
+			return Convert.ToInt64(matched, 16);
+		}
+	}
 }

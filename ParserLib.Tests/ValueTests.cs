@@ -195,6 +195,7 @@ namespace ParserLib.Tests
             var rule = Grammar.Int32("immediate");
 
 			Assert.AreEqual(10, rule.ParseTree("10").FirstValue<int>());
+			Assert.AreEqual(0x10, rule.ParseTree("10h").FirstValue<int>());
 			Assert.AreEqual(16, rule.ParseTree("0x10").FirstValue<int>());
 			Assert.AreEqual(10, rule.ParseTree("0x0A").FirstValue<int>());
             Assert.AreEqual(0xABC, rule.ParseTree("0xABC").FirstValue<int>());

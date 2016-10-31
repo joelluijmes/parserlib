@@ -57,8 +57,8 @@ namespace ParserLib.Parsing
         /// </summary>
         public static readonly Rule Hex = Digit | Regex("[a-fA-F]");
         /// <summary>
-        /// Matches hexadecimal number (prepended by 0x
+        /// Matches hexadecimal number (prepended by 0x or followed 'h')
         /// </summary>
-        public static readonly Rule HexNumber = MatchString("0x", true) + OneOrMore(Hex);
+        public static readonly Rule HexNumber = (MatchString("0x", true) + OneOrMore(Hex)) | (OneOrMore(Hex) + MatchChar('h'));
     }
 }
