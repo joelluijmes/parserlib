@@ -12,5 +12,6 @@
   <files>
     <file src="bin\Debug\ParserLib.dll" target="lib\ParserLib.dll" />
     <file src="bin\Debug\ParserLib.pdb" target="lib\ParserLib.pdb" />
+    <file src="bin\Debug\ParserLib.xml" target="lib\ParserLib.xml" />
   </files>
 </package>
