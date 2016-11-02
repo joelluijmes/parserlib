@@ -212,5 +212,16 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 1);
         }
+
+        [Test]
+        public void TestRangeRule()
+        {
+            var rule = Grammar.Range(0, 10, Grammar.Int32());
+
+            Assert.AreEqual(0, rule.FirstValue("0"));
+            Assert.AreEqual(5, rule.FirstValue("5"));
+            Assert.AreEqual(10, rule.FirstValue("10"));
+            Assert.Throws<EvaluatorException>(() => rule.FirstValue("11"));
+        }
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="Evaluation\Nodes\LazyValueNode.cs" />
     <Compile Include="Evaluation\Rules\FirstValueRule.cs" />
     <Compile Include="Evaluation\Rules\AccumulateRule.cs" />
+    <Compile Include="Evaluation\Rules\RangeValueRule.cs" />
     <Compile Include="Exceptions\EvaluatorException.cs" />
     <Compile Include="Parsing\Grammar.Value.cs" />
     <Compile Include="Evaluation\Nodes\ConstantValueNode.cs" />

@@ -2,6 +2,9 @@
 
 namespace ParserLib.Parsing
 {
+    /// <summary>
+    ///     Provides base class for collection of rules
+    /// </summary>
     public abstract partial class Grammar
     {
         /// <summary>
