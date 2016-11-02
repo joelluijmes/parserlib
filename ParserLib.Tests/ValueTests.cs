@@ -154,6 +154,19 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestNumber()
+        {
+            var rule = Grammar.Int32("immediate");
+
+            Assert.AreEqual(10, rule.ParseTree("10").FirstValue<int>());
+            Assert.AreEqual(0x10, rule.ParseTree("10h").FirstValue<int>());
+            Assert.AreEqual(16, rule.ParseTree("0x10").FirstValue<int>());
+            Assert.AreEqual(10, rule.ParseTree("0x0A").FirstValue<int>());
+            Assert.AreEqual(0xABC, rule.ParseTree("0xABC").FirstValue<int>());
+            Assert.IsFalse(rule.Match("abc"));
+        }
+
+        [Test]
         public void TestProcess()
         {
             var digits = Grammar.ConvertToValue("digits", int.Parse, Grammar.Digits);
@@ -175,6 +188,17 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestRangeRule()
+        {
+            var rule = Grammar.Range(0, 10, Grammar.Int32());
+
+            Assert.AreEqual(0, rule.FirstValue("0"));
+            Assert.AreEqual(5, rule.FirstValue("5"));
+            Assert.AreEqual(10, rule.FirstValue("10"));
+            Assert.Throws<EvaluatorException>(() => rule.FirstValue("11"));
+        }
+
+        [Test]
         public void TestTryGetValue()
         {
             var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
@@ -190,19 +214,6 @@ namespace ParserLib.Tests
         }
 
         [Test]
-        public void TestNumber()
-        {
-            var rule = Grammar.Int32("immediate");
-
-			Assert.AreEqual(10, rule.ParseTree("10").FirstValue<int>());
-			Assert.AreEqual(0x10, rule.ParseTree("10h").FirstValue<int>());
-			Assert.AreEqual(16, rule.ParseTree("0x10").FirstValue<int>());
-			Assert.AreEqual(10, rule.ParseTree("0x0A").FirstValue<int>());
-            Assert.AreEqual(0xABC, rule.ParseTree("0xABC").FirstValue<int>());
-            Assert.IsFalse(rule.Match("abc"));
-        }
-
-        [Test]
         public void TestValueFuncRule()
         {
             var rule = Grammar.ConstantValue("number", 1, Grammar.Digits);
@@ -211,17 +222,6 @@ namespace ParserLib.Tests
             var valueNode = node as ValueNode<int>;
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 1);
-        }
-
-        [Test]
-        public void TestRangeRule()
-        {
-            var rule = Grammar.Range(0, 10, Grammar.Int32());
-
-            Assert.AreEqual(0, rule.FirstValue("0"));
-            Assert.AreEqual(5, rule.FirstValue("5"));
-            Assert.AreEqual(10, rule.FirstValue("10"));
-            Assert.Throws<EvaluatorException>(() => rule.FirstValue("11"));
         }
     }
 }

@@ -40,6 +40,17 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestNodeRule()
+        {
+            var rule = new NodeRule(Grammar.Digit);
+
+            Assert.IsTrue(rule.Match("1"));
+            Assert.IsTrue(rule.Match("2"));
+            Assert.IsFalse(rule.Match("x"));
+            Assert.Throws<ArgumentNullException>(() => new NodeRule(null));
+        }
+
+        [Test]
         public void TestOneOrMoreRule()
         {
             var rule = new OneOrMoreRule(new StringRule("test "));
@@ -179,17 +190,6 @@ namespace ParserLib.Tests
 
             Assert.IsTrue(rule.Match("something"));
             Assert.IsTrue(rule.Match("test test something"));
-        }
-
-        [Test]
-        public void TestNodeRule()
-        {
-            var rule = new NodeRule(Grammar.Digit);
-
-            Assert.IsTrue(rule.Match("1"));
-            Assert.IsTrue(rule.Match("2"));
-            Assert.IsFalse(rule.Match("x"));
-            Assert.Throws<ArgumentNullException>(() => new NodeRule(null));
         }
     }
 }
