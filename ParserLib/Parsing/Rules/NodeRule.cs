@@ -39,36 +39,22 @@ namespace ParserLib.Parsing.Rules
         /// <returns><c>true</c> if input is matched, <c>false</c> otherwise.</returns>
         protected internal override bool MatchImpl(ParserState state)
         {
-            Node node;
-            if (state.TryGetCache(this, out node))
-            {
-                if (node == null)
-                    return false;
-
-                state.Position = node.End;
-                state.Nodes.Add(node);
-                return true;
-            }
-
-            node = CreateNode(Name, state.Input, state.Position, this);
+            var node = CreateNode(Name, state.Input, state.Position, this);
             var oldChilds = state.Nodes;
             state.Nodes = new List<Node>();
 
-            var oldPosition = state.Position;
-            if (FirstChild.MatchImpl(state))
+            if (!FirstChild.MatchImpl(state))
             {
-                node.End = state.Position;
-                node.ChildLeafs = state.Nodes;
-
-                oldChilds.Add(node);
                 state.Nodes = oldChilds;
-                state.StoreCache(this, oldPosition, node);
-                return true;
+                return false;
             }
 
+            node.End = state.Position;
+            node.ChildLeafs = state.Nodes;
+
+            oldChilds.Add(node);
             state.Nodes = oldChilds;
-            state.StoreCache(this, oldPosition, null);
-            return false;
+            return true;
         }
 
         /// <summary>
