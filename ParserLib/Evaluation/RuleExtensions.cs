@@ -224,9 +224,8 @@ namespace ParserLib.Evaluation
         ///     Determines whether rule is ValueRule in matched tree.
         /// </summary>
         /// <param name="rule">The rule.</param>
-        /// <param name="input">The input.</param>
         /// <returns><c>true</c> if rule is ValueRule in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool IsValueRule(this Rule rule, string input)
+        public static bool IsValueRule(this Rule rule)
             => Util.IsDerivedFrom(typeof(ValueRule<>), rule.GetType());
 
         /// <summary>
@@ -234,9 +233,8 @@ namespace ParserLib.Evaluation
         /// </summary>
         /// <typeparam name="T">Strong type of the value.</typeparam>
         /// <param name="rule">The rule.</param>
-        /// <param name="input">The input.</param>
         /// <returns><c>true</c> if rule is ValueRule in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool IsValueRule<T>(this Rule rule, string input)
+        public static bool IsValueRule<T>(this Rule rule)
             => Util.IsDerivedFrom(typeof(ValueRule<T>), rule.GetType());
 
         /// <summary>
@@ -244,9 +242,8 @@ namespace ParserLib.Evaluation
         /// </summary>
         /// <typeparam name="T">Strong type of the value.</typeparam>
         /// <param name="rule">The rule.</param>
-        /// <param name="input">The input.</param>
         /// <returns><c>true</c> if rule is ValueRule in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool IsValueRule<T>(this ValueRule<T> rule, string input)
+        public static bool IsValueRule<T>(this ValueRule<T> rule)
             => Util.IsDerivedFrom(typeof(ValueRule<T>), rule.GetType());
 
         /// <summary>
