@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ParserLib.Evaluation.Nodes;
 using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing.Rules;
@@ -247,5 +248,21 @@ namespace ParserLib.Evaluation
         /// <returns><c>true</c> if rule is ValueRule in matched tree; otherwise, <c>false</c>.</returns>
         public static bool IsValueRule<T>(this ValueRule<T> rule, string input)
             => Util.IsDerivedFrom(typeof(ValueRule<T>), rule.GetType());
+
+        /// <summary>
+        ///     Wheres the leafs matches a predicate.
+        /// </summary>
+        /// <param name="rule">The rule.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns>IEnumerable&lt;Node&gt;.</returns>
+        public static IEnumerable<Rule> WhereLeafs(this Rule rule, Predicate<Rule> predicate)
+        {
+            if (predicate(rule))
+                yield return rule;
+
+            foreach (var leaf in rule.GetChildren())
+                foreach (var subLeaf in leaf.WhereLeafs(predicate))
+                    yield return subLeaf;
+        }
     }
 }
