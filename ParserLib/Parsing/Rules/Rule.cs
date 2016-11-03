@@ -126,13 +126,10 @@ namespace ParserLib.Parsing.Rules
         /// <param name="input">The input.</param>
         /// <returns><c>true</c> if input is matched, <c>false</c> otherwise.</returns>
         /// <exception cref="System.ArgumentNullException">input</exception>
-        /// <exception cref="System.ArgumentException">Input should have content - input</exception>
         public bool Match(string input)
         {
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
-            if (input == string.Empty)
-                throw new ArgumentException("Input should have content", nameof(input));
 
             return MatchImpl(new ParserState(input));
         }
