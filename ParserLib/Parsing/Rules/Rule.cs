@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using ParserLib.Exceptions;
@@ -10,6 +11,9 @@ namespace ParserLib.Parsing.Rules
     /// </summary>
     public abstract class Rule
     {
+        private readonly IDictionary<string, ParserState> _cache = new ConcurrentDictionary<string, ParserState>();
+        private readonly object _lock = new object();
+
         private Rule _not;
         private Rule _oneOrMore;
         private Rule _optional;
@@ -131,7 +135,21 @@ namespace ParserLib.Parsing.Rules
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
 
-            return MatchImpl(new ParserState(input));
+            ParserState state;
+            if (_cache.TryGetValue(input, out state))
+                return state != null;
+
+            lock (_lock)
+            {
+                state = new ParserState(input);
+
+                var result = MatchImpl(state);
+                if (!result)
+                    state = null;
+
+                _cache[input] = state;
+                return result;
+            }
         }
 
         /// <summary>
@@ -146,14 +164,40 @@ namespace ParserLib.Parsing.Rules
             if (input == null)
                 throw new ArgumentNullException(nameof(input));
 
-            var state = new ParserState(input);
-            if (!MatchImpl(state))
-                throw new ParserException($"'{this}' Failed to match '{state.Input}'");
+            ParserState state;
+            if (_cache.TryGetValue(input, out state))
+            {
+                if (state == null)
+                    throw new ParserException($"'{this}' Failed to match '{input}'");
 
-            if (state.Nodes.Count == 1)
-                return state.Nodes.First();
+                return state.Nodes.Count == 1
+                    ? state.Nodes.First()
+                    : new Node(ToString(), input, this) { ChildLeafs = state.Nodes };
+            }
 
-            return new Node(ToString(), input, this) {ChildLeafs = state.Nodes};
+            lock (_lock)
+            {
+                if (_cache.TryGetValue(input, out state))
+                {
+                    if (state == null)
+                        throw new ParserException($"'{this}' Failed to match '{input}'");
+
+                    return state.Nodes.Count == 1
+                        ? state.Nodes.First()
+                        : new Node(ToString(), input, this) {ChildLeafs = state.Nodes};
+                }
+
+                state = new ParserState(input);
+
+                var result = MatchImpl(state);
+                if (!result)
+                    throw new ParserException($"'{this}' Failed to match '{state.Input}'");
+
+                _cache[input] = state;
+                return state.Nodes.Count == 1
+                    ? state.Nodes.First()
+                    : new Node(ToString(), input, this) {ChildLeafs = state.Nodes};
+            }
         }
 
         /// <summary>
