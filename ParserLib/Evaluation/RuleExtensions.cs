@@ -274,10 +274,10 @@ namespace ParserLib.Evaluation
         /// <returns>IEnumerable&lt;Rule&gt;.</returns>
         public static IEnumerable<Rule> Descendents(this Rule rule, Predicate<Rule> predicate)
         {
-            var leafs = new Stack<Rule>(rule.GetLeafs());
+            var leafs = new Queue<Rule>(rule.GetLeafs());
             while (leafs.Any())
             {
-                var leaf = leafs.Pop();
+                var leaf = leafs.Dequeue();
                 if (predicate(leaf))
                 {
                     yield return leaf;
@@ -285,7 +285,7 @@ namespace ParserLib.Evaluation
                 }
 
                 foreach (var l in leaf.GetLeafs())
-                    leafs.Push(l);
+                    leafs.Enqueue(l);
             }
         }
 

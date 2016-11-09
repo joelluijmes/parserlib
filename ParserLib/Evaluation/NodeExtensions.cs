@@ -206,15 +206,15 @@ namespace ParserLib.Evaluation
         /// <returns>IEnumerable&lt;Node&gt;.</returns>
         public static IEnumerable<Node> Descendents(this Node branch, Predicate<Node> predicate)
         {
-            var leafs = new Stack<Node>(branch.Leafs);
+            var leafs = new Queue<Node>(branch.Leafs);
             while (leafs.Any())
             {
-                var leaf = leafs.Pop();
+                var leaf = leafs.Dequeue();
                 if (predicate(leaf))
                     yield return leaf;
 
                 foreach (var l in leaf.Leafs)
-                    leafs.Push(l);
+                    leafs.Enqueue(l);
             }
         }
         
