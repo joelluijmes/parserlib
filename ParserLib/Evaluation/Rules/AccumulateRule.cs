@@ -58,7 +58,7 @@ namespace ParserLib.Evaluation.Rules
             var set = new List<ValueNode<T>>();
             var valueLeafs = valueNode.Descendents(node =>
             {
-                if (set.Any(cached => cached.AsEnumerable().Any(c => c == node)))
+                if (set.Any(cached => cached.Descendents(c => c == node).Any()))
                     return false;
 
                 set.Add(node);

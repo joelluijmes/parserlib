@@ -22,6 +22,20 @@ namespace ParserLib.Tests
             Assert.AreEqual(21, add.ParseTree("15+6").FirstValue<int>());
             Assert.AreEqual(-1, subtract.ParseTree("5-6").FirstValue<int>());
             Assert.AreEqual(9, subtract.ParseTree("15-6").FirstValue<int>());
+
+            var convertRule = Grammar.ConvertToValue("convert", int.Parse, Grammar.Digit);
+            var rule = 
+                Grammar.Node("node",
+                    Grammar.Accumulate<int>("accumulate", (a, b) => a + b,
+                        Grammar.FirstValue<int>("fv_conv",
+                            convertRule)));
+            
+            Assert.AreEqual(2, rule.FirstValue<int>("2"));
+
+            rule =
+                Grammar.Accumulate<int>("accumulate", (a, b) => a + b,
+                    convertRule + Grammar.MatchChar('+') + convertRule);
+            Assert.AreEqual(4, rule.FirstValue<int>("2+2"));
         }
 
         [Test]
@@ -222,19 +236,6 @@ namespace ParserLib.Tests
             var valueNode = node as ValueNode<int>;
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 1);
-        }
-
-        [Test]
-        public void TestAccumulation()
-        {
-            var rule = //Grammar.Node(Grammar.ConvertToValue("convert", int.Parse, Grammar.Digits));
-            Grammar.Node("node",
-                Grammar.Accumulate<int>("accumulate", (a, b) => a + b,
-                    Grammar.FirstValue<int>("fv_conv",
-                        Grammar.ConvertToValue("convert", int.Parse, Grammar.Digits))));
-
-            var n = rule.FirstValue<int>("2");
-            Assert.AreEqual(2, n);
         }
     }
 }
