@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ParserLib.Evaluation.Nodes;
 using ParserLib.Exceptions;
@@ -54,7 +55,19 @@ namespace ParserLib.Evaluation.Rules
         {
             // Get all ValueNode<T> in the leafs :)
             // we can't use OfType because we want also the nested leafs
-            var valueLeafs = valueNode.Descendents(NodeExtensions.IsValueNode<T>).Cast<ValueNode<T>>();
+            var set = new List<ValueNode<T>>();
+            var valueLeafs = valueNode.Descendents(node =>
+            {
+                if (!node.IsValueNode<T>())
+                    return false;
+
+                var strongNode = (ValueNode<T>) node;
+                if (set.Any(cached => cached.AsEnumerable().Any(c => c == strongNode)))
+                    return false;
+
+                set.Add(strongNode);
+                return true;
+            }).Cast<ValueNode<T>>();
 
             var current = default(T);
             var first = true;

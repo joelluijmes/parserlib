@@ -18,10 +18,10 @@ namespace ParserLib.Tests
             var add = Grammar.Accumulate<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
             var subtract = Grammar.Accumulate<int>("sub", (left, right) => left - right, number + Grammar.MatchChar('-') + number);
 
-            Assert.IsTrue(add.ParseTree("5+6").FirstValue<int>() == 11);
-            Assert.IsTrue(add.ParseTree("15+6").FirstValue<int>() == 21);
-            Assert.IsTrue(subtract.ParseTree("5-6").FirstValue<int>() == -1);
-            Assert.IsTrue(subtract.ParseTree("15-6").FirstValue<int>() == 9);
+            Assert.AreEqual(11, add.ParseTree("5+6").FirstValue<int>());
+            Assert.AreEqual(21, add.ParseTree("15+6").FirstValue<int>());
+            Assert.AreEqual(-1, subtract.ParseTree("5-6").FirstValue<int>());
+            Assert.AreEqual(9, subtract.ParseTree("15-6").FirstValue<int>());
         }
 
         [Test]
