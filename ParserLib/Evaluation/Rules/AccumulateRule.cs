@@ -58,16 +58,12 @@ namespace ParserLib.Evaluation.Rules
             var set = new List<ValueNode<T>>();
             var valueLeafs = valueNode.Descendents(node =>
             {
-                if (!node.IsValueNode<T>())
+                if (set.Any(cached => cached.AsEnumerable().Any(c => c == node)))
                     return false;
 
-                var strongNode = (ValueNode<T>) node;
-                if (set.Any(cached => cached.AsEnumerable().Any(c => c == strongNode)))
-                    return false;
-
-                set.Add(strongNode);
+                set.Add(node);
                 return true;
-            }).Cast<ValueNode<T>>();
+            });
 
             var current = default(T);
             var first = true;

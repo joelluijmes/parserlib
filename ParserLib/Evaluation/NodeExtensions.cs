@@ -199,6 +199,15 @@ namespace ParserLib.Evaluation
             branch.Descendents(node => true);
 
         /// <summary>
+        ///     Return all strong value nodes descendents.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="branch">The branch.</param>
+        /// <returns></returns>
+        public static IEnumerable<ValueNode<T>> Descendents<T>(this ValueNode<T> branch) =>
+            branch.Descendents(node => true);
+
+        /// <summary>
         ///     Return all descendents where the predicate returns true.
         /// </summary>
         /// <param name="branch">The branch.</param>
@@ -217,7 +226,34 @@ namespace ParserLib.Evaluation
                     leafs.Enqueue(l);
             }
         }
-        
+
+        /// <summary>
+        ///     Return all strong value nodes descendents where the predicate returns true. Note that it already
+        ///     checks for IsValueNode&lt;T&gt;()
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="branch">The branch.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <returns></returns>
+        public static IEnumerable<ValueNode<T>> Descendents<T>(this ValueNode<T> branch, Predicate<ValueNode<T>> predicate)
+        {
+            var leafs = new Queue<Node>(branch.Leafs);
+            while (leafs.Any())
+            {
+                var leaf = leafs.Dequeue();
+                if (leaf.IsValueNode<T>())
+                {
+                    var strongLeaf = (ValueNode<T>) leaf;
+
+                    if (predicate(strongLeaf))
+                        yield return strongLeaf;
+                }
+
+                foreach (var l in leaf.Leafs)
+                    leafs.Enqueue(l);
+            }
+        }
+
         /// <summary>
         ///     Return enumerable of rule, basically returns the current rule and all descendents.
         /// </summary>

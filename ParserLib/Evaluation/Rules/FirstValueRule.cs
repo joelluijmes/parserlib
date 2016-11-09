@@ -41,7 +41,7 @@ namespace ParserLib.Evaluation.Rules
         private static T GetValue(ValueNode<T> valueNode)
         {
             // Get all ValueNode<T> in the leafs :)
-            var valueLeafs = valueNode.Descendents(NodeExtensions.IsValueNode<T>).Cast<ValueNode<T>>();
+            var valueLeafs = valueNode.Descendents();
             return valueLeafs.First().Value;
         }
     }
