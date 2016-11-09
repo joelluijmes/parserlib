@@ -22,7 +22,7 @@ namespace ParserLib
         /// </summary>
         /// <param name="node">The node.</param>
         /// <returns>System.String.</returns>
-        public static string PrettyFormat(this Node node) => Util.PrettyFormat(node, n => n.ChildLeafs);
+        public static string PrettyFormat(this Node node) => Util.PrettyFormat(node, n => n.Leafs);
 
         /// <summary>
         ///     Makes a nice tree view of the nodes.

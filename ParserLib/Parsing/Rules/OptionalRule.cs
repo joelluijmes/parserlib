@@ -18,7 +18,7 @@
         ///     Gets the definition.
         /// </summary>
         /// <value>The definition.</value>
-        public override string Definition => $"({FirstChild})?";
+        public override string Definition => $"({FirstLeaf})?";
 
         /// <summary>
         ///     Specific rule implementation of the match. Which always return true.
@@ -27,7 +27,7 @@
         /// <returns><c>true</c> if input is matched, <c>false</c> otherwise.</returns>
         protected internal override bool MatchImpl(ParserState state)
         {
-            FirstChild.MatchImpl(state);
+            FirstLeaf.MatchImpl(state);
             return true;
         }
     }

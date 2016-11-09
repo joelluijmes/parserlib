@@ -42,10 +42,10 @@ namespace ParserLib.Parsing.Rules
         /// <returns><c>true</c> if input is matched, <c>false</c> otherwise.</returns>
         protected internal override bool MatchImpl(ParserState state)
         {
-            if (!Children.Any())
-                Children.Add(RuleFunc());
+            if (!Leafs.Any())
+                Leafs.Add(RuleFunc());
 
-            return FirstChild.MatchImpl(state);
+            return FirstLeaf.MatchImpl(state);
         }
 
         /// <summary>

@@ -18,7 +18,7 @@ namespace ParserLib.Parsing.Rules
         public SequenceRule(Rule firstRule, Rule secondRule, params Rule[] rules)
         {
             var allRules = Util.MergeArray(firstRule, secondRule, rules);
-            Children.AddRange(allRules.SelectMany(FlattenRules));
+            Leafs.AddRange(allRules.SelectMany(FlattenRules));
         }
 
         /// <summary>
@@ -27,14 +27,14 @@ namespace ParserLib.Parsing.Rules
         /// <param name="rules">The rules.</param>
         public SequenceRule(IEnumerable<Rule> rules)
         {
-            Children.AddRange(rules.SelectMany(FlattenRules));
+            Leafs.AddRange(rules.SelectMany(FlattenRules));
         }
 
         /// <summary>
         ///     Gets the definition.
         /// </summary>
         /// <value>The definition.</value>
-        public override string Definition => Children.Skip(1).Aggregate(FirstChild.ToString(), (a, b) => $"{a} + {b}");
+        public override string Definition => Leafs.Skip(1).Aggregate(FirstLeaf.ToString(), (a, b) => $"{a} + {b}");
 
         /// <summary>
         ///     Specific rule implementation of the match. Which matches if all rules match.
@@ -44,7 +44,7 @@ namespace ParserLib.Parsing.Rules
         protected internal override bool MatchImpl(ParserState state)
         {
             var oldState = state.Clone();
-            if (Children.All(c => c.MatchImpl(state)))
+            if (Leafs.All(c => c.MatchImpl(state)))
                 return true;
 
             state.Assign(oldState);

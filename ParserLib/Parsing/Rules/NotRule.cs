@@ -18,7 +18,7 @@
         ///     Gets the definition.
         /// </summary>
         /// <value>The definition.</value>
-        public override string Definition => $"Not({FirstChild})";
+        public override string Definition => $"Not({FirstLeaf})";
 
         /// <summary>
         ///     Specific rule implementation of the match. Which inverses the given rule.
@@ -28,7 +28,7 @@
         protected internal override bool MatchImpl(ParserState state)
         {
             var oldState = state.Clone();
-            if (!FirstChild.MatchImpl(state))
+            if (!FirstLeaf.MatchImpl(state))
                 return true;
 
             state.Assign(oldState);

@@ -24,7 +24,7 @@ namespace ParserLib.Parsing.Rules
         /// </summary>
         protected Rule()
         {
-            Children = new List<Rule>();
+            Leafs = new List<Rule>();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace ParserLib.Parsing.Rules
             if (children == null)
                 throw new ArgumentNullException(nameof(children));
 
-            Children = new List<Rule>(children);
+            Leafs = new List<Rule>(children);
         }
 
         /// <summary>
@@ -50,20 +50,20 @@ namespace ParserLib.Parsing.Rules
             if (firstChild == null)
                 throw new ArgumentNullException(nameof(firstChild));
 
-            Children = new List<Rule> {firstChild};
+            Leafs = new List<Rule> {firstChild};
         }
 
         /// <summary>
         ///     Gets the first child.
         /// </summary>
         /// <value>The first child.</value>
-        protected Rule FirstChild => Children.First();
+        protected Rule FirstLeaf => Leafs.First();
 
         /// <summary>
         ///     Gets the children rules.
         /// </summary>
         /// <value>The children.</value>
-        protected List<Rule> Children { get; }
+        protected List<Rule> Leafs { get; }
 
         /// <summary>
         ///     Gets or sets the name of the rule.
@@ -172,7 +172,7 @@ namespace ParserLib.Parsing.Rules
 
                 return state.Nodes.Count == 1
                     ? state.Nodes.First()
-                    : new Node(ToString(), input, this) { ChildLeafs = state.Nodes };
+                    : new Node(ToString(), input, this) { Leafs = state.Nodes };
             }
 
             lock (_lock)
@@ -184,7 +184,7 @@ namespace ParserLib.Parsing.Rules
 
                     return state.Nodes.Count == 1
                         ? state.Nodes.First()
-                        : new Node(ToString(), input, this) {ChildLeafs = state.Nodes};
+                        : new Node(ToString(), input, this) {Leafs = state.Nodes};
                 }
 
                 state = new ParserState(input);
@@ -196,7 +196,7 @@ namespace ParserLib.Parsing.Rules
                 _cache[input] = state;
                 return state.Nodes.Count == 1
                     ? state.Nodes.First()
-                    : new Node(ToString(), input, this) {ChildLeafs = state.Nodes};
+                    : new Node(ToString(), input, this) {Leafs = state.Nodes};
             }
         }
 
@@ -210,7 +210,7 @@ namespace ParserLib.Parsing.Rules
         ///     Gets the children.
         /// </summary>
         /// <returns>IEnumerable&lt;Rule&gt;.</returns>
-        public IEnumerable<Rule> GetChildren() => Children.AsReadOnly();
+        public IEnumerable<Rule> GetChildren() => Leafs.AsReadOnly();
 
         /// <summary>
         ///     Equalses the specified other.
@@ -219,7 +219,7 @@ namespace ParserLib.Parsing.Rules
         /// <returns><c>true</c> if equal, <c>false</c> otherwise.</returns>
         protected bool Equals(Rule other)
         {
-            return Children.SequenceEqual(other.Children) && string.Equals(Name, other.Name) && string.Equals(Definition, other.Definition);
+            return Leafs.SequenceEqual(other.Leafs) && string.Equals(Name, other.Name) && string.Equals(Definition, other.Definition);
         }
 
         /// <summary>
@@ -246,7 +246,7 @@ namespace ParserLib.Parsing.Rules
         {
             unchecked
             {
-                return ((Children?.GetHashCode() ?? 0)*397) ^ ((Name?.GetHashCode() ?? 0)*23) ^ (Definition?.GetHashCode() ?? 0);
+                return ((Leafs?.GetHashCode() ?? 0)*397) ^ ((Name?.GetHashCode() ?? 0)*23) ^ (Definition?.GetHashCode() ?? 0);
             }
         }
     }

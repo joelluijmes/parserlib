@@ -51,7 +51,7 @@ namespace ParserLib.Parsing
             Begin = begin;
             MatchedRule = matchedRule;
             End = input.Length;
-            ChildLeafs = new List<Node>();
+            Leafs = new List<Node>();
         }
 
         /// <summary>
@@ -82,20 +82,14 @@ namespace ParserLib.Parsing
         ///     Gets or sets the child leafs.
         /// </summary>
         /// <value>The child leafs.</value>
-        internal IList<Node> ChildLeafs { get; set; }
+        internal IList<Node> Leafs { get; set; }
 
         /// <summary>
         ///     Gets the name.
         /// </summary>
         /// <value>The name.</value>
         public string Name { get; }
-
-        /// <summary>
-        ///     Gets the leafs in a readonly collection.
-        /// </summary>
-        /// <value>The leafs.</value>
-        public IList<Node> Leafs => new ReadOnlyCollection<Node>(ChildLeafs);
-
+        
         /// <summary>
         ///     Gets the text.
         /// </summary>
@@ -106,7 +100,7 @@ namespace ParserLib.Parsing
         ///     Gets a value indicating whether this instance is leaf.
         /// </summary>
         /// <value><c>true</c> if this instance is leaf; otherwise, <c>false</c>.</value>
-        public bool IsLeaf => !ChildLeafs.Any();
+        public bool IsLeaf => !Leafs.Any();
 
         /// <summary>
         ///     Gets the matched rule.

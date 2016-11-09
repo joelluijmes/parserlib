@@ -18,7 +18,7 @@
         ///     Gets the definition.
         /// </summary>
         /// <value>The definition.</value>
-        public override string Definition => $"({FirstChild.Definition})+";
+        public override string Definition => $"({FirstLeaf.Definition})+";
 
         /// <summary>
         ///     Specific rule implementation of the match. Which matches one or more of the specified rule.
@@ -27,10 +27,10 @@
         /// <returns><c>true</c> if input is matched, <c>false</c> otherwise.</returns>
         protected internal override bool MatchImpl(ParserState state)
         {
-            if (!FirstChild.MatchImpl(state))
+            if (!FirstLeaf.MatchImpl(state))
                 return false;
 
-            while (FirstChild.MatchImpl(state))
+            while (FirstLeaf.MatchImpl(state))
             {
             }
 

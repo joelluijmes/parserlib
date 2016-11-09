@@ -99,7 +99,7 @@ namespace ParserLib.Evaluation.Rules
 
         private T GetValue(ValueNode<T> valueNode)
         {
-            var value = FirstChild.FirstValue<T>(valueNode.Text);
+            var value = FirstLeaf.FirstValue<T>(valueNode.Text);
 
             if ((Comparer.Compare(Minimum, value) > 0) || (Comparer.Compare(Maximum, value) < 0))
                 throw new EvaluatorException($"The value doesn't meet the expected range. Minimum '{Minimum}'. Maximum '{Maximum}'. Actual '{value}'.");

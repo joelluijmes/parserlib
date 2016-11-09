@@ -42,7 +42,7 @@ namespace ParserLib.Tests
             Assert.IsFalse(node.ContainsValueNode());
 
             var valueNode = new ConstantValueNode<int>("", "", 0, 0, null);
-            node.ChildLeafs.Add(valueNode);
+            node.Leafs.Add(valueNode);
 
             Assert.IsTrue(node.ContainsValueNode());
             Assert.IsTrue(node.ContainsValueNode<int>());
@@ -81,7 +81,7 @@ namespace ParserLib.Tests
         {
             var node = new Node("", "", null);
             var valueNode = new ConstantValueNode<int>("", "", 0, 100, null);
-            node.ChildLeafs.Add(valueNode);
+            node.Leafs.Add(valueNode);
 
             Assert.IsTrue(node.FirstValueOrDefault<int>() == 100);
             Assert.IsTrue(node.FirstValueOrDefault<string>() == default(string));
@@ -92,7 +92,7 @@ namespace ParserLib.Tests
         {
             var node = new Node("", "", null);
             var valueNode = new ConstantValueNode<int>("", "", 0, 100, null);
-            node.ChildLeafs.Add(valueNode);
+            node.Leafs.Add(valueNode);
 
             Assert.IsTrue(node.FirstValue<int>() == 100);
             Assert.Throws<EvaluatorException>(() => node.FirstValue<string>());
@@ -114,7 +114,7 @@ namespace ParserLib.Tests
         {
             var node = new Node("", "", null);
             var valueNode = new ConstantValueNode<int>("", "", 0, 0, null);
-            node.ChildLeafs.Add(valueNode);
+            node.Leafs.Add(valueNode);
 
             Assert.IsTrue(node.FirstValueNodeOrDefault<int>() != null);
             Assert.IsTrue(node.FirstValueNodeOrDefault<float>() == null);

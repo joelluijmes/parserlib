@@ -30,7 +30,7 @@ namespace ParserLib.Parsing.Rules
         ///     Gets the definition.
         /// </summary>
         /// <value>The definition.</value>
-        public override string Definition => FirstChild.Definition;
+        public override string Definition => FirstLeaf.Definition;
 
         /// <summary>
         ///     Specific rule implementation of the match. Which caches the result.
@@ -43,14 +43,14 @@ namespace ParserLib.Parsing.Rules
             var oldChilds = state.Nodes;
             state.Nodes = new List<Node>();
 
-            if (!FirstChild.MatchImpl(state))
+            if (!FirstLeaf.MatchImpl(state))
             {
                 state.Nodes = oldChilds;
                 return false;
             }
 
             node.End = state.Position;
-            node.ChildLeafs = state.Nodes;
+            node.Leafs = state.Nodes;
 
             oldChilds.Add(node);
             state.Nodes = oldChilds;
