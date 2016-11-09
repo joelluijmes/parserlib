@@ -109,6 +109,12 @@ namespace ParserLib.Parsing
         public Rule MatchedRule { get; }
 
         /// <summary>
+        ///     Gets the child nodes.
+        /// </summary>
+        /// <returns>IEnumerable&lt;Node&gt;.</returns>
+        public ReadOnlyCollection<Node> GetLeafs() => new ReadOnlyCollection<Node>(Leafs);
+
+        /// <summary>
         ///     Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>

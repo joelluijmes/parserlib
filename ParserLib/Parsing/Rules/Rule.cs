@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using ParserLib.Exceptions;
 
@@ -207,10 +208,10 @@ namespace ParserLib.Parsing.Rules
         public override string ToString() => Name ?? Definition;
 
         /// <summary>
-        ///     Gets the children.
+        ///     Gets the child leafs.
         /// </summary>
         /// <returns>IEnumerable&lt;Rule&gt;.</returns>
-        public IEnumerable<Rule> GetChildren() => Leafs.AsReadOnly();
+        public ReadOnlyCollection<Rule> GetLeafs() => Leafs.AsReadOnly();
 
         /// <summary>
         ///     Equalses the specified other.

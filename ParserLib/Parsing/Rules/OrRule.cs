@@ -61,6 +61,8 @@ namespace ParserLib.Parsing.Rules
         /// <returns>A <see cref="System.String" /> that represents this instance.</returns>
         public override string ToString() => $"({base.ToString()})";
 
-        private static IEnumerable<Rule> FlattenRules(Rule r) => r is OrRule ? r.GetChildren() : new[] {r};
+        private static IEnumerable<Rule> FlattenRules(Rule r) => r is OrRule
+            ? (IEnumerable<Rule>) r.GetLeafs()
+            : new[] {r};
     }
 }
