@@ -56,7 +56,6 @@
     <Compile Include="Exceptions\EvaluatorException.cs" />
     <Compile Include="Parsing\Grammar.Value.cs" />
     <Compile Include="Evaluation\Nodes\ConstantValueNode.cs" />
-    <Compile Include="Evaluation\Nodes\ConvertToValueNode.cs" />
     <Compile Include="Evaluation\Nodes\ValueNode.cs" />
     <Compile Include="Evaluation\Rules\ConstantValueRule.cs" />
     <Compile Include="Evaluation\Rules\ConvertToValueRule.cs" />

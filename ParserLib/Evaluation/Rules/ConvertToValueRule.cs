@@ -68,6 +68,6 @@ namespace ParserLib.Evaluation.Rules
         /// <param name="begin">The begin.</param>
         /// <param name="matchedRule">The matched rule.</param>
         /// <returns>ValueNode&lt;T&gt;.</returns>
-        protected override ValueNode<T> CreateValueNode(string name, string input, int begin, Rule matchedRule) => new ConvertToValueNode<T>(name, input, begin, Converter, matchedRule);
+        protected override ValueNode<T> CreateValueNode(string name, string input, int begin, Rule matchedRule) => new LazyValueNode<T>(name, input, begin, Converter, matchedRule);
     }
 }
