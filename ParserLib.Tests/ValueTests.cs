@@ -223,5 +223,18 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 1);
         }
+
+        [Test]
+        public void TestAccumulation()
+        {
+            var rule = //Grammar.Node(Grammar.ConvertToValue("convert", int.Parse, Grammar.Digits));
+            Grammar.Node("node",
+                Grammar.Accumulate<int>("accumulate", (a, b) => a + b,
+                    Grammar.FirstValue<int>("fv_conv",
+                        Grammar.ConvertToValue("convert", int.Parse, Grammar.Digits))));
+
+            var n = rule.FirstValue<int>("2");
+            Assert.AreEqual(2, n);
+        }
     }
 }

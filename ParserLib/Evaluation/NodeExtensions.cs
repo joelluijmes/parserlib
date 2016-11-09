@@ -93,7 +93,7 @@ namespace ParserLib.Evaluation
         /// <exception cref="ParserLib.Exceptions.EvaluatorException"></exception>
         public static T FirstValueByName<T>(this Node root, string name)
         {
-            var valueNode = (ValueNode<T>) root.WhereLeafs(node => IsValueNode<T>(node) && (node.Name == name)).FirstOrDefault();
+            var valueNode = root.AsEnumerable().FirstOrDefault(node => IsValueNode<T>(node) && (node.Name == name)) as ValueNode<T>;
             if (valueNode == null)
                 throw new EvaluatorException($"ValueNode with name '{name}' not found");
 
@@ -109,7 +109,7 @@ namespace ParserLib.Evaluation
         /// <returns>T.</returns>
         public static T FirstValueByNameOrDefault<T>(this Node root, string name)
         {
-            var valueNode = (ValueNode<T>) root.WhereLeafs(node => IsValueNode<T>(node) && (node.Name == name)).FirstOrDefault();
+            var valueNode = root.AsEnumerable().FirstOrDefault(node => IsValueNode<T>(node) && (node.Name == name)) as ValueNode<T>;
             return valueNode == null ? default(T) : valueNode.Value;
         }
 
@@ -136,7 +136,7 @@ namespace ParserLib.Evaluation
         /// <param name="name">The name.</param>
         /// <returns>Node.</returns>
         public static Node FirstNodeByNameOrDefault(this Node root, string name) =>
-            root.WhereLeafs(node => node.Name == name).FirstOrDefault();
+            root.AsEnumerable().FirstOrDefault(node => node.Name == name);
 
         /// <summary>
         ///     Finds the first value in the tree node.
@@ -145,7 +145,7 @@ namespace ParserLib.Evaluation
         /// <param name="root">The root.</param>
         /// <returns>ValueNode&lt;T&gt;.</returns>
         public static ValueNode<T> FirstValueNode<T>(this Node root) =>
-            (ValueNode<T>) root.WhereLeafs(IsValueNode<T>).First();
+            (ValueNode<T>) root.AsEnumerable().First(IsValueNode<T>);
 
         /// <summary>
         ///     Finds the first value in the tree node or default.
@@ -154,7 +154,7 @@ namespace ParserLib.Evaluation
         /// <param name="root">The root.</param>
         /// <returns>ValueNode&lt;T&gt;.</returns>
         public static ValueNode<T> FirstValueNodeOrDefault<T>(this Node root) =>
-            (ValueNode<T>) root.WhereLeafs(IsValueNode<T>).FirstOrDefault();
+            root.AsEnumerable().FirstOrDefault(IsValueNode<T>) as ValueNode<T>;
 
         /// <summary>
         ///     Determines whether contains value node in tree.
@@ -162,7 +162,7 @@ namespace ParserLib.Evaluation
         /// <param name="root">The root.</param>
         /// <returns><c>true</c> if contains value node in tree; otherwise, <c>false</c>.</returns>
         public static bool ContainsValueNode(this Node root) =>
-            root.WhereLeafs(IsValueNode).FirstOrDefault() != null;
+            root.AsEnumerable().Any(IsValueNode);
 
         /// <summary>
         ///     Determines whether contains value node in tree.
@@ -171,7 +171,7 @@ namespace ParserLib.Evaluation
         /// <param name="root">The root.</param>
         /// <returns><c>true</c> if contains value node in tree; otherwise, <c>false</c>.</returns>
         public static bool ContainsValueNode<T>(this Node root) =>
-            root.FirstValueNodeOrDefault<T>() != null;
+            root.AsEnumerable().Any(IsValueNode<T>);
 
         /// <summary>
         ///     Determines whether Node is ValueNode.
@@ -191,19 +191,44 @@ namespace ParserLib.Evaluation
             Util.IsDerivedFrom(typeof(ValueNode<T>), node.GetType());
 
         /// <summary>
-        ///     Wheres the leafs matches a predicate.
+        ///     Return all descendents.
+        /// </summary>
+        /// <param name="branch">The branch.</param>
+        /// <returns>IEnumerable&lt;Node&gt;.</returns>
+        public static IEnumerable<Node> Descendents(this Node branch) =>
+            branch.Descendents(node => true);
+
+        /// <summary>
+        ///     Return all descendents where the predicate returns true.
         /// </summary>
         /// <param name="branch">The branch.</param>
         /// <param name="predicate">The predicate.</param>
         /// <returns>IEnumerable&lt;Node&gt;.</returns>
-        public static IEnumerable<Node> WhereLeafs(this Node branch, Predicate<Node> predicate)
+        public static IEnumerable<Node> Descendents(this Node branch, Predicate<Node> predicate)
         {
-            if (predicate(branch))
-                yield return branch;
+            var leafs = new Stack<Node>(branch.Leafs);
+            while (leafs.Any())
+            {
+                var leaf = leafs.Pop();
+                if (predicate(leaf))
+                    yield return leaf;
 
-            foreach (var leaf in branch.Leafs)
-                foreach (var subLeaf in leaf.WhereLeafs(predicate))
-                    yield return subLeaf;
+                foreach (var l in leaf.Leafs)
+                    leafs.Push(l);
+            }
+        }
+        
+        /// <summary>
+        ///     Return enumerable of rule, basically returns the current rule and all descendents.
+        /// </summary>
+        /// <param name="branch">The branch.</param>
+        /// <returns>IEnumerable&lt;Node&gt;.</returns>
+        public static IEnumerable<Node> AsEnumerable(this Node branch)
+        {
+            yield return branch;
+
+            foreach (var descendent in branch.Descendents())
+                yield return descendent;
         }
     }
 }

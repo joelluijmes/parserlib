@@ -15,7 +15,7 @@ namespace ParserLib
         /// </summary>
         /// <param name="rule">The rule.</param>
         /// <returns>System.String.</returns>
-        public static string PrettyFormat(this Rule rule) => Util.PrettyFormat(rule, r => r.GetChildren());
+        public static string PrettyFormat(this Rule rule) => Util.PrettyFormat(rule, r => r.GetLeafs());
 
         /// <summary>
         ///     Makes a nice tree view of the node.

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using ParserLib.Evaluation.Nodes;
 using ParserLib.Evaluation.Rules;
+using ParserLib.Parsing;
 using ParserLib.Parsing.Rules;
 
 namespace ParserLib.Evaluation
@@ -19,8 +21,8 @@ namespace ParserLib.Evaluation
         /// <param name="input">The input.</param>
         /// <param name="accumulator">The accumulator.</param>
         /// <returns>T.</returns>
-        public static T Process<T>(this Rule rule, string input, Func<T, T, T> accumulator)
-            => rule.ParseTree(input).Process(accumulator);
+        public static T Process<T>(this Rule rule, string input, Func<T, T, T> accumulator) =>
+             rule.ParseTree(input).Process(accumulator);
 
         /// <summary>
         ///     Processes the specified input using an accumulator.
@@ -30,8 +32,8 @@ namespace ParserLib.Evaluation
         /// <param name="input">The input.</param>
         /// <param name="accumulator">The accumulator.</param>
         /// <returns>T.</returns>
-        public static T Process<T>(this ValueRule<T> rule, string input, Func<T, T, T> accumulator)
-            => rule.ParseTree(input).Process(accumulator);
+        public static T Process<T>(this ValueRule<T> rule, string input, Func<T, T, T> accumulator) =>
+             rule.ParseTree(input).Process(accumulator);
 
         /// <summary>
         ///     Tries the get value.
@@ -74,8 +76,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>T.</returns>
-        public static T FirstValue<T>(this Rule rule, string input)
-            => rule.ParseTree(input).FirstValue<T>();
+        public static T FirstValue<T>(this Rule rule, string input) =>
+             rule.ParseTree(input).FirstValue<T>();
 
         /// <summary>
         ///     Finds the first value in the tree.
@@ -84,8 +86,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>T.</returns>
-        public static T FirstValue<T>(this ValueRule<T> rule, string input)
-            => rule.ParseTree(input).FirstValue<T>();
+        public static T FirstValue<T>(this ValueRule<T> rule, string input) =>
+             rule.ParseTree(input).FirstValue<T>();
 
         /// <summary>
         ///     Finds the first value in the tree or default.
@@ -94,8 +96,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>T.</returns>
-        public static T FirstValueOrDefault<T>(this Rule rule, string input)
-            => rule.Match(input) ? rule.ParseTree(input).FirstValueOrDefault<T>() : default(T);
+        public static T FirstValueOrDefault<T>(this Rule rule, string input) =>
+             rule.Match(input) ? rule.ParseTree(input).FirstValueOrDefault<T>() : default(T);
 
         /// <summary>
         ///     Finds the first value in the tree or default.
@@ -104,8 +106,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>T.</returns>
-        public static T FirstValueOrDefault<T>(this ValueRule<T> rule, string input)
-            => rule.Match(input) ? rule.ParseTree(input).FirstValueOrDefault<T>() : default(T);
+        public static T FirstValueOrDefault<T>(this ValueRule<T> rule, string input) =>
+             rule.Match(input) ? rule.ParseTree(input).FirstValueOrDefault<T>() : default(T);
 
         /// <summary>
         ///     Finds the first value in the tree by the name.
@@ -115,8 +117,8 @@ namespace ParserLib.Evaluation
         /// <param name="input">The input.</param>
         /// <param name="name">The name.</param>
         /// <returns>T.</returns>
-        public static T FirstValueByName<T>(this Rule rule, string input, string name)
-            => rule.ParseTree(input).FirstValueByName<T>(name);
+        public static T FirstValueByName<T>(this Rule rule, string input, string name) =>
+             rule.ParseTree(input).FirstValueByName<T>(name);
 
         /// <summary>
         ///     Finds the first value in the tree by the name.
@@ -126,8 +128,8 @@ namespace ParserLib.Evaluation
         /// <param name="input">The input.</param>
         /// <param name="name">The name.</param>
         /// <returns>T.</returns>
-        public static T FirstValueByName<T>(this ValueRule<T> rule, string input, string name)
-            => rule.ParseTree(input).FirstValueByName<T>(name);
+        public static T FirstValueByName<T>(this ValueRule<T> rule, string input, string name) =>
+             rule.ParseTree(input).FirstValueByName<T>(name);
 
         /// <summary>
         ///     Finds the first value in the tree by name or default.
@@ -137,8 +139,8 @@ namespace ParserLib.Evaluation
         /// <param name="input">The input.</param>
         /// <param name="name">The name.</param>
         /// <returns>T.</returns>
-        public static T FirstValueByNameOrDefault<T>(this Rule rule, string input, string name)
-            => rule.Match(input) ? rule.ParseTree(input).FirstValueByNameOrDefault<T>(name) : default(T);
+        public static T FirstValueByNameOrDefault<T>(this Rule rule, string input, string name) =>
+             rule.Match(input) ? rule.ParseTree(input).FirstValueByNameOrDefault<T>(name) : default(T);
 
         /// <summary>
         ///     Finds the first value in the tree by name or default.
@@ -148,8 +150,8 @@ namespace ParserLib.Evaluation
         /// <param name="input">The input.</param>
         /// <param name="name">The name.</param>
         /// <returns>T.</returns>
-        public static T FirstValueByNameOrDefault<T>(this ValueRule<T> rule, string input, string name)
-            => rule.Match(input) ? rule.ParseTree(input).FirstValueByNameOrDefault<T>(name) : default(T);
+        public static T FirstValueByNameOrDefault<T>(this ValueRule<T> rule, string input, string name) =>
+             rule.Match(input) ? rule.ParseTree(input).FirstValueByNameOrDefault<T>(name) : default(T);
 
         /// <summary>
         ///     Finds the first value node in the tree.
@@ -158,8 +160,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>ValueNode&lt;T&gt;.</returns>
-        public static ValueNode<T> FirstValueNode<T>(this Rule rule, string input)
-            => rule.ParseTree(input).FirstValueNode<T>();
+        public static ValueNode<T> FirstValueNode<T>(this Rule rule, string input) =>
+             rule.ParseTree(input).FirstValueNode<T>();
 
         /// <summary>
         ///     Finds the first value node in the tree.
@@ -168,8 +170,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>ValueNode&lt;T&gt;.</returns>
-        public static ValueNode<T> FirstValueNode<T>(this ValueRule<T> rule, string input)
-            => rule.ParseTree(input).FirstValueNode<T>();
+        public static ValueNode<T> FirstValueNode<T>(this ValueRule<T> rule, string input) =>
+             rule.ParseTree(input).FirstValueNode<T>();
 
         /// <summary>
         ///     Finds the first value node in the tree or default.
@@ -178,8 +180,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>ValueNode&lt;T&gt;.</returns>
-        public static ValueNode<T> FirstValueNodeOrDefault<T>(this Rule rule, string input)
-            => rule.Match(input) ? rule.ParseTree(input).FirstValueNodeOrDefault<T>() : default(ValueNode<T>);
+        public static ValueNode<T> FirstValueNodeOrDefault<T>(this Rule rule, string input) =>
+             rule.Match(input) ? rule.ParseTree(input).FirstValueNodeOrDefault<T>() : default(ValueNode<T>);
 
         /// <summary>
         ///     Finds the first value node in the tree or default.
@@ -188,8 +190,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns>ValueNode&lt;T&gt;.</returns>
-        public static ValueNode<T> FirstValueNodeOrDefault<T>(this ValueRule<T> rule, string input)
-            => rule.Match(input) ? rule.ParseTree(input).FirstValueNodeOrDefault<T>() : default(ValueNode<T>);
+        public static ValueNode<T> FirstValueNodeOrDefault<T>(this ValueRule<T> rule, string input) =>
+             rule.Match(input) ? rule.ParseTree(input).FirstValueNodeOrDefault<T>() : default(ValueNode<T>);
 
         /// <summary>
         ///     Determines whether contains value node in matched tree.
@@ -197,18 +199,8 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns><c>true</c> if contains value node in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool ContainsValueNode(this Rule rule, string input)
-            => rule.Match(input) && rule.ParseTree(input).ContainsValueNode();
-
-        /// <summary>
-        ///     Determines whether contains value node in matched tree.
-        /// </summary>
-        /// <typeparam name="T">Strong type of the value.</typeparam>
-        /// <param name="rule">The rule.</param>
-        /// <param name="input">The input.</param>
-        /// <returns><c>true</c> if contains value node in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool ContainsValueNode<T>(this Rule rule, string input)
-            => rule.Match(input) && rule.ParseTree(input).ContainsValueNode<T>();
+        public static bool ContainsValueNode(this Rule rule, string input) =>
+             rule.Match(input) && rule.ParseTree(input).ContainsValueNode();
 
         /// <summary>
         ///     Determines whether contains value node in matched tree.
@@ -217,16 +209,26 @@ namespace ParserLib.Evaluation
         /// <param name="rule">The rule.</param>
         /// <param name="input">The input.</param>
         /// <returns><c>true</c> if contains value node in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool ContainsValueNode<T>(this ValueRule<T> rule, string input)
-            => rule.Match(input) && rule.ParseTree(input).ContainsValueNode<T>();
+        public static bool ContainsValueNode<T>(this Rule rule, string input) =>
+             rule.Match(input) && rule.ParseTree(input).ContainsValueNode<T>();
+
+        /// <summary>
+        ///     Determines whether contains value node in matched tree.
+        /// </summary>
+        /// <typeparam name="T">Strong type of the value.</typeparam>
+        /// <param name="rule">The rule.</param>
+        /// <param name="input">The input.</param>
+        /// <returns><c>true</c> if contains value node in matched tree; otherwise, <c>false</c>.</returns>
+        public static bool ContainsValueNode<T>(this ValueRule<T> rule, string input) =>
+             rule.Match(input) && rule.ParseTree(input).ContainsValueNode<T>();
 
         /// <summary>
         ///     Determines whether rule is ValueRule in matched tree.
         /// </summary>
         /// <param name="rule">The rule.</param>
         /// <returns><c>true</c> if rule is ValueRule in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool IsValueRule(this Rule rule)
-            => Util.IsDerivedFrom(typeof(ValueRule<>), rule.GetType());
+        public static bool IsValueRule(this Rule rule) =>
+             Util.IsDerivedFrom(typeof(ValueRule<>), rule.GetType());
 
         /// <summary>
         ///     Determines whether rule is ValueRule in matched tree.
@@ -234,8 +236,8 @@ namespace ParserLib.Evaluation
         /// <typeparam name="T">Strong type of the value.</typeparam>
         /// <param name="rule">The rule.</param>
         /// <returns><c>true</c> if rule is ValueRule in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool IsValueRule<T>(this Rule rule)
-            => Util.IsDerivedFrom(typeof(ValueRule<T>), rule.GetType());
+        public static bool IsValueRule<T>(this Rule rule) =>
+             Util.IsDerivedFrom(typeof(ValueRule<T>), rule.GetType());
 
         /// <summary>
         ///     Determines whether rule is ValueRule in matched tree.
@@ -243,23 +245,61 @@ namespace ParserLib.Evaluation
         /// <typeparam name="T">Strong type of the value.</typeparam>
         /// <param name="rule">The rule.</param>
         /// <returns><c>true</c> if rule is ValueRule in matched tree; otherwise, <c>false</c>.</returns>
-        public static bool IsValueRule<T>(this ValueRule<T> rule)
-            => Util.IsDerivedFrom(typeof(ValueRule<T>), rule.GetType());
+        public static bool IsValueRule<T>(this ValueRule<T> rule) =>
+             Util.IsDerivedFrom(typeof(ValueRule<T>), rule.GetType());
 
         /// <summary>
-        ///     Wheres the leafs matches a predicate.
+        ///     Return all descendents.
+        /// </summary>
+        /// <param name="rule">The rule.</param>
+        /// <returns>IEnumerable&lt;Rule&gt;.</returns>
+        public static IEnumerable<Rule> Descendents(this Rule rule)
+        {
+            var leafs = new Stack<Rule>(rule.GetLeafs());
+            while (leafs.Any())
+            {
+                var leaf = leafs.Pop();
+                yield return leaf;
+
+                foreach (var l in leaf.GetLeafs())
+                    leafs.Push(l);
+            }
+        }
+
+        /// <summary>
+        ///     Return all descendents where the predicate returns true.
         /// </summary>
         /// <param name="rule">The rule.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <returns>IEnumerable&lt;Node&gt;.</returns>
-        public static IEnumerable<Rule> WhereLeafs(this Rule rule, Predicate<Rule> predicate)
+        /// <returns>IEnumerable&lt;Rule&gt;.</returns>
+        public static IEnumerable<Rule> Descendents(this Rule rule, Predicate<Rule> predicate)
         {
-            if (predicate(rule))
-                yield return rule;
+            var leafs = new Stack<Rule>(rule.GetLeafs());
+            while (leafs.Any())
+            {
+                var leaf = leafs.Pop();
+                if (predicate(leaf))
+                {
+                    yield return leaf;
+                    yield break;
+                }
 
-            foreach (var leaf in rule.GetChildren())
-                foreach (var subLeaf in leaf.WhereLeafs(predicate))
-                    yield return subLeaf;
+                foreach (var l in leaf.GetLeafs())
+                    leafs.Push(l);
+            }
+        }
+
+        /// <summary>
+        ///     Return enumerable of rule, basically returns the current rule and all descendents.
+        /// </summary>
+        /// <param name="rule">The rule.</param>
+        /// <returns>IEnumerable&lt;Rule&gt;.</returns>
+        public static IEnumerable<Rule> AsEnumerable(this Rule rule)
+        {
+            yield return rule;
+
+            foreach (var descendent in rule.Descendents())
+                yield return descendent;
         }
     }
 }
