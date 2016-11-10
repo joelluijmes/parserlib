@@ -56,6 +56,12 @@ namespace ParserLib.Tests
             Assert.AreEqual("0010", rule.FirstValue("1+1"));
             Assert.AreEqual("0100", rule.FirstValue("3+1"));
             Assert.AreEqual("0001", rule.FirstValue("10+7"));
+
+            rule = Grammar.Binary(4);
+            Assert.AreEqual("1111", rule.FirstValue("-1"));
+            Assert.AreEqual("1110", rule.FirstValue("-2"));
+            Assert.AreEqual("1101", rule.FirstValue("-3"));
+            Assert.AreEqual("0000", rule.FirstValue("-16"));
         }
 
         [Test]

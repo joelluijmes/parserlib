@@ -333,11 +333,11 @@ namespace ParserLib.Parsing
         {
             if (padding == 0)
                 return Convert.ToString(value, 2);
+            
+            var binary = Convert.ToString(value, 2).PadLeft(padding, '0');
+            var len = Math.Min(padding, binary.Length);
 
-            var mask = (int) Math.Pow(2, padding) - 1;
-            value &= mask;
-
-            return Convert.ToString(value, 2).PadLeft(padding, '0');
+            return binary.Substring(binary.Length - len, len);
         }
 
         private static string BinaryConverter(int padding, string str) => BinaryConverter(padding, int.Parse(str));
