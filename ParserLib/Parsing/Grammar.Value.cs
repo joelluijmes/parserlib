@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ParserLib.Evaluation;
 using ParserLib.Evaluation.Rules;
 using ParserLib.Parsing.Rules;
 
@@ -11,6 +12,42 @@ namespace ParserLib.Parsing
     /// </summary>
     public abstract partial class Grammar
     {
+        /// <summary>
+        ///     Converts a matched <see cref="Integer" /> to binary representation with a padding which also truncates the binary
+        ///     string.
+        /// </summary>
+        /// <param name="padding">The padding, if zero returns the binary string without extra padding or truncating.</param>
+        /// <returns>ValueRule&lt;System.String&gt;.</returns>
+        public static ValueRule<string> Binary(int padding = 0) => ConvertToValue(str => BinaryConverter(padding, str), Integer);
+
+        /// <summary>
+        ///     Converts a matched <see cref="Integer" /> to binary representation with a padding which also truncates the binary
+        ///     string.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="padding">The padding, if zero returns the binary string without extra padding or truncating.</param>
+        /// <returns>ValueRule&lt;System.String&gt;.</returns>
+        public static ValueRule<string> Binary(string name, int padding = 0) => ConvertToValue(name, str => BinaryConverter(padding, str), Integer);
+
+        /// <summary>
+        ///     Converts a matched <see cref="ValueRule{T}" /> of <see cref="int" />, to binary representation with a padding which
+        ///     also truncates the binary string.
+        /// </summary>
+        /// <param name="rule">The valuerule</param>
+        /// <param name="padding">The padding, if zero returns the binary string without extra padding or truncating.</param>
+        /// <returns>ValueRule&lt;System.String&gt;.</returns>
+        public static ValueRule<string> ConvertBinary(ValueRule<int> rule, int padding = 0) => ConvertToValue(node => BinaryConverter(padding, node.FirstValue<int>()), rule);
+
+        /// <summary>
+        ///     Converts a matched <see cref="ValueRule{T}" /> of <see cref="int" />, to binary representation with a padding which
+        ///     also truncates the binary string.
+        /// </summary>
+        /// <param name="name">The namae</param>
+        /// <param name="rule">The valuerule</param>
+        /// <param name="padding">The padding, if zero returns the binary string without extra padding or truncating.</param>
+        /// <returns>ValueRule&lt;System.String&gt;.</returns>
+        public static ValueRule<string> ConvertBinary(string name, ValueRule<int> rule, int padding = 0) => ConvertToValue(node => BinaryConverter(padding, node.FirstValue<int>()), rule);
+
         /// <summary>
         ///     Creates a rule that validates a parsed value in a specified range.
         /// </summary>
@@ -291,5 +328,18 @@ namespace ParserLib.Parsing
             matched = matched.Trim('h');
             return Convert.ToInt64(matched, 16);
         }
+
+        private static string BinaryConverter(int padding, int value)
+        {
+            if (padding == 0)
+                return Convert.ToString(value, 2);
+
+            var mask = (int) Math.Pow(2, padding) - 1;
+            value &= mask;
+
+            return Convert.ToString(value, 2).PadLeft(padding, '0');
+        }
+
+        private static string BinaryConverter(int padding, string str) => BinaryConverter(padding, int.Parse(str));
     }
 }

@@ -39,6 +39,26 @@ namespace ParserLib.Tests
         }
 
         [Test]
+        public void TestBinary()
+        {
+            var rule = Grammar.Binary(3);
+            Assert.AreEqual("001", rule.FirstValue("1"));
+            Assert.AreEqual("101", rule.FirstValue("5"));
+            Assert.AreEqual("000", rule.FirstValue("8"));
+
+            var number = Grammar.ConvertToValue("number", int.Parse, Grammar.Digits);
+            var add = Grammar.Accumulate<int>("add", (left, right) => left + right, number + Grammar.MatchChar('+') + number);
+            rule = Grammar.ConvertBinary(add);
+            Assert.AreEqual("10", rule.FirstValue("1+1"));
+            Assert.AreEqual("100", rule.FirstValue("3+1"));
+
+            rule = Grammar.ConvertBinary(add, 4);
+            Assert.AreEqual("0010", rule.FirstValue("1+1"));
+            Assert.AreEqual("0100", rule.FirstValue("3+1"));
+            Assert.AreEqual("0001", rule.FirstValue("10+7"));
+        }
+
+        [Test]
         public void TestConstantValueRule()
         {
             var rule = Grammar.ConvertToValue("number", int.Parse, Grammar.Digits);
