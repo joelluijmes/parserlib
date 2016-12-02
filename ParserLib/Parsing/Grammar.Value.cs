@@ -277,7 +277,7 @@ namespace ParserLib.Parsing
         /// <typeparam name="TEnum">The type of the t enum.</typeparam>
         /// <param name="name">The name given to the rule and node.</param>
         /// <returns>ValueRule&lt;TEnum&gt;.</returns>
-        public static ValueRule<TEnum> EnumValue<TEnum>(string name = null) => EnumValue<TEnum, TEnum>();
+        public static ValueRule<TEnum> EnumValue<TEnum>(string name = null) => EnumValue<TEnum, TEnum>(name);
 
         /// <summary>
         ///     Converts the Enum to value specified in the enum.
