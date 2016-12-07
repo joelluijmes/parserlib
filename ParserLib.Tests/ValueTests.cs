@@ -263,5 +263,15 @@ namespace ParserLib.Tests
             Assert.IsTrue(valueNode != null);
             Assert.IsTrue(valueNode.Value == 1);
         }
+
+        [Test]
+        public void TestDescendents()
+        {
+            var rule = Grammar.FirstValue<int>(Grammar.FirstValue<int>(Grammar.Int32()));
+            var tree = rule.ParseTree("2");
+
+            var i = tree.Descendents(x => x.IsValueNode<int>()).Sum(num => num.FirstValue<int>());
+            Assert.AreEqual(2, i);
+        }
     }
 }

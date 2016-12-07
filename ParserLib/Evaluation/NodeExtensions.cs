@@ -216,11 +216,20 @@ namespace ParserLib.Evaluation
         public static IEnumerable<Node> Descendents(this Node branch, Predicate<Node> predicate)
         {
             var leafs = new Queue<Node>(branch.Leafs);
+            var matched = false;
+
             while (leafs.Any())
             {
                 var leaf = leafs.Dequeue();
+                
                 if (predicate(leaf))
+                {
                     yield return leaf;
+                    matched = true;
+                }
+
+                if (matched)
+                    continue;
 
                 foreach (var l in leaf.Leafs)
                     leafs.Enqueue(l);
@@ -238,6 +247,8 @@ namespace ParserLib.Evaluation
         public static IEnumerable<ValueNode<T>> Descendents<T>(this ValueNode<T> branch, Predicate<ValueNode<T>> predicate)
         {
             var leafs = new Queue<Node>(branch.Leafs);
+            var matched = false;
+
             while (leafs.Any())
             {
                 var leaf = leafs.Dequeue();
@@ -246,8 +257,14 @@ namespace ParserLib.Evaluation
                     var strongLeaf = (ValueNode<T>) leaf;
 
                     if (predicate(strongLeaf))
+                    {
                         yield return strongLeaf;
+                        matched = true;
+                    }
                 }
+
+                if (matched)
+                    continue;
 
                 foreach (var l in leaf.Leafs)
                     leafs.Enqueue(l);
